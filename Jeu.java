@@ -3,13 +3,18 @@ import java.util.Collections;
 
 public class Jeu
 {
+    // le sac contient des cubes
     private static ArrayList<Cube> sac = new ArrayList<Cube> ();
+    // La pioche contient des cartes de Type Ballon
     private static ArrayList<Ballon> pioche = new ArrayList<Ballon>();
+    // La défausse contient des cartes de Type ballon
     private static ArrayList<Ballon> defausse = new ArrayList<Ballon>();
+    // Je ne sais pas si cela sera utile
     private static ArrayList<Ballon> main = new ArrayList<Ballon>();
     
     private static final int NBCARTE = 45;
     private static final int NBCUBE = 45;
+    private static final int TAILLE_BALLON = 13;
     
     private static int[][] tabBallon = {   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },         // rouge
                                            { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1 },         // jaune
@@ -17,30 +22,23 @@ public class Jeu
                                            { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },         // bleu
                                            { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 },         // gris
                                        };
+
                                
                                
     // on initialise la pioche dans l'ordre
     public static void initialiserPioche()
     {
-        for (int i = 1; i <= tabBallon.length;  i++)
-            if ( tabBallon[i-1][0] == 1)
-                pioche.add (new Ballon (i, "Rouge"));
-        
-        for (int i = 1; i <= tabBallon.length;  i++)
-            if ( tabBallon[i-1][1] == 1)
-                pioche.add (new Ballon (i, "Jaune"));
-                
-        for (int i = 1; i <= tabBallon.length;  i++)
-            if ( tabBallon[i-1][2] == 1)
-                pioche.add (new Ballon (i, "Vert"));
-
-        for (int i = 1; i <= tabBallon.length;  i++)
-            if ( tabBallon[i-1][3] == 1)
-                pioche.add (new Ballon (i, "Bleu"));
-
-        for (int i = 1; i <= tabBallon.length;  i++)
-            if ( tabBallon[i-1][4] == 1)
-                pioche.add (new Ballon (i, "Gris"));                
+        int j = 0;
+        for (int i = 1; i <= TAILLE_BALLON; ++i)
+        {
+            for(Couleur coul : Couleur.values())
+            {
+                if(tabBallon[j][i-1] == 1)
+                   pioche.add (new Ballon (i, coul.getLibelle()));
+                j++;
+            }
+            j = 0;
+        }
     }
     
     public static void melangerPioche()
@@ -90,6 +88,7 @@ public class Jeu
     public static void main (String[] args)
     {
         initialiserPioche();
-        for ( Ballon b: pioche ) System.out.println (b); // manque le toString xD
+        for ( Ballon b: pioche ) System.out.println (b);
+        melangerPioche();
     }
 }       

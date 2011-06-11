@@ -14,6 +14,12 @@ public abstract class Carte
     public String getCouleur()              {   return couleur; }
     public void setNumero(int numero)       {   this.numero = numero;   }
     public void setCouleur(String couleur)  {   this.couleur = couleur; }
+    
+    // modifiable comme vous le souhaitez
+    public String toString()
+    {
+        return " (" + numero + ") " + couleur;
+    }
 }
     
     

@@ -5,4 +5,10 @@ public class Ballon extends Carte
     {
         super(num, couleur);
     }
+    
+    // modifiable comme vous le souhaitez
+    public String toString()
+    {
+        return "Carte de type ballon" + super.toString();
+    }
 }

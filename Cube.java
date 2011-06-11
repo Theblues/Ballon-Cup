@@ -10,4 +10,10 @@ public class Cube
     
     public String getCouleur()  { return couleur;   }
     public void setCouleur(String couleur)  {   this.couleur = couleur; }
+    
+    // modifiable comme vous le souhaitez
+    public String toString()
+    {
+        return "Cube de couleur " + couleur;
+    }
 }

@@ -6,10 +6,10 @@ public class Trophee extends Carte
         super(num, couleur);
     }
     
-    public static void main (String[] args)
+    // modifiable comme vous le souhaitez
+    public String toString()
     {
-        Trophee tropheeGris = new Trophee(3, "Gris");
-        System.out.println(tropheeGris.getNumero() + tropheeGris.getCouleur());
-       }
+        return "Carte de type Trophée" + super.toString();
+    }
 }
 
