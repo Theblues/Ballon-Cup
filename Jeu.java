@@ -55,21 +55,17 @@ public class Jeu
     
     public void initialiserSac()
     {
-        for (int i = 0; i < 13; ++i)
-            sac.add (new Cube ("Rouge"));
-        
-        for (int i = 0; i < 11; ++i)
-            sac.add (new Cube ("Jaune"));
-            
-        for (int i = 0; i < 9; ++i)
-            sac.add (new Cube ("Vert"));
-            
-        for (int i = 0; i < 7; ++i)
-            sac.add (new Cube ("Bleu"));
-            
-        for (int i = 0; i < 7; ++i)
-            sac.add (new Cube ("Gris"));
-            
+        int j = 0;
+        for (int i = 1; i <= TAILLE_BALLON; ++i)
+        {
+            for(Couleur coul : Couleur.values())
+            {
+                if(tabBallon[j][i-1] == 1)
+                   sac.add (new Cube (coul.getLibelle()));
+                j++;
+            }
+            j = 0;
+        }
     }
     
     public void melangerSac()
@@ -94,6 +90,10 @@ public class Jeu
     {
         for ( Ballon b: pioche ) System.out.println (b);
     }
+    public void afficherSac()
+    {
+        for ( Cube c: sac )     System.out.println (c);
+    }
     
     public static void main (String[] args)
     {
@@ -101,7 +101,9 @@ public class Jeu
 		
 		j.initialiserPioche();
         j.melangerPioche();
-        j.afficherPioche();
+        
+        j.initialiserSac();
+        j.afficherSac();
     
         j.afficherMenu();
 		
