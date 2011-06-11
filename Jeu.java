@@ -79,7 +79,7 @@ public class Jeu
     
     public boolean defausseVersPioche()
     {
-        if (pioche.isEmpty())
+        if (!pioche.isEmpty())
             return false;
             
 		pioche.addAll(defausse);
@@ -100,12 +100,27 @@ public class Jeu
         Jeu j = new Jeu();
 		
 		j.initialiserPioche();
+        j.melangerPioche();
         j.afficherPioche();
-
-        
-        j.defausseVersPioche();
+    
+        j.afficherMenu();
 		
-		System.out.println("Apres defausse :");
-        j.afficherPioche();
+    }
+    
+    public void afficherMenu()
+	{
+		System.out.println ( "\n\n\n" );
+		System.out.println ( "*******************************" );
+		System.out.println ( "**           MENU            **" );
+		System.out.println ( "*******************************" );
+		
+		System.out.println ();
+        
+        System.out.println ( " 1. Regarder Vos Cartes "         );
+        System.out.println ( " 2. Défausser "                   );
+        System.out.println ( " 0. Quitter"                      );
+        
+        System.out.println ();
+		System.out.print   ( "      votre choix : "            );
     }
 }       
