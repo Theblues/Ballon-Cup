@@ -1,14 +1,22 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collections;
 
 public class Jeu
 {
+
+    /*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+    
     // le sac contient des cubes
     private ArrayList<Cube> sac = new ArrayList<Cube> ();
     // La pioche contient des cartes de Type Ballon
     private ArrayList<Ballon> pioche = new ArrayList<Ballon>();
     // La défausse contient des cartes de Type ballon
     private ArrayList<Ballon> defausse = new ArrayList<Ballon>();
+    // Les cartes Trophées
+    private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee>();
     // Je ne sais pas si cela sera utile
     private ArrayList<Ballon> main = new ArrayList<Ballon>();
     
@@ -23,7 +31,11 @@ public class Jeu
                                     { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 },         // gris
                                 };
 
-    // on initialise la pioche dans l'ordre
+    /*********************************/
+    /*** INITIALISATION DES LISTES ***/
+    /*********************************/
+    
+    // pioche
     public void initialiserPioche()
     {
         int j = 0;
@@ -39,20 +51,7 @@ public class Jeu
         }
     }
     
-    public void melangerPioche()
-    {
-        Collections.shuffle(pioche);
-    }
-    
-    public void donnerCarte()
-    {
-        /*
-        for (int i = 0, int j = pioche.size()-1 ; i < 8; ++i, --j)
-        {
-            main.add (pioche
-            */
-    }
-    
+    // sac
     public void initialiserSac()
     {
         int j = 0;
@@ -68,9 +67,41 @@ public class Jeu
         }
     }
     
+    // les trophees
+    public void initialiserListeTrophee()
+    {
+        listeTrophee.add( new Trophee(3, Couleur.GRIS.getLibelle()));
+        listeTrophee.add( new Trophee(4, Couleur.BLEU.getLibelle()));
+        listeTrophee.add( new Trophee(5, Couleur.VERT.getLibelle()));
+        listeTrophee.add( new Trophee(6, Couleur.JAUNE.getLibelle()));
+        listeTrophee.add( new Trophee(7, Couleur.ROUGE.getLibelle()));
+    }
+    
+    /***************************/
+    /*** MELANGES DES LISTES ***/
+    /***************************/
+    
+    public void melangerPioche()
+    {
+        Collections.shuffle(pioche);
+    }
+    
     public void melangerSac()
     {
         Collections.shuffle(sac);
+    }
+    
+    /***********/
+    /** AUTRE **/
+    /***********/
+    
+    public void donnerCarte()
+    {
+        /*
+        for (int i = 0, int j = pioche.size()-1 ; i < 8; ++i, --j)
+        {
+            main.add (pioche
+            */
     }
     
     public boolean defausseVersPioche()
@@ -83,30 +114,6 @@ public class Jeu
 		melangerPioche();
         
         return true;
-    }
-    
-    // pour test
-    public void afficherPioche()
-    {
-        for ( Ballon b: pioche ) System.out.println (b);
-    }
-    public void afficherSac()
-    {
-        for ( Cube c: sac )     System.out.println (c);
-    }
-    
-    public static void main (String[] args)
-    {
-        Jeu j = new Jeu();
-		
-		j.initialiserPioche();
-        j.melangerPioche();
-        
-        j.initialiserSac();
-        j.afficherSac();
-    
-        j.afficherMenu();
-		
     }
     
     public void afficherMenu()
@@ -124,5 +131,34 @@ public class Jeu
         
         System.out.println ();
 		System.out.print   ( "      votre choix : "            );
+    }
+    
+   
+    
+    // pour test
+    public void afficherPioche()    {   for ( Ballon b: pioche )        System.out.println (b);    }
+    public void afficherSac()       {   for ( Cube c: sac )             System.out.println (c);    }
+    public void listerTrophee()     {   for (Trophee t: listeTrophee)   System.out.println (t);    }
+    
+    
+    /************/
+    /*** MAIN ***/
+    /************/
+    
+    public static void main (String[] args)
+    {
+        Jeu j = new Jeu();
+		
+        long before = System.currentTimeMillis();
+		j.initialiserPioche();
+        
+        j.melangerPioche();
+        
+        
+        j.initialiserSac();
+        j.initialiserListeTrophee();
+        j.listerTrophee();
+        System.out.println( "\n Le temps d'éxecution (ms.) "+(System.currentTimeMillis() - before));
+		
     }
 }       
