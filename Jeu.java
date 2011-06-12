@@ -17,12 +17,12 @@ public class Jeu
     private ArrayList<Ballon> defausse = new ArrayList<Ballon>();
     // Les cartes Trophées
     private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee>();
-    // Je ne sais pas si cela sera utile
     private ArrayList<Ballon> main = new ArrayList<Ballon>();
     
     private final int NBCARTE = 45;
     private final int NBCUBE = 45;
     private final int TAILLE_BALLON = 13;
+    private final int NB_CARTE_PAR_JOUEUR = 8;
     
     private int[][] tabBallon = {   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },         // rouge
                                     { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1 },         // jaune
@@ -77,6 +77,15 @@ public class Jeu
         listeTrophee.add( new Trophee(7, Couleur.ROUGE.getLibelle()));
     }
     
+    public void initialiserMain()
+    {
+        for (int i = 1; i <= NB_CARTE_PAR_JOUEUR; ++i)
+        {
+            main.add (pioche.get(pioche.size() - i));
+            pioche.remove(pioche.size() - i);
+        }
+    }
+    
     /***************************/
     /*** MELANGES DES LISTES ***/
     /***************************/
@@ -94,15 +103,6 @@ public class Jeu
     /***********/
     /** AUTRE **/
     /***********/
-    
-    public void donnerCarte()
-    {
-        /*
-        for (int i = 0, int j = pioche.size()-1 ; i < 8; ++i, --j)
-        {
-            main.add (pioche
-            */
-    }
     
     public boolean defausseVersPioche()
     {
@@ -136,9 +136,10 @@ public class Jeu
    
     
     // pour test
-    public void afficherPioche()    {   for ( Ballon b: pioche )        System.out.println (b);    }
-    public void afficherSac()       {   for ( Cube c: sac )             System.out.println (c);    }
-    public void listerTrophee()     {   for (Trophee t: listeTrophee)   System.out.println (t);    }
+    public void afficherPioche()    {   for (Ballon b: pioche)        System.out.println (b);    }
+    public void afficherSac()       {   for (Cube c: sac)             System.out.println (c);    }
+    public void listerTrophee()     {   for (Trophee t: listeTrophee)   System.out.println (t);  }
+    public void afficherMain()      {   for (Ballon b: main)  System.out.println(b);             }
     
     
     /************/
@@ -157,7 +158,9 @@ public class Jeu
         
         j.initialiserSac();
         j.initialiserListeTrophee();
-        j.listerTrophee();
+        j.initialiserMain();
+        j.afficherMain();
+        //j.listerTrophee();
         System.out.println( "\n Le temps d'éxecution (ms.) "+(System.currentTimeMillis() - before));
 		
     }
