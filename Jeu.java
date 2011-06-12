@@ -133,8 +133,21 @@ public class Jeu
 		System.out.print   ( "      votre choix : "            );
     }
     
+    public boolean piocher(/* int choix*/)
+    {
+        if (main.size() == NB_CARTE_PAR_JOUEUR)
+            return false;
+            
+        if (pioche.isEmpty())
+            defausseVersPioche();
+            
+       // for (int i = 0; i < choix; ++i)
+        main.add (pioche.get(pioche.size() - i));
+        pioche.remove(pioche.size() - i);
+        
+        return true;
+    }
    
-    
     // pour test
     public void afficherPioche()    {   for (Ballon b: pioche)        System.out.println (b);    }
     public void afficherSac()       {   for (Cube c: sac)             System.out.println (c);    }
