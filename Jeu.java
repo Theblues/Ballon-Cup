@@ -4,7 +4,6 @@ import java.util.Collections;
 
 public class Jeu
 {
-
     /*********************/
     /***** ATTRIBUTS *****/
     /*********************/
@@ -175,6 +174,5 @@ public class Jeu
         j.afficherMain();
         //j.listerTrophee();
         System.out.println( "\n Le temps d'éxecution (ms.) "+(System.currentTimeMillis() - before));
-		
     }
 }       
