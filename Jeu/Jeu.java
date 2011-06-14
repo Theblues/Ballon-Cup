@@ -70,7 +70,12 @@ public class Jeu
     public void initialiserPlateau()
     {
         for (int i = 0; i < NB_TUILE; ++i)
-            plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montage")));       
+        {
+            if ( i % 2 != 0)
+                plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montage")));
+            else
+                plateau.ajouterTuile(new Tuile(new Paysage("Montage", "Plaine")));
+        }
     }
     
     public void afficherVosCartes(Joueur joueur)

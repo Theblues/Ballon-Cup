@@ -11,13 +11,6 @@ public class Paysage
         this.verso = verso;
     }
     
-    public void inversePaysage()
-    {
-        String s = recto;
-        recto = verso;
-        verso = s;
-    }
-    
     public String getRecto()    {   return recto;   }
     public String getVerso()    {   return verso;   }
 }

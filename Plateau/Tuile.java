@@ -15,7 +15,5 @@ public class Tuile
     {
         this.paysage = paysage;
         attribut = ++nbTuile;
-        if (attribut % 2 == 0)
-            paysage.inversePaysage();
     }
 }
