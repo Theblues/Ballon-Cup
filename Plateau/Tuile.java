@@ -1,4 +1,7 @@
+package Projet.Plateau;
+
 import java.util.ArrayList;
+import Projet.Carte.*;
 
 public class Tuile
 {

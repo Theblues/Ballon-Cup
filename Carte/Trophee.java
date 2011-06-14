@@ -1,3 +1,4 @@
+package Projet.Carte;
 
 public class Trophee extends Carte
 {

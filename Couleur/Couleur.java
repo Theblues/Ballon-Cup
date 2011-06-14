@@ -1,3 +1,5 @@
+package Projet.Couleur;
+
 public enum Couleur
 {
 	ROUGE ( "Rouge"),

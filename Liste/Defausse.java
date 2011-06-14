@@ -1,5 +1,9 @@
+package Projet.Liste;
+
 import java.util.ArrayList;
 import java.util.Collections;
+
+import Projet.Carte.*;
 
 public class Defausse
 {

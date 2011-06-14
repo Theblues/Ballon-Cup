@@ -1,3 +1,5 @@
+package Projet.Carte;
+
 public abstract class Carte
 {
     private int numero;

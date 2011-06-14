@@ -1,3 +1,4 @@
+package Projet.Plateau;
 
 public class Paysage
 {

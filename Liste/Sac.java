@@ -1,5 +1,11 @@
+package Projet.Liste;
+
 import java.util.Collections;
 import java.util.ArrayList;
+
+import Projet.Cube.*;
+import Projet.Couleur.*;
+import Projet.Joueur.*;
 
 public class Sac
 {

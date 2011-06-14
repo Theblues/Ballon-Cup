@@ -1,5 +1,10 @@
+package Projet.Joueur;
+
 import java.util.*;
 import java.util.Collections;
+
+import Projet.Carte.*;
+import Projet.Cube.*;
 
 public class Joueur
 {

@@ -1,5 +1,14 @@
+package Projet.Jeu;
+
 import java.util.ArrayList;
 import java.util.Collections;
+
+import Projet.Liste.*;
+import Projet.Carte.*;
+import Projet.Joueur.*;
+import Projet.Couleur.*;
+import Projet.Plateau.*;
+
 
 public class Jeu
 {
