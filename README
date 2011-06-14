@@ -1,3 +1,7 @@
 Pour compiler
 
 javac @compile.list -d /c/Java/paquetage (ou le dossier ou sont vos paquetages)
+
+Pour executer
+
+java Jeu.Jeu

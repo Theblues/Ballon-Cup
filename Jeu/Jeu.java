@@ -9,7 +9,6 @@ import Projet.Joueur.*;
 import Projet.Couleur.*;
 import Projet.Plateau.*;
 
-
 public class Jeu
 {
     /*********************/
@@ -19,12 +18,12 @@ public class Jeu
     // Les cartes Trophées
     private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee>();
 
-    private Pioche pioche = new Pioche();
-    private Defausse defausse = new Defausse();
-    private Sac sac = new Sac();
-    private Joueur joueur1 = new Joueur();
-    private Joueur joueur2 = new Joueur();
-    private Plateau plateau = new Plateau();
+    private Pioche pioche       = new Pioche();
+    private Defausse defausse   = new Defausse();
+    private Sac sac             = new Sac();
+    private Joueur joueur1      = new Joueur();
+    private Joueur joueur2      = new Joueur();
+    private Plateau plateau     = new Plateau();
     
     private final int NB_TUILE = 4;
     
@@ -71,8 +70,7 @@ public class Jeu
     public void initialiserPlateau()
     {
         for (int i = 0; i < NB_TUILE; ++i)
-            plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montage")));
-            
+            plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montage")));       
     }
     
     public void afficherVosCartes(Joueur joueur)
