@@ -1,4 +1,3 @@
-
 public abstract class Carte
 {
     private int numero;
