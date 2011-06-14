@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class Pioche
 {
     private ArrayList<Ballon> pioche = new ArrayList<Ballon>();
-    private final int NB_CARTE_PAR_JOUEUR = 8;
     private final int TAILLE_BALLON = 13;
     
     public void initialiserPioche(int[][] tabBallon)
@@ -30,4 +29,6 @@ public class Pioche
     
     public void melangerPioche()    {   Collections.shuffle(pioche);    }    
     public void afficherPioche()    {   for (Ballon b: pioche)        System.out.println (b);    }
+    public boolean estVide()        {   if(pioche.isEmpty())  return true;     else     return false; }
+    public void ajouterElement(Ballon ballon)   {   pioche.add(ballon);    }
 }

@@ -15,9 +15,9 @@ public class Jeu
     private Sac sac = new Sac();
     private Joueur joueur1 = new Joueur();
     private Joueur joueur2 = new Joueur();
+    private Plateau plateau = new Plateau();
     
-    private final int NBCARTE = 45;
-    private final int NBCUBE = 45;
+    private final int NB_TUILE = 4;
     
     private final int NB_CARTE_PAR_JOUEUR = 8;
     
@@ -28,7 +28,7 @@ public class Jeu
                                     { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 },         // gris
                                 };
 
-    public Jeu()
+    public void initialiserJeu()
     {
         // initialisation de la pioche
         pioche.initialiserPioche(tabBallon);
@@ -46,6 +46,8 @@ public class Jeu
         joueur1.afficherMain();
         System.out.println("\n");
         joueur2.afficherMain();
+        
+        initialiserPlateau();
     }
     
     public void donnerCarteAuxJoueurs()
@@ -57,9 +59,28 @@ public class Jeu
         }
     }
     
+    public void initialiserPlateau()
+    {
+        for (int i = 0; i < NB_TUILE; ++i)
+            plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montage")));
+            
+    }
+    
     public void afficherVosCartes(Joueur joueur)
     {
         joueur.afficherMain();
+    }
+    
+    public boolean DefausseVersPioche()
+    {
+        if (!pioche.estVide())
+            return false;
+            
+        ArrayList<Ballon> inter = new ArrayList<Ballon> (defausse.getDefausse());
+        for (Ballon b: inter)
+            pioche.ajouterElement(b);
+            
+        return true;
     }
     
     /*********************************/
@@ -106,5 +127,6 @@ public class Jeu
     public static void main (String[] args)
     {
         Jeu j = new Jeu();
+        j.initialiserJeu();
     }
 }       
