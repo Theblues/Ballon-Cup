@@ -12,13 +12,6 @@ public class Plateau
         plateau.add (tuile);
     }
     
-    public void choixTuile(int choix)
-    {
-        tuile = choix;
-    }
-    
-    public Tuile getTuile()
-    {
-        return plateau.get(tuile);
-    }
+    public void choixTuile(int choix)   {        tuile = choix;                 }
+    public Tuile getTuile()             {        return plateau.get(tuile);     }
 }

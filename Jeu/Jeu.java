@@ -137,6 +137,21 @@ public class Jeu
         }
     }
     
+    public boolean PeutAvoirUnTrophee(Joueur joueur,Couleur couleur)
+    {
+		for (Trophee t: listeTrophee)
+			if (t.getCouleur().equals(couleur.getLibelle()))
+				if (t.getNum() == joueur.getNbCube(couleur))
+					return true;
+
+		return false;
+    }       
+    
+    public void CubeEnTrophee()
+    {
+        
+    }
+    
     public void afficherMenu()
 	{
 		System.out.println ( "\n\n\n" );
