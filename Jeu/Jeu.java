@@ -141,7 +141,7 @@ public class Jeu
     {
 		for (Trophee t: listeTrophee)
 			if (t.getCouleur().equals(couleur.getLibelle()))
-				if (t.getNum() == joueur.getNbCube(couleur))
+				if (t.getNumero() == joueur.getNbCube(couleur))
 					return true;
 
 		return false;

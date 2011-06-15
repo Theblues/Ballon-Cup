@@ -6,10 +6,10 @@ public class Trophee extends Carte
     {
         super(num, couleur);
     }
-	
-	public String getCouleur()	{	return couleur;	}
-	public int getNum()			{	return num;		}
     
+	public String getCouleur()	{	return super.getCouleur();	}
+	public int getNumero()			{	return super.getNumero();		}
+	
     // modifiable comme vous le souhaitez
     public String toString()
     {
