@@ -79,7 +79,7 @@ public class Jeu
     {
         for (int i = 0; i < NB_TUILE; ++i)
         {
-            if ( i % 2 != 0)
+            if ( i % 2 == 0)
                 plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montagne")));
             else
                 plateau.ajouterTuile(new Tuile(new Paysage("Montagne", "Plaine")));
@@ -99,6 +99,12 @@ public class Jeu
     {
         joueur.afficherMain();
     }
+	
+	public void carteVersTuile(Joueur joueur, int choixBallon, char coter)
+	{
+		plateau.getTuile().ajouterBallon(joueur.getBallon(choixBallon), coter);
+		joueur.supprimerBallon(choixBallon);
+	}
     
     public boolean DefausseVersPioche()
     {
@@ -206,5 +212,12 @@ public class Jeu
     {
         Jeu j = new Jeu();
         j.initialiserJeu();
+		
+		
+		
+		while (joueur1.getTrophee() != 3 || joueur2.getTrophee() != 3)
+		{
+			
+		}
     }
 }       

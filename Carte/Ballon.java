@@ -6,6 +6,9 @@ public class Ballon extends Carte
     {
         super(num, couleur);
     }
+	
+	public String getCouleur()	{	return super.getCouleur();	}
+	public int getNumero()			{	return super.getNumero();		}
     
     // modifiable comme vous le souhaitez
     public String toString()

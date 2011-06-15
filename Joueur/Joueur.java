@@ -42,4 +42,8 @@ public class Joueur
 			++cpt;
 		}
 	}
+	
+	public Ballon getBallon(int choix)		{	return main.get(choix);		}
+	public void supprimerBallon(int choix)	{	main.remove(choix);			}
+	public int getTrophee()					{	return listeTrophee.size();	}
 }
