@@ -55,6 +55,7 @@ public class Jeu
         joueur1.afficherMain();
         System.out.println("\n");
         joueur2.afficherMain();
+		pioche.afficherPioche();
         
         // on initialise le plateau
         initialiserPlateau();
@@ -79,9 +80,9 @@ public class Jeu
         for (int i = 0; i < NB_TUILE; ++i)
         {
             if ( i % 2 != 0)
-                plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montage")));
+                plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montagne")));
             else
-                plateau.ajouterTuile(new Tuile(new Paysage("Montage", "Plaine")));
+                plateau.ajouterTuile(new Tuile(new Paysage("Montagne", "Plaine")));
         }
     }
     
@@ -108,6 +109,7 @@ public class Jeu
         for (Ballon b: inter)
             pioche.ajouterElement(b);
             
+		defausse.supprimerTout();
         return true;
     }
     
@@ -127,6 +129,7 @@ public class Jeu
     /***********/
     /** AUTRE **/
     /***********/
+
     
     public void donnerCubeAuJoueur(Joueur joueur)
     {
@@ -145,12 +148,33 @@ public class Jeu
 					return true;
 
 		return false;
-    }       
-    
-    public void CubeEnTrophee()
-    {
-        
     }
+	
+	public int getAttribut(Couleur couleur)
+	{
+		for (Trophee t: listeTrophee)
+			if (t.getCouleur().equals(couleur.getLibelle()))
+				return t.getNumero();
+		
+		return 0;
+	}
+	
+	public Trophee getTrophee(Couleur couleur)
+	{
+		for (Trophee t: listeTrophee)
+			if (t.getCouleur().equals(couleur.getLibelle()))
+				return t;
+				
+		return null;
+	}
+    
+    public void CubeEnTrophee(Joueur joueur, Couleur couleur)
+    {
+        joueur.ajouterTrophee(getTrophee(couleur));
+		joueur.supprimerCube(couleur);
+		sac.ajouterElement(getAttribut(couleur), couleur);
+    }
+	
     
     public void afficherMenu()
 	{

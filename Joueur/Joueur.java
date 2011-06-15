@@ -30,4 +30,16 @@ public class Joueur
 
         return nbCube;            
     }
+	
+	public void supprimerCube(Couleur couleur)
+	{
+		int cpt = 0;
+		for (Cube c: listeCube)
+		{
+            if (couleur.getLibelle().equals(c.getCouleur()))
+				listeCube.remove(cpt);
+				
+			++cpt;
+		}
+	}
 }

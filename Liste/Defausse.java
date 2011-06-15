@@ -11,4 +11,5 @@ public class Defausse
     
     public ArrayList<Ballon> getDefausse()      {   return defausse;	    }
     public void ajouterElement(Ballon ballon)   {   defausse.add(ballon);   }
+	public void supprimerTout()					{	defausse.clear();		}
 }

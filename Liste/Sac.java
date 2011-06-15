@@ -30,4 +30,10 @@ public class Sac
     public void melangerSac()    {  Collections.shuffle(sac);    }
     public Cube getDernierElement()    {    return sac.get(sac.size() -1);    }
     public void supprimerDernierElement()   {   sac.remove(sac.size()-1);   }
+	
+	public void ajouterElement(int nbCube, Couleur couleur)
+	{
+		for ( int i = 0; i < nbCube; ++i)
+			sac.add (new Cube(couleur.getLibelle()));
+	}
 }
