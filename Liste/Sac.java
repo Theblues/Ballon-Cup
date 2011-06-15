@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Projet.Cube.*;
 import Projet.Couleur.*;
 import Projet.Joueur.*;
+import Projet.Plateau.*;
 
 public class Sac
 {
@@ -28,4 +29,6 @@ public class Sac
     }
     
     public void melangerSac()    {  Collections.shuffle(sac);    }
+    public Cube getDernierElement()    {    return sac.get(sac.size() -1);    }
+    public void supprimerDernierElement()   {   sac.remove(sac.size()-1);   }
 }

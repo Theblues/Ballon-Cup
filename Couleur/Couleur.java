@@ -2,11 +2,11 @@ package Projet.Couleur;
 
 public enum Couleur
 {
-	ROUGE ( "Rouge"),
-    JAUNE ( "Jaune"),
-	VERT  ( "Vert"),
-	BLEU  ( "Bleu"),
-	GRIS( "Gris");
+	ROUGE   ( "Rouge"),
+    JAUNE   ( "Jaune"),
+	VERT    ( "Vert"),
+	BLEU    ( "Bleu"),
+	GRIS    ( "Gris");
 
 	private String libelle;
     

@@ -26,7 +26,6 @@ public class Jeu
     private Plateau plateau     = new Plateau();
     
     private final int NB_TUILE = 4;
-    
     private final int NB_CARTE_PAR_JOUEUR = 8;
     
     private int[][] tabBallon = {   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },         // rouge
@@ -48,19 +47,23 @@ public class Jeu
         sac.initialiserSac(tabBallon);
         sac.melangerSac();
         
+        // initialisation de la liste des trophées
         initialiserListeTrophee();
         
+        // donne des cartes au joueurs
         donnerCarteAuxJoueurs();
         joueur1.afficherMain();
         System.out.println("\n");
         joueur2.afficherMain();
         
+        // on initialise le plateau
         initialiserPlateau();
+        initialiserCubeSurTuile();
     }
     
     public void donnerCarteAuxJoueurs()
     {
-        for (int i =0; i < NB_CARTE_PAR_JOUEUR; ++i)
+        for (int i = 0; i < NB_CARTE_PAR_JOUEUR; ++i)
         {
             pioche.distribuerCarte(joueur1);
             pioche.distribuerCarte(joueur2);
@@ -75,6 +78,15 @@ public class Jeu
                 plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montage")));
             else
                 plateau.ajouterTuile(new Tuile(new Paysage("Montage", "Plaine")));
+        }
+    }
+    
+    public void initialiserCubeSurTuile()
+    {
+        for (Tuile t: plateau)
+        {
+            tuile.ajouterCubeSurPaysage(sac.getDernierElement());
+            sac.supprimerDernierElement();
         }
     }
     
@@ -128,6 +140,8 @@ public class Jeu
         System.out.println ();
 		System.out.print   ( "      votre choix : "            );
     }
+    
+    
 
     // pour test
     public void listerTrophee()     {   for (Trophee t: listeTrophee)   System.out.println (t);  }

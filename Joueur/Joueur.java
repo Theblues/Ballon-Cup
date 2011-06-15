@@ -17,4 +17,6 @@ public class Joueur
 		public Joueur() {   numJoueur = ++nbJoueur; }
         public void distribuerCarte(Ballon ballon)  {   main.add (ballon);    }
         public void afficherMain()                  {   for (Ballon b: main)    System.out.println(b);  }
+        public void ajouterCube(Cube cube)          {   cube.add (cube);   }
+        public void ajouterTrophee(Trophee trophee) {   trophee.add (trophee);  }
 }

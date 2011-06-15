@@ -16,4 +16,10 @@ public class Tuile
         this.paysage = paysage;
         attribut = ++nbTuile;
     }
+    
+    public ajouterCubeSurPaysage(Cube cube)
+    {
+        for (int i =0; i < attribut; ++i)
+            paysage.ajouterCube(cube);
+    }
 }

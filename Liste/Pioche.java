@@ -27,13 +27,17 @@ public class Pioche
         }
     }
     
+    /**
+    * Methode qui distribue les cartes au joueur et supprime cette carte de la pioche.
+    * @param : joueur
+    **/
     public void distribuerCarte(Joueur joueur)
     {
         joueur.distribuerCarte(pioche.get(pioche.size() - 1));
         pioche.remove(pioche.size() - 1);
     }
     
-    public void melangerPioche()    {   Collections.shuffle(pioche);    }    
+    public void melangerPioche()    {   Collections.shuffle(pioche);    }
     public void afficherPioche()    {   for (Ballon b: pioche)        System.out.println (b);    }
     public boolean estVide()        {   if(pioche.isEmpty())  return true;     else     return false; }
     public void ajouterElement(Ballon ballon)   {   pioche.add(ballon);    }
