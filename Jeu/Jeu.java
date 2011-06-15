@@ -61,6 +61,10 @@ public class Jeu
         initialiserCubeSurTuile();
     }
     
+    /*********************************/
+    /*** METHODES POUR INITIALISER ***/
+    /*********************************/
+    
     public void donnerCarteAuxJoueurs()
     {
         for (int i = 0; i < NB_CARTE_PAR_JOUEUR; ++i)
@@ -83,9 +87,9 @@ public class Jeu
     
     public void initialiserCubeSurTuile()
     {
-        for (Tuile t: plateau)
+        for (int i = 0; i < NB_TUILE; ++i)
         {
-            tuile.ajouterCubeSurPaysage(sac.getDernierElement());
+            plateau.getTuile().ajouterCubeSurPaysage(sac.getDernierElement());
             sac.supprimerDernierElement();
         }
     }
@@ -120,10 +124,19 @@ public class Jeu
         listeTrophee.add( new Trophee(7, Couleur.ROUGE.getLibelle()));
     }
     
-     /***********/
+    /***********/
     /** AUTRE **/
     /***********/
-        
+    
+    public void donnerCubeAuJoueur(Joueur joueur)
+    {
+        for (int i = 0; i < plateau.getTuile().getAttribut(); ++i)
+        {
+            joueur.ajouterCube(plateau.getTuile().getPaysage().getElement());
+            plateau.getTuile().getPaysage().supprimerElement();
+        }
+    }
+    
     public void afficherMenu()
 	{
 		System.out.println ( "\n\n\n" );

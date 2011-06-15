@@ -2,6 +2,7 @@ package Projet.Plateau;
 
 import java.util.ArrayList;
 import Projet.Carte.*;
+import Projet.Cube.*;
 
 public class Tuile
 {
@@ -17,9 +18,12 @@ public class Tuile
         attribut = ++nbTuile;
     }
     
-    public ajouterCubeSurPaysage(Cube cube)
+    public void ajouterCubeSurPaysage(Cube cube)
     {
         for (int i =0; i < attribut; ++i)
             paysage.ajouterCube(cube);
     }
+    
+    public Paysage getPaysage()     {   return paysage;     }
+    public int getAttribut()        {   return attribut;    }
 }

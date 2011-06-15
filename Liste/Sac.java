@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import Projet.Cube.*;
 import Projet.Couleur.*;
 import Projet.Joueur.*;
-import Projet.Plateau.*;
 
 public class Sac
 {

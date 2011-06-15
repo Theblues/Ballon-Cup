@@ -8,15 +8,15 @@ import Projet.Cube.*;
 
 public class Joueur
 {
-		private ArrayList<Trophee> trophee = new ArrayList<Trophee> ();
+		private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee> ();
 		private ArrayList<Ballon> main = new ArrayList<Ballon>();
-		private ArrayList<Cube> cube = new ArrayList<Cube>();
+		private ArrayList<Cube> listeCube = new ArrayList<Cube>();
 		private int numJoueur;
         private static int nbJoueur = 0;
 
 		public Joueur() {   numJoueur = ++nbJoueur; }
         public void distribuerCarte(Ballon ballon)  {   main.add (ballon);    }
         public void afficherMain()                  {   for (Ballon b: main)    System.out.println(b);  }
-        public void ajouterCube(Cube cube)          {   cube.add (cube);   }
-        public void ajouterTrophee(Trophee trophee) {   trophee.add (trophee);  }
+        public void ajouterCube(Cube cube)          {   listeCube.add (cube);   }
+        public void ajouterTrophee(Trophee trophee) {   listeTrophee.add (trophee);  }
 }
