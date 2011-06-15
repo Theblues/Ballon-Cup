@@ -21,4 +21,5 @@ public class Paysage
     public void ajouterCube(Cube cube)   {   listeCube.add(cube);   }
     public Cube getElement()        {    return listeCube.get(listeCube.size()-1);   }
     public void supprimerElement()  {        listeCube.remove(listeCube.size()-1);   }
+    
 }

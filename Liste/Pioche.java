@@ -37,8 +37,17 @@ public class Pioche
         pioche.remove(pioche.size() - 1);
     }
     
-    public void melangerPioche()    {   Collections.shuffle(pioche);    }
-    public void afficherPioche()    {   for (Ballon b: pioche)        System.out.println (b);    }
+	public void melangerPioche()    {   Collections.shuffle(pioche);    }
+	public void afficherPioche()    
+	{   
+		int cpt=0;
+		for (Ballon b: pioche) 
+		{
+			System.out.println (b); 
+			cpt++;
+		}
+		System.out.println("\nNombre de cartes : " + cpt );
+	}
     public boolean estVide()        {   if(pioche.isEmpty())  return true;     else     return false; }
     public void ajouterElement(Ballon ballon)   {   pioche.add(ballon);    }
 }
