@@ -390,7 +390,7 @@ public class Jeu
 		Joueur[] tabJoueur = { jeu.getJoueur1(), jeu.getJoueur2() };
 		int choixTuile = 0;
 		int choixBallon = 0;
-		int choixCote = ' ';
+		char choixCote = ' ';
 		
 		//Boucle de Jeu
 		while (jeu.getJoueur1().getTrophee() != 3 || jeu.getJoueur2().getTrophee() != 3)
@@ -410,10 +410,8 @@ public class Jeu
 					
 					choixCote = jeu.choixCote(choixTuile);
 					
-				//	j.carteVersTuile(tabJoueur[i], choixBallon, cote, choixTuile);*/
-					break;
+					jeu.carteVersTuile(tabJoueur[i], choixBallon, choixCote, choixTuile);
 				}
-				break;
 			}
 			break;
 		}
