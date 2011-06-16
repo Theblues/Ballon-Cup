@@ -66,7 +66,7 @@ public class Jeu
         initialiserPlateau();
         initialiserCubeSurTuile();
 	  
-		char cot=' ';
+	/*	
 		for ( int i=0; i < 8 ; i++ )
 		{
 			
@@ -85,7 +85,7 @@ public class Jeu
 			
 			
 			carteVersTuile(joueur1, ch, cot, choixTuile);
-		}
+		}*/
     }
     
     /*********************************/
@@ -226,12 +226,12 @@ public class Jeu
 	/** Menu **/
 	/**********/
 	
-	public void afficherMenu( String j)
+	public void afficherMenu( Joueur j)
 	{
 		
 		Joueur joueur;
 		
-		if ( j == joueur1.getNomJoueur() )
+		if ( j.getNomJoueur().equals(joueur1.getNomJoueur() ))
 			joueur=joueur1;
 		else
 			joueur=joueur2;
@@ -256,19 +256,39 @@ public class Jeu
 		switch(choix)
 		{
 			case 1 : joueur.afficherMain(); break;
-			case 2 : j.(); break;
+			//case 2 : j.(); break;
 			case 3 : joueur.afficherTrophee(); break;
 			default : break;
 		}
 
 	}
-    
+	
+	public int choisirtuile()
+	{
+		int choix = 0;
+		do
+		{
+			System.out.println("Choissisez une tuile : ");
+			choix = Clavier.lire_int();
+			choix--;
+		} while ( choix > 4 || choix < 0 || !tuilePrise(choix));
+		
+		return choix;
+	}
+	
+	public boolean tuilePrise(int numTuile)
+	{
+		if (plateau.getTuile(numTuile).aUneCarte())
+			return false;
+			
+		return true;
+	}
     
     public String toString()
     {
-		String s="";
+		String s;
 	
-		s += "Joueur 1 : " + joueur1.getNomJoueur() +"\t" + "Joueur 2 : " + joueur2.getNomJoueur() +"\n\n";   
+		s = "Joueur 1 : " + joueur1.getNomJoueur() +"\t" + "Joueur 2 : " + joueur2.getNomJoueur() +"\n\n";   
 		s += plateau.toString();
 		s += "\n";
 	
@@ -298,25 +318,20 @@ public class Jeu
 		
 		//affichage du Jeu ( plateau )
 		System.out.println(j);
-	  
-	  
-		
-	  
-		//Menu joueur2
-		//j.afficherMenu(nom2);
-		
+		System.out.println("test");
 		//Boucle de Jeu
-		while (joueur1.getTrophee() != 3 || joueur2.getTrophee() != 3)
+		while (j.getJoueur1().getTrophee() != 3 || j.getJoueur2().getTrophee() != 3)
 		{
-			System.out.print("Choix de la tuile : ");
-			int choixPlateau = Clavier.lire_int();
+			int choixTuile = j.choisirtuile();
 			
-			Joueur[] tabJoueur = { joueur1, joueur2 };
+			Joueur[] tabJoueur = { j.getJoueur1(), j.getJoueur2() };
 			
 			for (int i = 0; i < tabJoueur.length; i++)
 			{
-			
-			}			
+				j.afficherMenu( tabJoueur[i]);
+				break;
+			}
+			break;
 		}
 		
 	}

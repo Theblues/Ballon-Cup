@@ -38,6 +38,15 @@ public class Tuile
     
 	public Paysage getPaysage()     {   return paysage;     }
 	public int getAttribut()        {   return attribut;    }
+	
+	public boolean aUneCarte()
+	{
+		if (JeuGauche.size() == 0 || JeuDroite.size() == 0)
+			return false;
+		
+		return true;
+	}
+	
 	public String toString()
 	{
 		return paysage.getRecto() + " ("+ attribut +")";
