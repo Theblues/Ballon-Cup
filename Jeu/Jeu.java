@@ -299,7 +299,10 @@ public class Jeu
 			--choixBallon;
 			
 			if (choixBallon < 0 || choixBallon >= 8)
+			{
+				System.out.println("Choississez une carte entre 1 et 8");
 				continue;
+			}
 				
 			for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
 			{
@@ -357,6 +360,22 @@ public class Jeu
 		//affichage du Jeu ( plateau )
 		System.out.println(j);
 		
+		char choixCoteJ1, choixCoteJ2;
+		do
+		{
+			System.out.println("Choisissez votre cote (G/D): ");
+			choixCoteJ1 = Clavier.lire_char();
+		} while (choixCoteJ1 != 'G' || choixCoteJ1 != 'D');
+		
+		if ( choixCoteJ1 == 'G')		choixCoteJ2 = 'D';
+		else							choixCoteJ2 = 'G';
+		
+		char[][] coteJoueur = { {     '1'    ,     '2'     },
+		                        { choixCoteJ2, choixCoteJ2 },
+							  };
+			
+		
+		
 		//Boucle de Jeu
 		while (j.getJoueur1().getTrophee() != 3 || j.getJoueur2().getTrophee() != 3)
 		{
@@ -364,6 +383,7 @@ public class Jeu
 			int choixBallon = 0;
 			
 			Joueur[] tabJoueur = { j.getJoueur1(), j.getJoueur2() };
+			
 			
 			for (int i = 0; i < tabJoueur.length; i++)
 			{
