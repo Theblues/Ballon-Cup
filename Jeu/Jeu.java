@@ -10,6 +10,7 @@ import Projet.Carte.*;
 import Projet.Joueur.*;
 import Projet.Couleur.*;
 import Projet.Plateau.*;
+import Projet.Cube.*;
 
 public class Jeu
 {
@@ -195,12 +196,12 @@ public class Jeu
 	/** AUTRE **/
 	/***********/
     
-	public void donnerCubeAuJoueur(Joueur joueur)
+	public void donnerCubeAuJoueur(Joueur joueur, int choixTuile)
 	{
-		for (int i = 0; i < plateau.getTuile(i).getAttribut(); ++i)
+		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
 		{
-			joueur.ajouterCube(plateau.getTuile(i).getPaysage().getDernierElement());
-			plateau.getTuile(i).getPaysage().supprimerDernierElement();
+			joueur.ajouterCube(plateau.getTuile(choixTuile).getPaysage().getDernierElement());
+			plateau.getTuile(choixTuile).getPaysage().supprimerDernierElement();
 		}
 	}
     
@@ -244,7 +245,7 @@ public class Jeu
 		System.out.println ();
 	  
 		System.out.println ( " 1. Regarder Vos Cartes "         );
-		//System.out.println ( " 2. Défausser "                   );
+		//System.out.println ( " 2. Poser Une Carte "                   );
 		System.out.println ( " 3. Regarder ses trophees "                   );
 		System.out.println ( " 0. Quitter"                      );
 	  
@@ -263,7 +264,7 @@ public class Jeu
 
 	}
 	
-	public int choisirtuile()
+	public int choisirTuile()
 	{
 		int choix = 0;
 		do
@@ -282,6 +283,43 @@ public class Jeu
 			return false;
 			
 		return true;
+	}
+	
+	public int choisirBallon(Joueur joueur, int choixTuile)
+	{
+		Cube cube = null;
+		Ballon ballon;
+		boolean stop = false;
+		int choixBallon = 0;
+		
+		do
+		{
+			System.out.println("Choissisez une carte a placer sur la tuile : ");
+			choixBallon = Clavier.lire_int();
+			--choixBallon;
+			
+			if (choixBallon < 0 || choixBallon >= 8)
+				continue;
+				
+			for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
+			{
+				cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+				for (int j = 0; j < NB_CARTE_PAR_JOUEUR; j++)
+				{
+					ballon = joueur.getBallon(j);
+					
+					if (cube.getCouleur().equals(ballon.getCouleur()))
+						stop = true;
+				}
+				if (stop)
+					break;
+			}
+			if (cube.getCouleur().equals(joueur.getBallon(choixBallon).getCouleur()))
+				return choixBallon;
+			if (!stop)
+				return -1;
+				
+		} while (true);
 	}
     
     public String toString()
@@ -318,17 +356,28 @@ public class Jeu
 		
 		//affichage du Jeu ( plateau )
 		System.out.println(j);
-		System.out.println("test");
+		
 		//Boucle de Jeu
 		while (j.getJoueur1().getTrophee() != 3 || j.getJoueur2().getTrophee() != 3)
 		{
-			int choixTuile = j.choisirtuile();
+			int choixTuile = j.choisirTuile();
+			int choixBallon = 0;
 			
 			Joueur[] tabJoueur = { j.getJoueur1(), j.getJoueur2() };
 			
 			for (int i = 0; i < tabJoueur.length; i++)
 			{
-				j.afficherMenu( tabJoueur[i]);
+				tabJoueur[i].afficherMain();
+				choixBallon = j.choisirBallon(tabJoueur[i], choixTuile);
+				if (choixBallon == -1)
+				{
+					System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
+					continue;
+				}
+				
+				/*System.out.println("Choissisez le coté du plateau sur laquel la carte sera pose (G-D) :");
+				cote = Clavier.lire_char();
+				j.carteVersTuile(tabJoueur[i], choixBallon, cote, choixTuile);*/
 				break;
 			}
 			break;
