@@ -333,7 +333,7 @@ public class Jeu
 		{
 			System.out.println("Choissisez un cote pour mettre votre carte : ");
 			choixCote = Clavier.lire_char();
-		while (plateau.getTuile(choixTuile).estPleine(choixCote));
+		} while (plateau.getTuile(choixTuile).estPleine(choixCote));
 		
 		return choixCote;
 	}
@@ -408,9 +408,9 @@ public class Jeu
 						continue;
 					}
 					
-					choixCote = j.choixCote();
+					choixCote = jeu.choixCote(choixTuile);
 					
-					j.carteVersTuile(tabJoueur[i], choixBallon, cote, choixTuile);*/
+				//	j.carteVersTuile(tabJoueur[i], choixBallon, cote, choixTuile);*/
 					break;
 				}
 				break;
