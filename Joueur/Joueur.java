@@ -25,7 +25,7 @@ public class Joueur
 	public void distribuerCarte(Ballon ballon)  {   main.add (ballon);    }
 	public void afficherMain()                  {   for (Ballon b: main)    System.out.println(b);  }
 	
-	public void afficherTropee()			  
+	public void afficherTrophee()			  
 	{	
 		if ( listeTrophee.isEmpty() )
 			System.out.println("\nAucun Trophees\n");
@@ -65,7 +65,7 @@ public class Joueur
 			if (couleur.getLibelle().equals(c.getCouleur()))
 				listeCube.remove(cpt);
 
-		++cpt;
+			++cpt;
 		}
 	}
 }

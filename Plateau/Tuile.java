@@ -21,20 +21,19 @@ public class Tuile
 	public void ajouterBallon(Ballon ballon, char cote)
 	{
 
-		if (cote == 'G')
-
-			JeuGauche.add(ballon);
-
-		else
-
-			JeuDroite.add(ballon);
-
+		if (cote == 'G')	JeuGauche.add(ballon);
+		else				JeuDroite.add(ballon);
 	}
     
 	public void ajouterCubeSurPaysage(Cube cube)
 	{
-		for (int i =0; i < attribut; ++i)
-			paysage.ajouterCube(cube);
+		paysage.ajouterCube(cube);
+	}
+	
+	public int getElementJeu (char cote)
+	{
+		if (cote == 'G')	return JeuGauche.size();
+		else				return JeuDroite.size();
 	}
     
 	public Paysage getPaysage()     {   return paysage;     }

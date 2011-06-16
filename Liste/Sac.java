@@ -38,5 +38,8 @@ public class Sac
 			sac.add (new Cube(couleur.getLibelle()));
 
 	}
-    
+	public void afficherSac()
+	{
+		for (Cube c: sac)	System.out.println(c);
+	}
 }

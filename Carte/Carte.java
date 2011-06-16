@@ -19,7 +19,18 @@ public abstract class Carte
     // modifiable comme vous le souhaitez
     public String toString()
     {
-        return " (" + numero + ") " + couleur;
+		if(couleur == "Rouge")
+			return "\u001b[31m[" + numero + "]\u001b[0m";
+		else if (couleur == "Jaune")
+			return "\u001b[33m[" + numero +  "]\u001b[0m";
+		else if (couleur == "Vert")
+			return "\u001b[32m[" + numero +  "]\u001b[0m";
+		else if (couleur == "Bleu")
+			return "\u001b[36m[" + numero +  "]\u001b[0m";
+		else if (couleur == "Gris")
+			return "\u001b[37m[" + numero +  "]\u001b[0m";
+			
+        return "";
     }
 }
     

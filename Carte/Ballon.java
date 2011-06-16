@@ -10,7 +10,7 @@ public class Ballon extends Carte
     // modifiable comme vous le souhaitez
     public String toString()
     {
-        return "Carte de type ballon" + super.toString();
+        return super.toString();
     }
     
 	public String getCouleur()  {  return super.getCouleur();  }

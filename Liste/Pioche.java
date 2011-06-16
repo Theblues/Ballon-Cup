@@ -48,6 +48,12 @@ public class Pioche
 		}
 		System.out.println("\nNombre de cartes : " + cpt );
 	}
-    public boolean estVide()        {   if(pioche.isEmpty())  return true;     else     return false; }
+	
+    public boolean estVide()        
+	{
+		if(pioche.isEmpty())  	return true;     
+		else     				return false; 
+	}
+	
     public void ajouterElement(Ballon ballon)   {   pioche.add(ballon);    }
 }

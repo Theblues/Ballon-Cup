@@ -19,7 +19,8 @@ public class Paysage
     public String getRecto()    {   return recto;   }
     public String getVerso()    {   return verso;   }
     public void ajouterCube(Cube cube)   {   listeCube.add(cube);   }
-    public Cube getElement()        {    return listeCube.get(listeCube.size()-1);   }
-    public void supprimerElement()  {        listeCube.remove(listeCube.size()-1);   }
+    public Cube getDernierElement()        {    return listeCube.get(listeCube.size()-1);   }
+    public void supprimerDernierElement()  {        listeCube.remove(listeCube.size()-1);   }
+	public Cube getElement(int nb)	{	return listeCube.get(nb);	}
     
 }
