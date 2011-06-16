@@ -47,6 +47,19 @@ public class Tuile
 		return true;
 	}
 	
+	public boolean estPleine (char cote)
+	{
+		if (cote == 'G')
+			if (JeuGauche.size() == attribut)
+				return true;
+		
+		if (cote == 'D')
+			if (JeuDroite.size() == attribut)
+				return true;
+		
+		return false;
+	}
+	
 	public String toString()
 	{
 		return paysage.getRecto() + " ("+ attribut +")";

@@ -46,6 +46,8 @@ public class Jeu
 	
 	public Joueur getJoueur1() { return joueur1; }
 	public Joueur getJoueur2() { return joueur2; }
+	
+	public Plateau getPlateau()	{	return plateau;	}
 					  
     public void initialiserJeu()
     {
@@ -158,7 +160,6 @@ public class Jeu
 			joueur.supprimerBallon(choixBallon);
 		}
 	}
-	
 	
 	public int getAttribut(Couleur couleur)
 	{
@@ -312,17 +313,29 @@ public class Jeu
 					ballon = joueur.getBallon(j);
 					
 					if (cube.getCouleur().equals(ballon.getCouleur()))
+					{
+						if (cube.getCouleur().equals(joueur.getBallon(choixBallon).getCouleur()))
+							return choixBallon;
 						stop = true;
+					}
 				}
-				if (stop)
-					break;
 			}
-			if (cube.getCouleur().equals(joueur.getBallon(choixBallon).getCouleur()))
-				return choixBallon;
 			if (!stop)
 				return -1;
 				
 		} while (true);
+	}
+	
+	public char choixCote(int choixTuile)
+	{
+		char choixCote = ' ';
+		do
+		{
+			System.out.println("Choissisez un cote pour mettre votre carte : ");
+			choixCote = Clavier.lire_char();
+		while (plateau.getTuile(choixTuile).estPleine(choixCote));
+		
+		return choixCote;
 	}
     
     public String toString()
@@ -354,18 +367,18 @@ public class Jeu
 		AnsiConsole.systemInstall();
 	  
 		//Nouveau Jeu
-		Jeu j = new Jeu(nom1 , nom2);
-		j.initialiserJeu();
+		Jeu jeu = new Jeu(nom1 , nom2);
+		jeu.initialiserJeu();
 		
 		//affichage du Jeu ( plateau )
-		System.out.println(j);
+		System.out.println(jeu);
 		
 		char choixCoteJ1, choixCoteJ2;
 		do
 		{
 			System.out.println("Choisissez votre cote (G/D): ");
 			choixCoteJ1 = Clavier.lire_char();
-		} while (choixCoteJ1 != 'G' || choixCoteJ1 != 'D');
+		} while (choixCoteJ1 != 'G' && choixCoteJ1 != 'D');
 		
 		if ( choixCoteJ1 == 'G')		choixCoteJ2 = 'D';
 		else							choixCoteJ2 = 'G';
@@ -374,30 +387,32 @@ public class Jeu
 		                        { choixCoteJ2, choixCoteJ2 },
 							  };
 			
-		
+		Joueur[] tabJoueur = { jeu.getJoueur1(), jeu.getJoueur2() };
+		int choixTuile = 0;
+		int choixBallon = 0;
+		int choixCote = ' ';
 		
 		//Boucle de Jeu
-		while (j.getJoueur1().getTrophee() != 3 || j.getJoueur2().getTrophee() != 3)
+		while (jeu.getJoueur1().getTrophee() != 3 || jeu.getJoueur2().getTrophee() != 3)
 		{
-			int choixTuile = j.choisirTuile();
-			int choixBallon = 0;
-			
-			Joueur[] tabJoueur = { j.getJoueur1(), j.getJoueur2() };
-			
-			
-			for (int i = 0; i < tabJoueur.length; i++)
+			choixTuile = jeu.choisirTuile();
+			for (int i = 0; i < jeu.getPlateau().getTuile(choixTuile).getAttribut(); i++)
 			{
-				tabJoueur[i].afficherMain();
-				choixBallon = j.choisirBallon(tabJoueur[i], choixTuile);
-				if (choixBallon == -1)
+				for (int j = 0; j < tabJoueur.length; j++)
 				{
-					System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
-					continue;
+					tabJoueur[j].afficherMain();
+					choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
+					if (choixBallon == -1)
+					{
+						System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
+						continue;
+					}
+					
+					choixCote = j.choixCote();
+					
+					j.carteVersTuile(tabJoueur[i], choixBallon, cote, choixTuile);*/
+					break;
 				}
-				
-				/*System.out.println("Choissisez le coté du plateau sur laquel la carte sera pose (G-D) :");
-				cote = Clavier.lire_char();
-				j.carteVersTuile(tabJoueur[i], choixBallon, cote, choixTuile);*/
 				break;
 			}
 			break;
