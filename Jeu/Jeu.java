@@ -283,8 +283,11 @@ public class Jeu
 		
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 		{
+			// on recupere le cube
 			cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+			// si la couleur est egale a la couleur du cube
 			if (couleur.equals(cube.getCouleur()))
+				// si le cube est "deja" utilise
 				if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
 					choixCote = 'Z';
 		}
@@ -310,10 +313,12 @@ public class Jeu
 	
 	public Joueur quiAGagne(char[][] coteJoueur, int choixTuile)
 	{
-		int compteDroit = plateau.getTuile(choixTuile).getTaille('D');
-		int compteGauche = plateau.getTuile(choixTuile).getTaille('G');
+		// on compte les points des points
+		int compteDroit = plateau.getTuile(choixTuile).getResultat('D');
+		int compteGauche = plateau.getTuile(choixTuile).getResultat('G');
 		
 		char cote;
+		// On regarde quel cote a gagne
 		if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
 			cote = (compteDroit > compteGauche) ? 'G' : 'D';
 		else
@@ -321,6 +326,7 @@ public class Jeu
 		
 		for (int i = 0; i < coteJoueur.length; i++)
 		{
+			// on regarde le cote assiocier au joueur
 			if (coteJoueur[1][i] == cote)
 			{
 				if (coteJoueur[0][i] == '1')
@@ -329,6 +335,7 @@ public class Jeu
 					return joueur2;
 			}
 		}
+		// normalement impossible
 		return null;
 	}
 	
@@ -351,8 +358,10 @@ public class Jeu
 	{
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
 		{
+			// partie gauche
 			defausse.ajouterElement(plateau.getTuile(choixTuile).getBallon(i, 'G'));
 			plateau.getTuile(choixTuile).supprimerCarte(i, 'G');
+			// partie droite
 			defausse.ajouterElement(plateau.getTuile(choixTuile).getBallon(i, 'D'));
 			plateau.getTuile(choixTuile).supprimerCarte(i, 'D');
 		}
@@ -436,10 +445,12 @@ public class Jeu
 						System.out.println();
 						System.out.println(jeu.getPlateau().toString());
 						do 
-						{	choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
+						{	
+							choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
 							if (choixBallon == -1)
 							{
 								System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
+								// ceci est pour ne pas compter dans la boucle des attributs de la tuile
 								i--;
 								break;
 							}
@@ -462,6 +473,7 @@ public class Jeu
 				}
 				Joueur joueur = jeu.quiAGagne(coteJoueur, choixTuile);
 				jeu.distribuerCube(joueur, choixTuile);
+				
 				jeu.ajouterTuileEnDejaUtilise(choixTuile);
 				jeu.tuileVersDefausse(choixTuile);
 			}

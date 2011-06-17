@@ -60,12 +60,17 @@ public class Tuile
 		return false;
 	}
 	
-	public int getTaille(char cote)
+	public int getResultat(char cote)
 	{
+		int resultat = 0;
 		if (cote == 'D')
-			return JeuDroite.size();
-		else
-			return JeuGauche.size();
+			for (Ballon b: JeuDroite)
+				resultat += b.getNumero();
+		else if (cote == 'G')
+			for (Ballon b: JeuGauche)
+				resultat += b.getNumero();
+				
+		return resultat;
 	}
 	
 	public String toString()
