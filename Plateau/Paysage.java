@@ -22,5 +22,12 @@ public class Paysage
     public Cube getDernierElement()        {    return listeCube.get(listeCube.size()-1);   }
     public void supprimerDernierElement()  {        listeCube.remove(listeCube.size()-1);   }
 	public Cube getElement(int nb)	{	return listeCube.get(nb);	}
+	
+	public void inverserPaysage()
+	{
+		String s = recto;
+		recto = verso;
+		verso = s;
+	}
     
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Plateau
 {
     private ArrayList<Tuile> plateau = new ArrayList<Tuile>();
+	private ArrayList<Tuile> tuileUtilisee = new ArrayList<Tuile>();
     private int choix;
     
     public void ajouterTuile(Tuile tuile)
@@ -33,6 +34,22 @@ public class Plateau
 		}
 			
 		return s;
+	}
+	
+	public void ajouterTuileUtilise(Tuile tuile)
+	{
+		tuileUtilisee.add(tuile);
+	}
+	
+	public boolean getTuileUtilise(Tuile tuile)
+	{
+		for (int i = 0; i < tuileUtilisee.size(); i++)
+		{
+			Tuile tuileDejaUtilise = tuileUtilisee.get(i);
+			if (tuileDejaUtilise.equals(tuile))
+				return false;
+		}
+		return true;
 	}
 	
 	public void afficherplateau()

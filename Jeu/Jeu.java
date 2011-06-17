@@ -12,6 +12,8 @@ import Projet.Couleur.*;
 import Projet.Plateau.*;
 import Projet.Cube.*;
 
+import java.io.*;
+
 public class Jeu
 {
     /*********************/
@@ -28,8 +30,8 @@ public class Jeu
 	private Joueur joueur1;
     private Joueur joueur2;
     
-    private final int NB_TUILE = 4;
-    private final int NB_CARTE_PAR_JOUEUR = 8;
+    public static final int NB_TUILE = 4;
+    public final int NB_CARTE_PAR_JOUEUR = 8;
     
     private int[][] tabBallon = {   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },         // rouge
                                     { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1 },         // jaune
@@ -68,27 +70,6 @@ public class Jeu
         // on initialise le plateau
         initialiserPlateau();
         initialiserCubeSurTuile();
-	  
-	/*	
-		for ( int i=0; i < 8 ; i++ )
-		{
-			
-			System.out.println(plateau);
-			System.out.print ("Choix de la tuile : ");
-			int choixTuile = Clavier.lire_int();
-			
-			System.out.println("Choissisez une carte a placer sur la plateau :");
-			System.out.println("Voici votre main :");
-			joueur1.afficherMain();
-			int ch = Clavier.lire_int();
-			
-			System.out.println("Choissisez le coté du plateau sur laquel la carte sera pose (G-D) :");
-			cot = Clavier.lire_char();
-			
-			
-			
-			carteVersTuile(joueur1, ch, cot, choixTuile);
-		}*/
     }
     
     /*********************************/
@@ -280,10 +261,10 @@ public class Jeu
 	
 	public boolean tuilePrise(int numTuile)
 	{
-		if (plateau.getTuile(numTuile).aUneCarte())
-			return false;
+		if (plateau.getTuileUtilise(plateau.getTuile(numTuile)))
+			return true;
 			
-		return true;
+		return false;
 	}
 	
 	public int choisirBallon(Joueur joueur, int choixTuile)
@@ -304,25 +285,31 @@ public class Jeu
 				System.out.println("Choississez une carte entre 1 et 8");
 				continue;
 			}
-				
+			
+			// on parcours tous les cubes de la tuile
 			for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
 			{
+				// on recupere le cube
 				cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+				// on parcours les cartes du joueurs
 				for (int j = 0; j < NB_CARTE_PAR_JOUEUR; j++)
 				{
+					// on recupere la carte ballon du joueur
 					ballon = joueur.getBallon(j);
 					
+					// on regarde si le joueur possede une carte de la meme couleur qu'un cube
 					if (cube.getCouleur().equals(ballon.getCouleur()))
 					{
+						// si le cube a la meme couleur que la carte choisi on retourne l'indice de cette carte
 						if (cube.getCouleur().equals(joueur.getBallon(choixBallon).getCouleur()))
 							return choixBallon;
 						stop = true;
 					}
 				}
 			}
+			// si le joueur ne possede aucune carte de la meme couleur qu'un cube
 			if (!stop)
 				return -1;
-				
 		} while (true);
 	}
 	
@@ -337,7 +324,68 @@ public class Jeu
 		
 		return choixCote;
 	}
-    
+	
+	public void piocher(Joueur joueur)
+	{
+		pioche.distribuerCarte(joueur);
+	}
+	
+	public Joueur quiAGagne(char[][] coteJoueur, int choixTuile)
+	{
+		int compteDroit = plateau.getTuile(choixTuile).getTaille('D');
+		int compteGauche = plateau.getTuile(choixTuile).getTaille('G');
+		
+		char cote;
+		if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			cote = (compteDroit > compteGauche) ? 'G' : 'D';
+		else
+			cote = (compteDroit < compteGauche) ? 'G' : 'D';
+		
+		for (int i = 0; i < coteJoueur.length; i++)
+		{
+			if (coteJoueur[1][i] == cote)
+			{
+				if (coteJoueur[0][i] == '1')
+					return joueur1;
+				else
+					return joueur2;
+			}
+		}
+		return null;
+	}
+	
+	public void distribuerCube(Joueur joueur, int choixTuile)
+	{
+		Cube cube = null;
+		for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
+		{
+			cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+			joueur.ajouterCube(cube);
+		}		
+    }
+	
+	public void ajouterTuileEnDejaUtilise(int choixTuile)
+	{
+		plateau.ajouterTuileUtilise(plateau.getTuile(choixTuile));
+	}
+	
+	public void tuileVersDefausse(int choixTuile)
+	{
+		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
+		{
+			defausse.ajouterElement(plateau.getTuile(choixTuile).getBallon(i, 'G'));
+			plateau.getTuile(choixTuile).supprimerCarte(i, 'G');
+			defausse.ajouterElement(plateau.getTuile(choixTuile).getBallon(i, 'D'));
+			plateau.getTuile(choixTuile).supprimerCarte(i, 'D');
+		}
+	}
+	
+	public void inverserTuile()
+	{
+		for (int i = 0; i < NB_TUILE; i++)
+			plateau.getTuile(i).getPaysage().inverserPaysage();
+	}
+	
     public String toString()
     {
 		String s;
@@ -388,6 +436,7 @@ public class Jeu
 							  };
 			
 		Joueur[] tabJoueur = { jeu.getJoueur1(), jeu.getJoueur2() };
+			
 		int choixTuile = 0;
 		int choixBallon = 0;
 		char choixCote = ' ';
@@ -395,26 +444,40 @@ public class Jeu
 		//Boucle de Jeu
 		while (jeu.getJoueur1().getTrophee() != 3 || jeu.getJoueur2().getTrophee() != 3)
 		{
-			choixTuile = jeu.choisirTuile();
-			for (int i = 0; i < jeu.getPlateau().getTuile(choixTuile).getAttribut(); i++)
+			for (int k = 0; k < NB_TUILE; k++)
 			{
-				for (int j = 0; j < tabJoueur.length; j++)
+				choixTuile = jeu.choisirTuile();
+				for (int i = 0; i < jeu.getPlateau().getTuile(choixTuile).getAttribut(); i++)
 				{
-					tabJoueur[j].afficherMain();
-					choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
-					if (choixBallon == -1)
+					for (int j = 0; j < tabJoueur.length; j++)
 					{
-						System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
-						continue;
+						tabJoueur[j].afficherMain();
+						System.out.println();
+						System.out.println(jeu.getPlateau().toString());
+						choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
+						if (choixBallon == -1)
+						{
+							System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
+							i--;
+							continue;
+						}
+						
+						choixCote = jeu.choixCote(choixTuile);
+						
+						jeu.carteVersTuile(tabJoueur[j], choixBallon, choixCote, choixTuile);
+						jeu.piocher(tabJoueur[j]);
+						try
+						{
+							Process proc = Runtime.getRuntime().exec("clear");
+						} catch(IOException e) {}
 					}
-					
-					choixCote = jeu.choixCote(choixTuile);
-					
-					jeu.carteVersTuile(tabJoueur[i], choixBallon, choixCote, choixTuile);
 				}
+				Joueur joueur = jeu.quiAGagne(coteJoueur, choixTuile);
+				jeu.distribuerCube(joueur, choixTuile);
+				jeu.ajouterTuileEnDejaUtilise(choixTuile);
+				jeu.tuileVersDefausse(choixTuile);
 			}
-			break;
-		}
-		
+			jeu.inverserTuile();
+		}		
 	}
 }       

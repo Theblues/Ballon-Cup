@@ -39,6 +39,7 @@ public class Joueur
 	public void ajouterCube(Cube cube)          {   listeCube.add (cube);   }
 	public void ajouterTrophee(Trophee trophee) {   listeTrophee.add (trophee);  }
 	public String getNomJoueur()			{   return nomJoueur ;  }
+	public void afficherCube()			{	for (Cube c: listeCube)	System.out.println(c);	}
 	
 	public Ballon getBallon(int choix)    {  return main.get(choix);    }
 	public void supprimerBallon(int choix)  {  main.remove(choix);      }
@@ -56,12 +57,9 @@ public class Joueur
 	
 	public void supprimerCube(Couleur couleur)
 	{
-
 		int cpt = 0;
-
 		for (Cube c: listeCube)
 		{
-
 			if (couleur.getLibelle().equals(c.getCouleur()))
 				listeCube.remove(cpt);
 

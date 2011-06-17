@@ -60,8 +60,32 @@ public class Tuile
 		return false;
 	}
 	
+	public int getTaille(char cote)
+	{
+		if (cote == 'D')
+			return JeuDroite.size();
+		else
+			return JeuGauche.size();
+	}
+	
 	public String toString()
 	{
 		return paysage.getRecto() + " ("+ attribut +")";
+	}
+	
+	public Ballon getBallon (int num,char cote)
+	{
+		if (cote == 'D')
+			return JeuDroite.get(num);
+		else
+			return JeuGauche.get(num);
+	}
+	
+	public void supprimerCarte(int num, char cote)
+	{
+		if (cote == 'D')
+			JeuDroite.remove(num);
+		else
+			JeuGauche.remove(num);
 	}
 }
