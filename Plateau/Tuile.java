@@ -93,4 +93,10 @@ public class Tuile
 		else
 			JeuGauche.remove(num);
 	}
+	
+	public void supprimerToutesLesCartes()
+	{
+		JeuDroite.clear();
+		JeuGauche.clear();
+	}
 }

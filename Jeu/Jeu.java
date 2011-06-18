@@ -286,7 +286,7 @@ public class Jeu
 		{
 			System.out.println("Choissisez un cote pour mettre votre carte : ");
 			choixCote = Clavier.lire_char();
-		} while (choixCote != 'D' || choixCote != 'G' || plateau.getTuile(choixTuile).estPleine(choixCote));
+		} while ((choixCote != 'D' && choixCote != 'G') || plateau.getTuile(choixTuile).estPleine(choixCote));
 		
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 		{
@@ -318,7 +318,7 @@ public class Jeu
 		pioche.distribuerCarte(joueur);
 	}
 	
-	public Joueur quiAGagne(char[][] coteJoueur, int choixTuile)
+	public Joueur quiAGagne(Joueur dernierJoueur, char[][] coteJoueur, int choixTuile)
 	{
 		// on compte les points des points
 		int compteDroit = plateau.getTuile(choixTuile).getResultat('D');
@@ -326,10 +326,22 @@ public class Jeu
 		
 		char cote;
 		// On regarde quel cote a gagne
-		if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
-			cote = (compteDroit > compteGauche) ? 'G' : 'D';
+		if (compteDroit > compteGauche)
+		{	
+			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+				cote = 'G';
+			else
+				cote = 'D';
+		}
+		else if (compteDroit < compteGauche)
+		{
+			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+				cote = 'D';
+			else
+				cote = 'G';
+		}
 		else
-			cote = (compteDroit < compteGauche) ? 'G' : 'D';
+			return dernierJoueur;
 		
 		for (int i = 0; i < coteJoueur.length; i++)
 		{
@@ -342,6 +354,7 @@ public class Jeu
 					return joueur2;
 			}
 		}
+		System.out.println("error : return null");
 		// normalement impossible
 		return null;
 	}
@@ -351,9 +364,11 @@ public class Jeu
 		for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
 		{
 			Cube cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+			System.out.println(cube + "\t" + cube.getCouleur());
 			joueur.ajouterCube(cube);
-			plateau.getTuile(choixTuile).getPaysage().supprimerElement(i);
+			
 		}
+		plateau.getTuile(choixTuile).getPaysage().supprimerTousLesElements();
     }
 	
 	public void ajouterTuileEnDejaUtilise(int choixTuile)
@@ -367,11 +382,10 @@ public class Jeu
 		{
 			// partie gauche
 			defausse.ajouterElement(plateau.getTuile(choixTuile).getBallon(i, 'G'));
-			plateau.getTuile(choixTuile).supprimerCarte(i, 'G');
 			// partie droite
 			defausse.ajouterElement(plateau.getTuile(choixTuile).getBallon(i, 'D'));
-			plateau.getTuile(choixTuile).supprimerCarte(i, 'D');
 		}
+		plateau.getTuile(choixTuile).supprimerToutesLesCartes();
 	}
 	
 	public void inverserTuile()
@@ -430,13 +444,14 @@ public class Jeu
 		
 		// permet de savoir quel joueur gagne 
 		char[][] coteJoueur = { {     '1'    ,     '2'     },
-		                        { choixCoteJ2, choixCoteJ2 },
+		                        { choixCoteJ1, choixCoteJ2 },
 							  };
 			
 		Joueur[] tabJoueur = { jeu.getJoueur1(), jeu.getJoueur2() };
 			
 		int choixTuile = 0;
 		int choixBallon = 0;
+		int dernierJoueur = 0;
 		char choixCote = ' ';
 		
 		//Boucle de Jeu
@@ -447,6 +462,7 @@ public class Jeu
 				choixTuile = jeu.choisirTuile();
 				for (int i = 0; i < jeu.getPlateau().getTuile(choixTuile).getAttribut(); i++)
 				{
+					System.out.println("test1\t" + i + "\n");
 					for (int j = 0; j < tabJoueur.length; j++)
 					{
 						tabJoueur[j].afficherMain();
@@ -461,6 +477,7 @@ public class Jeu
 								System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
 								// ceci est pour ne pas compter dans la boucle des attributs de la tuile
 								i--;
+								System.out.println("test2\t" + i + "\n");
 								break;
 							}
 							// retourne 'G', 'D' ou 'Z'
@@ -479,10 +496,11 @@ public class Jeu
 						if (jeu.getPioche().estVide())
 							jeu.DefausseVersPioche();
 						jeu.piocher(tabJoueur[j]);
+						dernierJoueur = j;
 					}
 				}
 				// on regarde quel joueur a gagne
-				Joueur joueur = jeu.quiAGagne(coteJoueur, choixTuile);
+				Joueur joueur = jeu.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, choixTuile);
 				// on distribu les cubes au gagnant et on supprime les cubes de la tuile
 				jeu.distribuerCube(joueur, choixTuile);
 				
