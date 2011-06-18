@@ -7,9 +7,13 @@ import Projet.Carte.*;
 
 public class Defausse
 {
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
     private ArrayList<Ballon> defausse = new ArrayList<Ballon>();
     
     public ArrayList<Ballon> getDefausse()      {   return defausse;	    }
     public void ajouterElement(Ballon ballon)   {   defausse.add(ballon);   }
-    public void supprimerTout()          {  defausse.clear();    }
+    public void supprimerTout()          		{  defausse.clear();    	}
 }

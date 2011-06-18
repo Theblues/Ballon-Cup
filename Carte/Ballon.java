@@ -2,6 +2,10 @@ package Projet.Carte;
 
 public class Ballon extends Carte
 {
+	/********************/
+	/*** CONSTRUCTEUR ***/
+	/********************/
+	
     public Ballon (int num, String couleur)
     {
         super(num, couleur);

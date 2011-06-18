@@ -2,8 +2,16 @@ package Projet.Cube;
 
 public class Cube
 {
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
     private String couleur;
     
+	/********************/
+	/*** CONSTRUCTEUR ***/
+	/********************/
+	
     public Cube(String couleur)
     {
         this.couleur = couleur;

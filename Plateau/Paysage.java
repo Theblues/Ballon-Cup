@@ -5,17 +5,34 @@ import java.util.ArrayList;
 
 public class Paysage
 {
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
     private String recto;
     private String verso;
     private ArrayList<Cube> listeCube = new ArrayList<Cube> ();
 	private ArrayList<Cube> listeCubeUtiliseAGauche = new ArrayList<Cube>();
 	private ArrayList<Cube> listeCubeUtiliseADroite = new ArrayList<Cube>();
     
+	/********************/
+	/*** CONSTRUCTEUR ***/
+	/********************/
+	
     public Paysage(String recto, String verso)
     {
         this.recto = recto;
         this.verso = verso;
     }
+	
+	/*****************/
+	/*** ACCESSEUR ***/
+	/*****************/
+	
+	public String getRecto()    			{   return recto;   }
+    public String getVerso()    			{   return verso;   }
+	public Cube getDernierElement()        	{   return listeCube.get(listeCube.size()-1);   }
+	public Cube getElement(int nb)			{	return listeCube.get(nb);	}
 	
 	public void ajouterCubeUtilise(Cube cube, char choixCote)	
 	{
@@ -72,14 +89,11 @@ public class Paysage
 		return cpt;
 	}
 	
-    public String getRecto()    			{   return recto;   }
-    public String getVerso()    			{   return verso;   }
+    
     public void ajouterCube(Cube cube)   	{   listeCube.add(cube);   }
-    public Cube getDernierElement()        	{   return listeCube.get(listeCube.size()-1);   }
     public void supprimerDernierElement()  	{	listeCube.remove(listeCube.size()-1);   }
 	public void supprimerElement(int i)		{	listeCube.remove(i);	}
 	public void supprimerTousLesElements()	{	listeCube.clear();	}
-	public Cube getElement(int nb)			{	return listeCube.get(nb);	}
 	
 	public void inverserPaysage()
 	{

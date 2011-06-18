@@ -2,9 +2,17 @@ package Projet.Carte;
 
 public abstract class Carte
 {
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
     private int numero;
     private String couleur;
     
+	/********************/
+	/*** CONSTRUCTEUR ***/
+	/********************/
+	
     protected Carte(int numero, String couleur)
     {
         this.numero = numero;

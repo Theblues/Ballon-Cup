@@ -2,6 +2,10 @@ package Projet.Carte;
 
 public class Trophee extends Carte
 {
+	/********************/
+	/*** CONSTRUCTEUR ***/
+	/********************/
+	
     public Trophee (int num, String couleur)
     {
         super(num, couleur);
@@ -13,7 +17,7 @@ public class Trophee extends Carte
     // modifiable comme vous le souhaitez
     public String toString()
     {
-        return "Carte de type Trophée" + super.toString();
+        return "T" + super.toString();
     }
 }
 

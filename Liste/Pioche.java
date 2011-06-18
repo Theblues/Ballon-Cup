@@ -9,13 +9,17 @@ import Projet.Carte.*;
 
 public class Pioche
 {
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
     private ArrayList<Ballon> pioche = new ArrayList<Ballon>();
     private final int TAILLE_BALLON = 13;
     
     public void initialiserPioche(int[][] tabBallon)
     {
         int j = 0;
-        for (int i = 1; i <= TAILLE_BALLON; ++i)
+        for (int i = 1; i <= TAILLE_BALLON; i++)
         {
             for(Couleur coul : Couleur.values())
             {
@@ -38,16 +42,6 @@ public class Pioche
     }
     
 	public void melangerPioche()    {   Collections.shuffle(pioche);    }
-	public void afficherPioche()    
-	{   
-		int cpt=0;
-		for (Ballon b: pioche) 
-		{
-			System.out.println (b); 
-			cpt++;
-		}
-		System.out.println("\nNombre de cartes : " + cpt );
-	}
 	
     public boolean estVide()        
 	{

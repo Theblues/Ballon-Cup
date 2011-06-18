@@ -4,47 +4,30 @@ import java.util.ArrayList;
 
 public class Plateau
 {
-    private ArrayList<Tuile> plateau = new ArrayList<Tuile>();
-	private ArrayList<Tuile> tuileUtilisee = new ArrayList<Tuile>();
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
+    private ArrayList<Tuile> plateau 		= new ArrayList<Tuile>();
+	private ArrayList<Tuile> tuileUtilisee 	= new ArrayList<Tuile>();
     private int choix;
     
-    public void ajouterTuile(Tuile tuile)
-    {
-        plateau.add (tuile);
-    }
+    /****************/
+	/** ACCESSEURS **/
+	/****************/
     
-	public void choixTuile(int choix)   {        this.choix = choix;            }
-	public Tuile getTuile(int choix)             {        return plateau.get(choix);     }
-	public ArrayList<Tuile> getPlateau() { return plateau; }
-    
-	public String toString()
-	{
-		String  s ="";
-		
-		for (Tuile t: plateau)
-		{
-			s += t.toString();
-			s += "\n";
-			if (!getTuileUtilise(t))
-			{
-				for(int i = 0; i < t.getAttribut();	++i)
-				{
-					s += t.getPaysage().getElement(i);
-					s += " ";
-				}
-			}
-			s += "\n";
-		}
-			
-		return s;
-	}
+	public void choixTuile(int choix)   	{	this.choix = choix;         }
+	public Tuile getTuile(int choix)     	{   return plateau.get(choix);  }
+	public ArrayList<Tuile> getPlateau()	{	return plateau; 			}
 	
-	public void ajouterTuileUtilise(Tuile tuile)
-	{
-		tuileUtilisee.add(tuile);
-	}
+	/********************/
+	/** AJOUT DE TUILE **/
+	/********************/
 	
-	public boolean getTuileUtilise(Tuile tuile)
+    public void ajouterTuile(Tuile tuile)	{	plateau.add (tuile);	}
+	public void ajouterTuileUtilise(Tuile tuile)	{	tuileUtilisee.add(tuile);	}
+
+	public boolean estTuileUtilise(Tuile tuile)
 	{
 		for (int i = 0; i < tuileUtilisee.size(); i++)
 		{
@@ -55,8 +38,25 @@ public class Plateau
 		return false;
 	}
 	
-	public void afficherplateau()
+	public String toString()
 	{
-		for (Tuile t: plateau)	System.out.println(t);
+		String  s ="";
+		
+		for (Tuile t: plateau)
+		{
+			s += t.toString();
+			s += "\n";
+			if (!estTuileUtilise(t))
+			{
+				for(int i = 0; i < t.getAttribut();	i++)
+				{
+					s += t.getPaysage().getElement(i);
+					s += " ";
+				}
+			}
+			s += "\n";
+		}
+			
+		return s;
 	}
 }

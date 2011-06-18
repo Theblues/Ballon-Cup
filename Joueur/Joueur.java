@@ -9,13 +9,22 @@ import Projet.Couleur.*;
 
 public class Joueur
 {
-	private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee> ();
-	private ArrayList<Ballon> main = new ArrayList<Ballon>();
-	private ArrayList<Cube> listeCube = new ArrayList<Cube>();
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
+	private ArrayList<Trophee> listeTrophee 	= new ArrayList<Trophee> ();
+	private ArrayList<Ballon> main 				= new ArrayList<Ballon>();
+	private ArrayList<Cube> listeCube 			= new ArrayList<Cube>();
+	
 	private int numJoueur;
 	private static int nbJoueur = 0;
 	private String nomJoueur;
-
+	
+	/********************/
+	/*** CONSTRUCTEUR ***/
+	/********************/
+	
 	public Joueur( String nomJoueur ) 
 	{   
 		numJoueur = ++nbJoueur; 

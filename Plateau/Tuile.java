@@ -6,12 +6,20 @@ import Projet.Cube.*;
 
 public class Tuile
 {
+	/*********************/
+    /***** ATTRIBUTS *****/
+    /*********************/
+	
 	private Paysage paysage;
 	private ArrayList<Ballon> JeuGauche = new ArrayList<Ballon>();
 	private ArrayList<Ballon> JeuDroite = new ArrayList<Ballon>();
 	private int attribut;
 	private static int nbTuile = 0;
     
+	/********************/
+	/*** CONSTRUCTEUR ***/
+	/********************/
+	
 	public Tuile(Paysage paysage)
 	{
 		this.paysage = paysage;
@@ -20,15 +28,11 @@ public class Tuile
     
 	public void ajouterBallon(Ballon ballon, char cote)
 	{
-
 		if (cote == 'G')	JeuGauche.add(ballon);
 		else				JeuDroite.add(ballon);
 	}
     
-	public void ajouterCubeSurPaysage(Cube cube)
-	{
-		paysage.ajouterCube(cube);
-	}
+	public void ajouterCubeSurPaysage(Cube cube)	{	paysage.ajouterCube(cube);	}
 	
 	public int getElementJeu (char cote)
 	{

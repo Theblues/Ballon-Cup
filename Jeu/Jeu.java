@@ -88,7 +88,7 @@ public class Jeu
     
     public void donnerCarteAuxJoueurs()
     {
-        for (int i = 0; i < NB_CARTE_PAR_JOUEUR; ++i)
+        for (int i = 0; i < NB_CARTE_PAR_JOUEUR; i++)
         {
             pioche.distribuerCarte(joueur1);
             pioche.distribuerCarte(joueur2);
@@ -97,7 +97,7 @@ public class Jeu
     
     public void initialiserPlateau()
     {
-        for (int i = 0; i < NB_TUILE; ++i)
+        for (int i = 0; i < NB_TUILE; i++)
         {
             if ( i % 2 == 0)
                 plateau.ajouterTuile(new Tuile(new Paysage("Plaine", "Montagne")));
@@ -108,7 +108,7 @@ public class Jeu
     
     public void initialiserCubeSurTuile()
     {
-        for (int i = 0; i < NB_TUILE; ++i)
+        for (int i = 0; i < NB_TUILE; i++)
         {
 			for (int j = 0; j < plateau.getTuile(i).getAttribut(); ++j)
 			{
@@ -187,7 +187,7 @@ public class Jeu
     
 	public void donnerCubeAuJoueur(Joueur joueur, int choixTuile)
 	{
-		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
+		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 		{
 			joueur.ajouterCube(plateau.getTuile(choixTuile).getPaysage().getDernierElement());
 			plateau.getTuile(choixTuile).getPaysage().supprimerDernierElement();
@@ -226,7 +226,7 @@ public class Jeu
 	
 	public boolean tuilePrise(int numTuile)
 	{
-		if (plateau.getTuileUtilise(plateau.getTuile(numTuile)))
+		if (plateau.estTuileUtilise(plateau.getTuile(numTuile)))
 			return true;
 			
 		return false;
@@ -252,7 +252,7 @@ public class Jeu
 			}
 			
 			// on parcours tous les cubes de la tuile
-			for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
+			for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 			{
 				// on recupere le cube
 				cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
@@ -361,7 +361,7 @@ public class Jeu
 	
 	public void distribuerCube(Joueur joueur, int choixTuile)
 	{
-		for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
+		for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 		{
 			Cube cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
 			joueur.ajouterCube(cube);
@@ -377,7 +377,7 @@ public class Jeu
 	
 	public void tuileVersDefausse(int choixTuile)
 	{
-		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
+		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 		{
 			// partie gauche
 			defausse.ajouterElement(plateau.getTuile(choixTuile).getBallon(i, 'G'));
