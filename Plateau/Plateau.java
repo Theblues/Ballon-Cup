@@ -25,10 +25,13 @@ public class Plateau
 		{
 			s += t.toString();
 			s += "\n";
-			for(int i = 0; i < t.getAttribut();	++i)
+			if (!getTuileUtilise(t))
 			{
-				s += t.getPaysage().getElement(i);
-				s += " ";
+				for(int i = 0; i < t.getAttribut();	++i)
+				{
+					s += t.getPaysage().getElement(i);
+					s += " ";
+				}
 			}
 			s += "\n";
 		}
@@ -47,9 +50,9 @@ public class Plateau
 		{
 			Tuile tuileDejaUtilise = tuileUtilisee.get(i);
 			if (tuileDejaUtilise.equals(tuile))
-				return false;
+				return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public void afficherplateau()

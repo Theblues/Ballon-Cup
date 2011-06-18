@@ -48,6 +48,7 @@ public class Paysage
     public void ajouterCube(Cube cube)   {   listeCube.add(cube);   }
     public Cube getDernierElement()        {    return listeCube.get(listeCube.size()-1);   }
     public void supprimerDernierElement()  {        listeCube.remove(listeCube.size()-1);   }
+	public void supprimerElement(int i)		{		listeCube.remove(i);	}
 	public Cube getElement(int nb)	{	return listeCube.get(nb);	}
 	
 	public void inverserPaysage()
