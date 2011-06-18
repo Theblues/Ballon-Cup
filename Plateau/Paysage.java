@@ -29,8 +29,11 @@ public class Paysage
 	public boolean estUtilise(Cube cube, char cote)
 	{
 		if (cote == 'G')
+			// on parcours la liste des cubes utilises
 			for (int i = 0; i < listeCubeUtiliseAGauche.size(); i++)
+				// si le cube est egaux a celui dans la liste des cubes utilises
 				if (cube.equals(listeCubeUtiliseAGauche.get(i)))
+					// si le nombre de cube par couleur est atteint
 					if (nbCubeDansListeCube(cube.getCouleur()) == nbCubeDansListeCubeUtilise(cube.getCouleur(), cote))
 						return true;
 
@@ -68,6 +71,7 @@ public class Paysage
 					
 		return cpt;
 	}
+	
     public String getRecto()    			{   return recto;   }
     public String getVerso()    			{   return verso;   }
     public void ajouterCube(Cube cube)   	{   listeCube.add(cube);   }

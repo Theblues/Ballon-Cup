@@ -508,6 +508,8 @@ public class Jeu
 			}
 			// on inverse les tuiles (plaine => montagne et montagne => plaine)
 			jeu.inverserTuile();
+			jeu.initialiserCubeSurTuile();
+			
 		}		
 	}
 }       
