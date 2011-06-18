@@ -296,7 +296,7 @@ public class Jeu
 			if (couleur.equals(cube.getCouleur()))
 				// si le cube est "deja" utilise
 				if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
-					choixCote = 'Z';
+						choixCote = 'Z';
 		}
 		
 		return choixCote;
@@ -364,7 +364,6 @@ public class Jeu
 		for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); ++i)
 		{
 			Cube cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
-			System.out.println(cube + "\t" + cube.getCouleur());
 			joueur.ajouterCube(cube);
 			
 		}
@@ -462,7 +461,6 @@ public class Jeu
 				choixTuile = jeu.choisirTuile();
 				for (int i = 0; i < jeu.getPlateau().getTuile(choixTuile).getAttribut(); i++)
 				{
-					System.out.println("test1\t" + i + "\n");
 					for (int j = 0; j < tabJoueur.length; j++)
 					{
 						tabJoueur[j].afficherMain();
@@ -477,7 +475,6 @@ public class Jeu
 								System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
 								// ceci est pour ne pas compter dans la boucle des attributs de la tuile
 								i--;
-								System.out.println("test2\t" + i + "\n");
 								break;
 							}
 							// retourne 'G', 'D' ou 'Z'
