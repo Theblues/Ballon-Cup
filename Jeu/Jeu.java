@@ -309,7 +309,10 @@ public class Jeu
 		{
 			cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
 			if (couleur.equals(cube.getCouleur()))
+			{
 				plateau.getTuile(choixTuile).getPaysage().ajouterCubeUtilise(cube, choixCote);
+				break;
+			}
 		}
 	}
 	
