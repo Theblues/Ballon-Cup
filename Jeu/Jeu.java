@@ -60,7 +60,8 @@ public class Jeu
 	public Pioche getPioche()		{	return pioche;		}
 	public Defausse getDefausse()	{	return defausse;	}
 	public Sac getSac()				{	return sac;			}
-					  
+	public ArrayList<Trophee> getListeTrophee()    {    return listeTrophee;    }
+			  
     public void initialiserJeu()
     {
         // initialisation de la pioche
@@ -207,7 +208,7 @@ public class Jeu
 	public void CubeEnTrophee(Joueur joueur, Couleur couleur)
 	{
 		joueur.ajouterTrophee(getTrophee(couleur));
-		joueur.supprimerCube(couleur);
+		joueur.supprimerCube(couleur.getLibelle());
 		sac.ajouterElement(getAttribut(couleur), couleur);
 	}
 	
@@ -426,6 +427,37 @@ public class Jeu
 		return s;
     }
     
+    
+	public static boolean peutAcheterTrophee(Joueur j, Trophee t)
+	{
+		int cpt=0;
+		
+		for ( Cube b : j.getListeCube() )
+			if ( t.getCouleur() == b.getCouleur() )
+				cpt++;
+		
+		if ( cpt == t.getNumero() )
+			return true;
+		else
+			return false;
+									
+	}
+	
+	public static boolean acheterTrophee( Joueur j, Trophee t )
+	{
+		if ( peutAcheterTrophee( j, t ) )
+		{
+			j.supprimerCube(t.getCouleur());
+			j.ajouterTrophee(t);
+			return true;
+		
+		}	
+		else
+			return false;
+	
+	
+	}
+    
 	/************/
 	/*** MAIN ***/
 	/************/
@@ -512,11 +544,9 @@ public class Jeu
 							}
 							// retourne 'G', 'D' ou 'Z'
 							// 'Z' si la carte d'une couleur qu'on veux mettre d'un côté est déja mise
-							choixCote = jeu.choixCote(choixTuile, tabJoueur[j].getBallon(choixBallon).getCouleur(), tabJoueur[i]);
+							choixCote = jeu.choixCote(choixTuile, tabJoueur[j].getBallon(choixBallon).getCouleur(), tabJoueur[j]);
 						} while (choixCote == 'Z' || jeu.getPlateau().getTuile(choixTuile).estEntierementPleine());
 						
-						
-							
 						if (choixBallon == -1)
 							continue;
 						
@@ -543,6 +573,26 @@ public class Jeu
 				jeu.tuileVersDefausse(choixTuile);
 				// on supprime les cube deja utilise
 				jeu.supprimerCubeDejaUtilise(choixTuile);
+
+                                //Acheter Trophee
+				System.out.println("Souhaitez-vous acheter un trophee ?  (Y/N) ");
+				char choixTrophee = Clavier.lire_char();
+				System.out.println("Choisissez une couleur ? ( G/B/V/J/R ) ");
+				char choixCoul = Clavier.lire_char();
+				
+				Trophee t = null;
+
+				
+				if ( choixCoul == 'G' ) { t = jeu.getListeTrophee().get(0); }
+				if ( choixCoul == 'B' ) { t = jeu.getListeTrophee().get(1); }
+				if ( choixCoul == 'V' ) { t = jeu.getListeTrophee().get(2); }
+				if ( choixCoul == 'J' ) { t = jeu.getListeTrophee().get(3); }
+				if ( choixCoul == 'R' ) { t = jeu.getListeTrophee().get(4); }
+				
+				if ( acheterTrophee( tabJoueur[dernierJoueur], t  ) )
+					System.out.println("Transaction éffectué !");
+				else
+					System.out.println("Transfert non effectué !");
 			}
 			// on inverse les tuiles (plaine => montagne et montagne => plaine)
 			jeu.inverserTuile();

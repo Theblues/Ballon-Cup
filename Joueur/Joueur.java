@@ -31,6 +31,8 @@ public class Joueur
 		this.nomJoueur=nomJoueur;
 	}
 	
+	public ArrayList<Cube> getListeCube() { return listeCube ; }
+	
 	public void distribuerCarte(Ballon ballon)  {   main.add (ballon);    }
 	public String afficherMain()                  
 	{ 
@@ -82,12 +84,12 @@ public class Joueur
         return nbCube;            
 	}
 	
-	public void supprimerCube(Couleur couleur)
+	public void supprimerCube(String couleur)
 	{
 		int cpt = 0;
 		for (Cube c: listeCube)
 		{
-			if (couleur.getLibelle().equals(c.getCouleur()))
+			if (couleur.equals(c.getCouleur()))
 				listeCube.remove(cpt);
 
 			++cpt;
@@ -106,7 +108,6 @@ public class Joueur
 			s += "0";
 		else
 		{
-			s += listeCube.size() + "cubes => ";
 			s += afficherCube();
 		}
 			
