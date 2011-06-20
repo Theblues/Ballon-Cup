@@ -64,6 +64,15 @@ public class Tuile
 		return false;
 	}
 	
+	public boolean estEntierementPleine()
+	{
+		if (JeuGauche.size() == attribut)
+			if (JeuDroite.size() == attribut)
+				return true;
+		
+		return false;
+	}
+	
 	public int getResultat(char cote)
 	{
 		int resultat = 0;

@@ -232,7 +232,7 @@ public class Jeu
 		return false;
 	}
 	
-	public int choisirBallon(Joueur joueur, int choixTuile, char choixCote)
+	public int choisirBallon(Joueur joueur, int choixTuile)
 	{
 		Cube cube = null;
 		Ballon ballon;
@@ -265,14 +265,6 @@ public class Jeu
 					// on regarde si le joueur possede une carte de la meme couleur qu'un cube
 					if (cube.getCouleur().equals(ballon.getCouleur()))
 					{
-						if (choixCote != ' ')
-						{
-							if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
-							{
-								stop = true;
-								break;
-							}
-						}
 						// si le cube a la meme couleur que la carte choisi on retourne l'indice de cette carte
 						if (cube.getCouleur().equals(joueur.getBallon(choixBallon).getCouleur()))
 								return choixBallon;
@@ -281,12 +273,21 @@ public class Jeu
 				}
 			}
 			// si le joueur ne possede aucune carte de la meme couleur qu'un cube
-			if (!stop)
+			if (!stop || passe())
 				return -1;
+				
 		} while (true);
 	}
 	
-	public char choixCote(int choixTuile, String couleur)
+	public boolean passe()
+	{
+		System.out.println ("Voulez-vous passer ? ");
+		boolean passe = Clavier.lire_boolean();
+		
+		return passe;
+	}
+	
+	public char choixCote(int choixTuile, String couleur, Joueur joueur)
 	{	
 		char choixCote = ' ';
 		Cube cube = null;
@@ -296,7 +297,9 @@ public class Jeu
 			choixCote = Clavier.lire_char();
 		} while ((choixCote != 'D' && choixCote != 'G') || plateau.getTuile(choixTuile).estPleine(choixCote));
 		
-		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
+		int nbCubeSurTuile = plateau.getTuile(choixTuile).getAttribut();
+		
+		for (int i = 0; i < nbCubeSurTuile; i++)
 		{
 			// on recupere le cube
 			cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
@@ -474,6 +477,14 @@ public class Jeu
 		{
 			for (int k = 0; k < NB_TUILE; k++)
 			{
+				System.out.println();
+				System.out.println(jeu.getPlateau().toString());
+				System.out.println();
+				System.out.print("Joueur : ");
+				System.out.println(tabJoueur[dernierJoueur].getNomJoueur());
+				System.out.println();
+				System.out.println(tabJoueur[dernierJoueur]);
+				System.out.println();
 				choixTuile = jeu.choisirTuile();
 				for (int i = 0; i < jeu.getPlateau().getTuile(choixTuile).getAttribut(); i++)
 				{
@@ -490,7 +501,7 @@ public class Jeu
 						
 						do 
 						{	
-							choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile, choixCote);
+							choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
 							// si choixBallon == -1 alors le joueur ne peut pas poser de carte donc il passe
 							if (choixBallon == -1)
 							{
@@ -501,9 +512,11 @@ public class Jeu
 							}
 							// retourne 'G', 'D' ou 'Z'
 							// 'Z' si la carte d'une couleur qu'on veux mettre d'un côté est déja mise
-							choixCote = jeu.choixCote(choixTuile, tabJoueur[j].getBallon(choixBallon).getCouleur());
-						} while (choixCote == 'Z');
+							choixCote = jeu.choixCote(choixTuile, tabJoueur[j].getBallon(choixBallon).getCouleur(), tabJoueur[i]);
+						} while (choixCote == 'Z' || jeu.getPlateau().getTuile(choixTuile).estEntierementPleine());
 						
+						
+							
 						if (choixBallon == -1)
 							continue;
 						

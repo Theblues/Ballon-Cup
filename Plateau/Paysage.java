@@ -62,7 +62,7 @@ public class Paysage
 					
 		return false;
 	}
-	
+
 	public int nbCubeDansListeCube(String couleur)
 	{
 		int cpt = 0;
