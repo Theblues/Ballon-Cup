@@ -32,7 +32,17 @@ public class Joueur
 	}
 	
 	public void distribuerCarte(Ballon ballon)  {   main.add (ballon);    }
-	public void afficherMain()                  {   for (Ballon b: main)    System.out.println(b);  }
+	public String afficherMain()                  
+	{ 
+		String s="";
+		int i=1;
+		for (Ballon b: main)    
+		{
+			s += i + "= " + b.toString() + " | " ;
+			i++;
+		}
+	return s;
+	}
 	
 	public void afficherTrophee()			  
 	{	
@@ -48,7 +58,15 @@ public class Joueur
 	public void ajouterCube(Cube cube)          {   listeCube.add (cube);   }
 	public void ajouterTrophee(Trophee trophee) {   listeTrophee.add (trophee);  }
 	public String getNomJoueur()			{   return nomJoueur ;  }
-	public void afficherCube()			{	for (Cube c: listeCube)	System.out.println(c);	}
+	public String afficherCube()			
+	{
+		String s ="";
+		
+		for (Cube c: listeCube)	
+			s += c;	
+			
+	return s;
+	}
 	
 	public Ballon getBallon(int choix)    {  return main.get(choix);    }
 	public void supprimerBallon(int choix)  {  main.remove(choix);      }
@@ -74,5 +92,29 @@ public class Joueur
 
 			++cpt;
 		}
+	}
+	
+	public String toString()
+	{
+		String s ="";
+		
+		s += "Votre Main : \n\n";
+		s += afficherMain();
+		
+		s += "\n\nVos Cubes : ";
+		if ( listeCube.isEmpty() )
+			s += "0";
+		else
+		{
+			s += listeCube.size() + "cubes => ";
+			s += afficherCube();
+		}
+			
+		s += "\n\nVos Trophees : ";
+		s += getTrophee();
+		s += "\n";
+	
+	return s;
+	
 	}
 }

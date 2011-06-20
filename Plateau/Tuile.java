@@ -79,7 +79,40 @@ public class Tuile
 	
 	public String toString()
 	{
-		return paysage.getRecto() + " ("+ attribut +")";
+
+		String s = "" ;
+
+
+			s = "                ";
+			
+			for (int i =0; i < attribut; i++ )
+				s += afficherCote(JeuGauche, i);
+
+			s +=  paysage.getRecto() + " ";
+			
+			for (int i =0; i < attribut ; i++ )
+				s += afficherCote(JeuDroite, i);
+		
+		
+	return s ;
+	}
+	
+	public String afficherCote( ArrayList<Ballon> arr, int ind )
+	{
+		String s="";
+		
+		if ( arr.isEmpty() || arr.size() <= ind  )
+		
+			s += "[ ] ";
+
+		else
+		{
+			s += " ";
+			s += arr.get(ind).toString();
+			s += " ";
+		}
+		
+	return s;
 	}
 	
 	public Ballon getBallon (int num,char cote)

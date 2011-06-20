@@ -94,6 +94,7 @@ public class Paysage
     public void supprimerDernierElement()  	{	listeCube.remove(listeCube.size()-1);   }
 	public void supprimerElement(int i)		{	listeCube.remove(i);	}
 	public void supprimerTousLesElements()	{	listeCube.clear();	}
+	public void supprimerCubeDejaUtilise()  {	listeCubeUtiliseAGauche.clear();	listeCubeUtiliseADroite.clear();	}
 	
 	public void inverserPaysage()
 	{

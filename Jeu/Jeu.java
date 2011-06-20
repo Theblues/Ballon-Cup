@@ -232,7 +232,7 @@ public class Jeu
 		return false;
 	}
 	
-	public int choisirBallon(Joueur joueur, int choixTuile)
+	public int choisirBallon(Joueur joueur, int choixTuile, char choixCote)
 	{
 		Cube cube = null;
 		Ballon ballon;
@@ -265,6 +265,14 @@ public class Jeu
 					// on regarde si le joueur possede une carte de la meme couleur qu'un cube
 					if (cube.getCouleur().equals(ballon.getCouleur()))
 					{
+						if (choixCote != ' ')
+						{
+							if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
+							{
+								stop = true;
+								break;
+							}
+						}
 						// si le cube a la meme couleur que la carte choisi on retourne l'indice de cette carte
 						if (cube.getCouleur().equals(joueur.getBallon(choixBallon).getCouleur()))
 								return choixBallon;
@@ -396,13 +404,18 @@ public class Jeu
 			plateau.getTuile(i).getPaysage().inverserPaysage();
 	}
 	
-	
+	public void supprimerCubeDejaUtilise(int choixTuile)
+	{
+		plateau.getTuile(choixTuile).getPaysage().supprimerCubeDejaUtilise();
+	}
 	
 	
     public String toString()
     {
 		String s;
 	
+		//affichage plateau entier
+		
 		s = "Joueur 1 : " + joueur1.getNomJoueur() +"\t" + "Joueur 2 : " + joueur2.getNomJoueur() +"\n\n";   
 		s += plateau.toString();
 		s += "\n";
@@ -466,12 +479,18 @@ public class Jeu
 				{
 					for (int j = 0; j < tabJoueur.length; j++)
 					{
-						tabJoueur[j].afficherMain();
 						System.out.println();
 						System.out.println(jeu.getPlateau().toString());
+						System.out.println();
+						System.out.print("Joueur : ");
+						System.out.println(tabJoueur[j].getNomJoueur());
+						System.out.println();
+						System.out.println(tabJoueur[j]);
+						System.out.println();
+						
 						do 
 						{	
-							choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
+							choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile, choixCote);
 							// si choixBallon == -1 alors le joueur ne peut pas poser de carte donc il passe
 							if (choixBallon == -1)
 							{
@@ -495,6 +514,7 @@ public class Jeu
 						// si la pioche est vide alors on remet des cartes
 						if (jeu.getPioche().estVide())
 							jeu.DefausseVersPioche();
+						// lorsque le joueur joue il pioche une carte
 						jeu.piocher(tabJoueur[j]);
 						dernierJoueur = j;
 					}
@@ -508,6 +528,8 @@ public class Jeu
 				jeu.ajouterTuileEnDejaUtilise(choixTuile);
 				// on met les cartes de la tuile fini dans la defausse
 				jeu.tuileVersDefausse(choixTuile);
+				// on supprime les cube deja utilise
+				jeu.supprimerCubeDejaUtilise(choixTuile);
 			}
 			// on inverse les tuiles (plaine => montagne et montagne => plaine)
 			jeu.inverserTuile();

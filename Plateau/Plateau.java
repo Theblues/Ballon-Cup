@@ -42,10 +42,16 @@ public class Plateau
 	{
 		String  s ="";
 		
+		//affichage plateaus
+		s += "Plateau de Jeu : \n\n";
+		
 		for (Tuile t: plateau)
 		{
 			s += t.toString();
-			s += "\n";
+			s += "\n\n";
+			s += "            Cubes : ";
+			
+			//affichage cubes
 			if (!estTuileUtilise(t))
 			{
 				for(int i = 0; i < t.getAttribut();	i++)
@@ -54,7 +60,7 @@ public class Plateau
 					s += " ";
 				}
 			}
-			s += "\n";
+			s += "\n\n";
 		}
 			
 		return s;
