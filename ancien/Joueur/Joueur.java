@@ -65,7 +65,7 @@ public class Joueur
 		String s ="";
 		
 		for (Cube c: listeCube)	
-			s += c;	
+			s += c + " | ";	
 			
 	return s;
 	}
@@ -107,10 +107,8 @@ public class Joueur
 		if ( listeCube.isEmpty() )
 			s += "0";
 		else
-		{
 			s += afficherCube();
-			s += " | ";
-		}
+
 			
 		s += "\n\nVos Trophees : ";
 		s += getTrophee();

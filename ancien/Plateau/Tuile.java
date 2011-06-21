@@ -66,8 +66,7 @@ public class Tuile
 	
 	public boolean estEntierementPleine()
 	{
-		if ( JeuGauche.size() == attribut  && JeuDroite.size() == attribut)
-		
+		if ( JeuGauche.size() >= attribut  && JeuDroite.size() >= attribut)
 			return true;
 		else
 			return false;

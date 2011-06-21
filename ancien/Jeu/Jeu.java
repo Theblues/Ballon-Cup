@@ -241,28 +241,32 @@ public class Jeu
 		ArrayList<Ballon> gauche = plateau.getTuile(choixTuile).getJeuGauche();
 		ArrayList<Ballon> droite = plateau.getTuile(choixTuile).getJeuDroite();
 		
+		String couleurBallon = joueur.getBallon(choixBallon).getCouleur();
 		cptG=0;
-		for ( int i=0 ; i < gauche.size() ; i++ )
+		for ( int i = 0; i < gauche.size(); i++ )
 		{
-			if ( joueur.getBallon(choixBallon).getCouleur() == gauche.get(i).getCouleur() )
+			if (couleurBallon.equals(gauche.get(i).getCouleur()))
 				cptG++;
 		}
 		
 		cptD=0;
-		for ( int i=0 ; i < droite.size() ; i++ )
+		for ( int i=0; i < droite.size(); i++ )
 		{
-			if ( joueur.getBallon(choixBallon).getCouleur() == droite.get(i).getCouleur() )
+			if (couleurBallon.equals(droite.get(i).getCouleur()))
 				cptD++;
 		}
 		
 		cptC=0;
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 		{
-			if ( joueur.getBallon(choixBallon).getCouleur() == plateau.getTuile(choixTuile).getPaysage().getElement(i).getCouleur() )
+			if (couleurBallon.equals(plateau.getTuile(choixTuile).getPaysage().getElement(i).getCouleur()))
 				cptC++;
 		}
 		
-		if ( cptC == cptD && cptC == cptG )
+		
+		System.out.println(cptC);
+		
+		if ( cptC == cptD && cptC == cptG && cptC != 0)
 		
 			return true;
 		else
@@ -290,18 +294,17 @@ public class Jeu
 				continue;
 			}
 			
-			
-			if ( choixFini(  joueur , choixTuile , choixBallon ) )
+			if (choixFini(joueur, choixTuile, choixBallon))
+			{
+				System.out.println("test");
 				return -1;
+			}
 			
 			// on parcours tous les cubes de la tuile
 			for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 			{
 				// on recupere le cube
 				cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
-				
-				
-				
 				// on parcours les cartes du joueurs
 				for (int j = 0; j < NB_CARTE_PAR_JOUEUR; j++)
 				{
@@ -319,18 +322,10 @@ public class Jeu
 				}
 			}
 			// si le joueur ne possede aucune carte de la meme couleur qu'un cube
-			if (!stop || passe())
+			if (!stop)
 				return -1;
 				
 		} while (true);
-	}
-	
-	public boolean passe()
-	{
-		System.out.println ("Voulez-vous passer ? ");
-		boolean passe = Clavier.lire_boolean();
-		
-		return passe;
 	}
 	
 	public char choixCote(int choixTuile, String couleur, Joueur joueur)
@@ -500,8 +495,6 @@ public class Jeu
 		}	
 		else
 			return false;
-	
-	
 	}
     
 	/************/
@@ -582,18 +575,17 @@ public class Jeu
 						boolean pass = false;
 						do 
 						{	
-								
-								
 							choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
 							
 							if ( jeu.getPlateau().getTuile(choixTuile).estEntierementPleine()  )
-								pass = true;
+								break;
 							
 							// si choixBallon == -1 alors le joueur ne peut pas poser de carte donc il passe
 							if (choixBallon == -1)
 							{
 								System.out.println("Tu n'as aucune carte de la couleur d'un cube de la tuile");
 								// ceci est pour ne pas compter dans la boucle des attributs de la tuile
+								System.out.println("test sur le i + \t" + i );
 								i--;
 								break;
 							}
@@ -605,7 +597,7 @@ public class Jeu
 								pass = true;
 								
 							
-						} while (  pass == false );
+						} while (pass == false);
 						
 						if (choixBallon == -1)
 							continue;
