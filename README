@@ -5,3 +5,11 @@ javac @compile.list -d /c/Java/paquetage (ou le dossier ou sont vos paquetages)
 Pour executer
 
 java Projet.Jeu.Jeu
+
+
+PS : 
+
+- telecharger : http://jansi.fusesource.org/downloads/index.html
+- le mettre dans votre dossier paquetage
+
+(Si la compile marche mais les couleurs n'arrivent pas, il faut aussi le mettre le .jar dans le dossier classpath.
