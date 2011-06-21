@@ -2,8 +2,8 @@ package Projet.Jeu;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 import org.fusesource.jansi.*;
-import iut.algo.*;
 
 import Projet.Liste.*;
 import Projet.Carte.*;
@@ -218,7 +218,8 @@ public class Jeu
 		do
 		{
 			System.out.println("Choissisez une carte a placer sur la tuile : ");
-			choixBallon = Clavier.lire_int();
+			Scanner sc = new Scanner(System.in);
+			choixBallon = sc.nextInt();
 			--choixBallon;
 		} while (choixBallon < 0 || choixBallon >= 8);
 		
@@ -231,7 +232,9 @@ public class Jeu
 		do
 		{
 			System.out.println("Choissisez un cote pour mettre votre carte : ");
-			choixCote = Clavier.lire_char();
+			Scanner sc = new Scanner(System.in);
+			String str = sc.nextLine();
+			choixCote = str.charAt(0);
 		} while (choixCote != 'g' && choixCote != 'd' &&choixCote != 'D' && choixCote != 'G');
 		
 		return choixCote;
@@ -239,15 +242,16 @@ public class Jeu
 	
 	public int choisirTuile()
 	{
-		int choix = 0;
+		int choixTuile = 0;
 		do
 		{
 			System.out.println("Choissisez une tuile : ");
-			choix = Clavier.lire_int();
-			choix--;
-		} while ( choix > 4 || choix < 0);
+			Scanner sc = new Scanner(System.in);
+			choixTuile = sc.nextInt();
+			choixTuile--;
+		} while ( choixTuile > 4 || choixTuile < 0);
 		
-		return choix;
+		return choixTuile;
 	}
 	
 	public boolean cotePlein(int choixTuile, char choixCote)
@@ -486,12 +490,14 @@ public class Jeu
     
 	public static void main (String[] args)
 	{
-		String nom1, nom2;
 		//Initialisation des Joueurs
+		Scanner sc = new Scanner(System.in);
 		System.out.print("Veuillez entrer le nom du joueur 1 : ");
-		nom1 = Clavier.lireString();
+		String nom1 = sc.nextLine();
+		
+		Scanner scanner = new Scanner(System.in);
 		System.out.print("Veuillez entrer le nom du joueur 2 : ");
-		nom2 = Clavier.lireString();
+		String nom2 = scanner.nextLine();
 		
 		System.out.println();
 		// initialisation des couleurs
@@ -508,7 +514,9 @@ public class Jeu
 		do
 		{
 			System.out.println("Choisissez votre cote (G/D): ");
-			choixCoteJ1 = Clavier.lire_char();
+			Scanner scan = new Scanner(System.in);
+			String str = scan.nextLine();
+			choixCoteJ1 = str.charAt(0);
 			
 		} while (choixCoteJ1 != 'G' && choixCoteJ1 != 'D');
 		
