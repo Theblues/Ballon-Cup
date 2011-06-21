@@ -9,7 +9,6 @@ public class Plateau
     /*********************/
 	
     private ArrayList<Tuile> plateau 		= new ArrayList<Tuile>();
-	private ArrayList<Tuile> tuileUtilisee 	= new ArrayList<Tuile>();
     private int choix;
     
     /****************/
@@ -25,18 +24,6 @@ public class Plateau
 	/********************/
 	
     public void ajouterTuile(Tuile tuile)	{	plateau.add (tuile);	}
-	public void ajouterTuileUtilise(Tuile tuile)	{	tuileUtilisee.add(tuile);	}
-
-	public boolean estTuileUtilise(Tuile tuile)
-	{
-		for (int i = 0; i < tuileUtilisee.size(); i++)
-		{
-			Tuile tuileDejaUtilise = tuileUtilisee.get(i);
-			if (tuileDejaUtilise.equals(tuile))
-				return true;
-		}
-		return false;
-	}		
 	
 	public String toString()
 	{
@@ -52,20 +39,17 @@ public class Plateau
 			s += "                    ";
 			
 			//affichage cubes
-			if (!estTuileUtilise(t))
-			{
-				if ( t.getAttribut() == 1 )
-						s += "   ";
-				if ( t.getAttribut() == 2 )
-						s += "  ";
-				if ( t.getAttribut() == 3 )
-						s += " ";
-				
-				for(int i = 0; i < t.getAttribut();	i++)
-				{	
-					s += t.getPaysage().getElement(i);
+			if ( t.getAttribut() == 1 )
+					s += "   ";
+			if ( t.getAttribut() == 2 )
+					s += "  ";
+			if ( t.getAttribut() == 3 )
 					s += " ";
-				}
+				
+			for(int i = 0; i < t.getAttribut();	i++)
+			{	
+				s += t.getPaysage().getElement(i);
+				s += " ";
 			}
 			s += "\n\n";
 		}

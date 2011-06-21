@@ -210,46 +210,6 @@ public class Jeu
 		joueur.ajouterTrophee(getTrophee(couleur));
 		joueur.supprimerCube(couleur.getLibelle());
 		sac.ajouterElement(getAttribut(couleur), couleur);
-	}	
-	
-	public boolean choixFini( Joueur joueur, int choixTuile, int choixBallon )
-	{
-		int cptG, cptD, cptC;
-		
-		ArrayList<Ballon> gauche = plateau.getTuile(choixTuile).getJeuGauche();
-		ArrayList<Ballon> droite = plateau.getTuile(choixTuile).getJeuDroite();
-		
-		String couleurBallon = joueur.getBallon(choixBallon).getCouleur();
-		cptG=0;
-		for ( int i = 0; i < gauche.size(); i++ )
-		{
-			if (couleurBallon.equals(gauche.get(i).getCouleur()))
-				cptG++;
-		}
-		
-		cptD=0;
-		for ( int i=0; i < droite.size(); i++ )
-		{
-			if (couleurBallon.equals(droite.get(i).getCouleur()))
-				cptD++;
-		}
-		
-		cptC=0;
-		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
-		{
-			if (couleurBallon.equals(plateau.getTuile(choixTuile).getPaysage().getElement(i).getCouleur()))
-				cptC++;
-		}
-		
-		
-		System.out.println(cptC);
-		
-		if ( cptC == cptD && cptC == cptG && cptC != 0)
-		
-			return true;
-		else
-			return false;
-
 	}
 	
 	public int choisirBallon()
@@ -424,11 +384,6 @@ public class Jeu
 		plateau.getTuile(choixTuile).getPaysage().supprimerTousLesElements();
     }
 	
-	public void ajouterTuileEnDejaUtilise(int choixTuile)
-	{
-		plateau.ajouterTuileUtilise(plateau.getTuile(choixTuile));
-	}
-	
 	public void tuileVersDefausse(int choixTuile)
 	{
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
@@ -458,7 +413,6 @@ public class Jeu
 		String s;
 	
 		//affichage plateau entier
-		
 		s = "Joueur 1 : " + joueur1.getNomJoueur() +"\t" + "Joueur 2 : " + joueur2.getNomJoueur() +"\n\n";   
 		s += plateau.toString();
 		s += "\n";
