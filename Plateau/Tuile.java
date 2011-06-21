@@ -66,11 +66,11 @@ public class Tuile
 	
 	public boolean estEntierementPleine()
 	{
-		if (JeuGauche.size() == attribut)
-			if (JeuDroite.size() == attribut)
-				return true;
+		if ( JeuGauche.size() == attribut  && JeuDroite.size() == attribut)
 		
-		return false;
+			return true;
+		else
+			return false;
 	}
 	
 	public int getResultat(char cote)
@@ -91,8 +91,15 @@ public class Tuile
 
 		String s = "" ;
 
-
-			s = "                ";
+			if ( attribut == 1 )
+				s = "                ";
+			if ( attribut == 2 )
+				s = "            ";
+			if ( attribut == 3 )
+				s = "        ";
+			if ( attribut == 4 )
+				s = "    ";
+				
 			
 			for (int i =0; i < attribut; i++ )
 				s += afficherCote(JeuGauche, i);
@@ -112,10 +119,11 @@ public class Tuile
 		
 		if ( arr.isEmpty() || arr.size() <= ind  )
 		
-			s += "[ ] ";
+			s += "[?] ";
 
 		else
 		{
+		
 			s += " ";
 			s += arr.get(ind).toString();
 			s += " ";
@@ -145,4 +153,7 @@ public class Tuile
 		JeuDroite.clear();
 		JeuGauche.clear();
 	}
+	
+	public ArrayList<Ballon>  getJeuGauche() { return JeuGauche ; }
+	public ArrayList<Ballon>  getJeuDroite() { return JeuDroite ; }
 }

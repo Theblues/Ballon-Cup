@@ -109,6 +109,7 @@ public class Joueur
 		else
 		{
 			s += afficherCube();
+			s += " | ";
 		}
 			
 		s += "\n\nVos Trophees : ";

@@ -49,13 +49,20 @@ public class Plateau
 		{
 			s += t.toString();
 			s += "\n\n";
-			s += "            Cubes : ";
+			s += "                    ";
 			
 			//affichage cubes
 			if (!estTuileUtilise(t))
 			{
+				if ( t.getAttribut() == 1 )
+						s += "   ";
+				if ( t.getAttribut() == 2 )
+						s += "  ";
+				if ( t.getAttribut() == 3 )
+						s += " ";
+				
 				for(int i = 0; i < t.getAttribut();	i++)
-				{
+				{	
 					s += t.getPaysage().getElement(i);
 					s += " ";
 				}

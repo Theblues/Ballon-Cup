@@ -233,7 +233,45 @@ public class Jeu
 		return false;
 	}
 	
-	public int choisirBallon(Joueur joueur, int choixTuile)
+	
+	public boolean choixFini( Joueur joueur, int choixTuile, int choixBallon )
+	{
+		int cptG, cptD, cptC;
+		
+		ArrayList<Ballon> gauche = plateau.getTuile(choixTuile).getJeuGauche();
+		ArrayList<Ballon> droite = plateau.getTuile(choixTuile).getJeuDroite();
+		
+		cptG=0;
+		for ( int i=0 ; i < gauche.size() ; i++ )
+		{
+			if ( joueur.getBallon(choixBallon).getCouleur() == gauche.get(i).getCouleur() )
+				cptG++;
+		}
+		
+		cptD=0;
+		for ( int i=0 ; i < droite.size() ; i++ )
+		{
+			if ( joueur.getBallon(choixBallon).getCouleur() == droite.get(i).getCouleur() )
+				cptD++;
+		}
+		
+		cptC=0;
+		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
+		{
+			if ( joueur.getBallon(choixBallon).getCouleur() == plateau.getTuile(choixTuile).getPaysage().getElement(i).getCouleur() )
+				cptC++;
+		}
+		
+		if ( cptC == cptD && cptC == cptG )
+		
+			return true;
+		else
+			return false;
+			
+	
+	}
+	
+	public int choisirBallon( Joueur joueur, int choixTuile )
 	{
 		Cube cube = null;
 		Ballon ballon;
@@ -252,11 +290,18 @@ public class Jeu
 				continue;
 			}
 			
+			
+			if ( choixFini(  joueur , choixTuile , choixBallon ) )
+				return -1;
+			
 			// on parcours tous les cubes de la tuile
 			for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
 			{
 				// on recupere le cube
 				cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+				
+				
+				
 				// on parcours les cartes du joueurs
 				for (int j = 0; j < NB_CARTE_PAR_JOUEUR; j++)
 				{
@@ -296,6 +341,7 @@ public class Jeu
 		{
 			System.out.println("Choissisez un cote pour mettre votre carte : ");
 			choixCote = Clavier.lire_char();
+			
 		} while ((choixCote != 'D' && choixCote != 'G') || plateau.getTuile(choixTuile).estPleine(choixCote));
 		
 		int nbCubeSurTuile = plateau.getTuile(choixTuile).getAttribut();
@@ -443,7 +489,7 @@ public class Jeu
 									
 	}
 	
-	public static boolean acheterTrophee( Joueur j, Trophee t )
+	public static boolean acheterTrophee( Joueur j, Trophee t  )
 	{
 		if ( peutAcheterTrophee( j, t ) )
 		{
@@ -487,6 +533,7 @@ public class Jeu
 		{
 			System.out.println("Choisissez votre cote (G/D): ");
 			choixCoteJ1 = Clavier.lire_char();
+			
 		} while (choixCoteJ1 != 'G' && choixCoteJ1 != 'D');
 		
 		if ( choixCoteJ1 == 'G')		choixCoteJ2 = 'D';
@@ -518,6 +565,7 @@ public class Jeu
 				System.out.println(tabJoueur[dernierJoueur]);
 				System.out.println();
 				choixTuile = jeu.choisirTuile();
+				
 				for (int i = 0; i < jeu.getPlateau().getTuile(choixTuile).getAttribut(); i++)
 				{
 					for (int j = 0; j < tabJoueur.length; j++)
@@ -531,9 +579,16 @@ public class Jeu
 						System.out.println(tabJoueur[j]);
 						System.out.println();
 						
+						boolean pass = false;
 						do 
 						{	
+								
+								
 							choixBallon = jeu.choisirBallon(tabJoueur[j], choixTuile);
+							
+							if ( jeu.getPlateau().getTuile(choixTuile).estEntierementPleine()  )
+								pass = true;
+							
 							// si choixBallon == -1 alors le joueur ne peut pas poser de carte donc il passe
 							if (choixBallon == -1)
 							{
@@ -545,7 +600,12 @@ public class Jeu
 							// retourne 'G', 'D' ou 'Z'
 							// 'Z' si la carte d'une couleur qu'on veux mettre d'un côté est déja mise
 							choixCote = jeu.choixCote(choixTuile, tabJoueur[j].getBallon(choixBallon).getCouleur(), tabJoueur[j]);
-						} while (choixCote == 'Z' || jeu.getPlateau().getTuile(choixTuile).estEntierementPleine());
+							
+							if ( choixCote != 'Z' )
+								pass = true;
+								
+							
+						} while (  pass == false );
 						
 						if (choixBallon == -1)
 							continue;
@@ -574,26 +634,34 @@ public class Jeu
 				// on supprime les cube deja utilise
 				jeu.supprimerCubeDejaUtilise(choixTuile);
 
-                                //Acheter Trophee
-				System.out.println("Souhaitez-vous acheter un trophee ?  (Y/N) ");
-				char choixTrophee = Clavier.lire_char();
+			}
+			
+			//Acheter Trophee
+			System.out.println("Souhaitez-vous acheter un trophee ?  (Y/N) ");
+			char choixTrophee = Clavier.lire_char();
+				
+			if ( choixTrophee == 'Y' )
+			{
 				System.out.println("Choisissez une couleur ? ( G/B/V/J/R ) ");
 				char choixCoul = Clavier.lire_char();
-				
+					
 				Trophee t = null;
 
-				
+					
 				if ( choixCoul == 'G' ) { t = jeu.getListeTrophee().get(0); }
 				if ( choixCoul == 'B' ) { t = jeu.getListeTrophee().get(1); }
 				if ( choixCoul == 'V' ) { t = jeu.getListeTrophee().get(2); }
 				if ( choixCoul == 'J' ) { t = jeu.getListeTrophee().get(3); }
 				if ( choixCoul == 'R' ) { t = jeu.getListeTrophee().get(4); }
-				
+					
 				if ( acheterTrophee( tabJoueur[dernierJoueur], t  ) )
+				
 					System.out.println("Transaction éffectué !");
 				else
 					System.out.println("Transfert non effectué !");
 			}
+			
+			
 			// on inverse les tuiles (plaine => montagne et montagne => plaine)
 			jeu.inverserTuile();
 			jeu.initialiserCubeSurTuile();
