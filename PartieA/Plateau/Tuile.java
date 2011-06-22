@@ -69,6 +69,14 @@ public class Tuile
 	*/
 	public void ajouterCubeSurPaysage(Cube cube)	{	paysage.ajouterCube(cube);	}
 	
+	public boolean estEntierementPleine()
+	{
+		if ( JeuGauche.size() == attribut  && JeuDroite.size() == attribut)
+			return true;
+
+		return false;
+	}
+
 	/**
 	* Retourne la taille de la liste en fonction du coté choisi
 	* @param cote
