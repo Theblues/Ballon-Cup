@@ -17,7 +17,7 @@ public class Trophee extends Carte
     // modifiable comme vous le souhaitez
     public String toString()
     {
-        return "T" + super.toString();
+        return "T" + super.toString() + " | ";
     }
 }
 

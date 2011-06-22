@@ -46,15 +46,18 @@ public class Joueur
 	return s;
 	}
 	
-	public void afficherTrophee()			  
+	public String afficherTrophee()			  
 	{	
+		String s ="";
+		
 		if ( listeTrophee.isEmpty() )
-			System.out.println("\nAucun Trophees\n");
+			s += "\nAucun Trophees\n";
 		else
 		{
 			for (Trophee t : listeTrophee )  
-				System.out.println(t); 
+				s += t.toString(); 
 		}
+	return s;
 	}
 	
 	public void ajouterCube(Cube cube)          {   listeCube.add (cube);   }
@@ -87,12 +90,30 @@ public class Joueur
 	public void supprimerCube(String couleur)
 	{
 		int cpt = 0;
-		for (Cube c: listeCube)
-		{
-			if (couleur.equals(c.getCouleur()))
-				listeCube.remove(cpt);
 
-			++cpt;
+		//Permet de selectionner le nbs de cubes a retirer 
+		if ( couleur.equals("Gris"))  { cpt = 3 ; }
+		if ( couleur.equals("Bleu"))  { cpt = 4 ; }
+		if ( couleur.equals("Vert"))  { cpt = 5 ; }
+		if ( couleur.equals("Jaune")) { cpt = 6 ; }
+		if ( couleur.equals("Rouge")) { cpt = 7 ; }
+		
+		int ok = 0;
+		int i  = 0;
+		
+		//Parcour la liste de cube
+		while ( i < listeCube.size() && ok < cpt )
+		{
+			//Si couleur Ok alors suppréssion du cube 
+			if (couleur.equals(listeCube.get(i).getCouleur()))
+			{
+				listeCube.remove(i);
+				ok++;
+				i--;
+			}
+			System.out.println(i + "\t" + cpt);
+
+		i++;
 		}
 	}
 	
@@ -111,7 +132,7 @@ public class Joueur
 
 			
 		s += "\n\nVos Trophees : ";
-		s += getTrophee();
+		s += afficherTrophee();
 		s += "\n";
 	
 	return s;
