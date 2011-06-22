@@ -346,14 +346,14 @@ public class Jeu
 		// On regarde quel cote a gagne
 		if (compteDroit > compteGauche)
 		{	
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'G';
 			else
 				cote = 'D';
 		}
 		else if (compteDroit < compteGauche)
 		{
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'D';
 			else
 				cote = 'G';
@@ -663,7 +663,6 @@ public class Jeu
 					// lorsque le joueur joue il pioche une carte
 					jeu.piocher(tabJoueur[j]);
 					
-					System.out.println(jeu.peutAcheterTrophee(tabJoueur[j]));
 					if (jeu.peutAcheterTrophee(tabJoueur[j]))
 					{
 						entree = new Scanner(System.in);
