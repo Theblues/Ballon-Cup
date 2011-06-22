@@ -13,9 +13,20 @@ public class Pioche
     /***** ATTRIBUTS *****/
     /*********************/
 	
+	/**
+	* Liste de Ballon
+	*/
     private ArrayList<Ballon> pioche = new ArrayList<Ballon>();
+	
+	/**
+	* Taille maximale du tableau
+	*/
     private final int TAILLE_BALLON = 13;
     
+	/**
+	* Initialise les cartes de la Pioche
+	* @param tabBallon
+	*/
     public void initialiserPioche(int[][] tabBallon)
     {
         int j = 0;
@@ -33,7 +44,7 @@ public class Pioche
     
     /**
     * Methode qui distribue les cartes au joueur et supprime cette carte de la pioche.
-    * @param : joueur
+    * @param  joueur
     **/
     public void distribuerCarte(Joueur joueur)
     {
@@ -41,13 +52,25 @@ public class Pioche
         pioche.remove(pioche.size() - 1);
     }
     
+	/**
+	* Melange les cartes contenue dans la pioche 
+	*/
 	public void melangerPioche()    {   Collections.shuffle(pioche);    }
 	
+	
+	/**
+	* Determine si la Pioche est vide 
+	* @return true si la Pioche est vide 
+	*/
     public boolean estVide()        
 	{
 		if(pioche.isEmpty())  	return true;     
 		else     				return false; 
 	}
 	
+	/**
+	* Ajoute un Ballon a la Pioche
+	* @param ballon
+	*/
     public void ajouterElement(Ballon ballon)   {   pioche.add(ballon);    }
 }

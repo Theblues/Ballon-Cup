@@ -23,8 +23,15 @@ public class Plateau
 	/** AJOUT DE TUILE **/
 	/********************/
 	
+	/**
+	* Ajoute une Tuile au Plateau
+	*/ 
     public void ajouterTuile(Tuile tuile)	{	plateau.add (tuile);	}
-	
+
+	/**
+	* Affiche le Plateau et les Cube sur le plateau 
+	* @return le Plateau et les Cube sur le plateau 
+	*/
 	public String toString()
 	{
 		String  s ="";

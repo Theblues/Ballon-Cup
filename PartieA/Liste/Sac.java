@@ -13,9 +13,20 @@ public class Sac
     /***** ATTRIBUTS *****/
     /*********************/
 	
+	/**
+	* Liste de Cube
+	*/
     private ArrayList<Cube> sac = new ArrayList<Cube> ();
+	
+	/**
+	* Taille maximale du tableau
+	*/
     private final int TAILLE_BALLON = 13;
     
+	/**
+	* Initiale les Cube dans le Sac
+	* @param tabBallon
+	*/
     public void initialiserSac(int[][] tabBallon)
     {
         int j = 0;
@@ -31,10 +42,28 @@ public class Sac
         }
     }
     
+	/**
+	* Mélange les Cube contenus dans le Sac
+	*/
 	public void melangerSac()    			{  Collections.shuffle(sac);    		}
+	
+	/**
+	* Retourne le dernier éléments du sac
+	* @return de dernier Cube du Sac
+	*/
 	public Cube getDernierElement()    		{    return sac.get(sac.size() -1);    	}
+	
+	/**
+	* Supprime le dernier Cube  de la liste de Sac
+	*/
 	public void supprimerDernierElement()   {   sac.remove(sac.size()-1);   		}
 	
+	
+	/**
+	* Ajoute un Cube a la Liste Sac
+	* @param nbCube
+	* @param couleur
+	*/
 	public void ajouterElement(int nbCube, Couleur couleur)
 	{
 		for ( int i = 0; i < nbCube; i++)
