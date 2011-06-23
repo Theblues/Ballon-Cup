@@ -18,6 +18,12 @@ import iut.algo.Console;
 import java.io.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+/**
+* @author Erwan Lebrun
+* @author Jeremy Lebair
+* @author Sarah Vernichon
+* @version 1.0
+*/
 public class JeuTest
 {
     

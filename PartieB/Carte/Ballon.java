@@ -2,6 +2,12 @@ package Projet.Carte;
 
 import java.io.*;
 
+/**
+* @author Erwan Lebrun
+* @author Jeremy Lebair
+* @author Sarah Vernichon
+* @version 1.0
+*/
 public class Ballon extends Carte implements Serializable
 {
 	/********************/

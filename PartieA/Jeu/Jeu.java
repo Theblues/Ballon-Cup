@@ -14,6 +14,12 @@ import Projet.Cube.*;
 
 import java.io.*;
 
+/**
+* @author Erwan Lebrun
+* @author Jeremy Lebair
+* @author Sarah Vernichon
+* @version 1.0
+*/
 public class Jeu
 {
     /*********************/
@@ -970,7 +976,6 @@ public class Jeu
 											// on la supprime de la liste des tuiles manquante
 											jeu.getPlateau().supprimerPremiereTuileManquante();
 											jeu.ajouterCube(tuile.getAttribut());
-											
 										}
 									}
 								}
@@ -995,7 +1000,7 @@ public class Jeu
 			}
 			if (fini)
 				break;
-                        // on regarde quel tuile est pleine
+            // on regarde quel tuile est pleine
 			int tuilePleine = jeu.quelTuilePleine();
 			// on regarde quel joueur a gagne
 			Joueur joueur = jeu.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, tuilePleine);
