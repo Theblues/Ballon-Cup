@@ -944,7 +944,10 @@ public class Jeu
 					}
 					
 					if (impossibleDeJouer)
+					{
+						dernierJoueur = j;
 						continue;
+					}
 						
 					ballonPose = tabJoueur[j].getBallon(choixBallon);
 					// permet de ne plus "utilise" le cube de la couleur de la carte

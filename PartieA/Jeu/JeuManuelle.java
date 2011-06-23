@@ -87,7 +87,13 @@ public class JeuManuelle
 	/*** CONSTRUCTEUR ***/
 	/********************/
 	
-	public JeuManuelle( String nom1, String nom2 )	
+	
+	/**
+	* Constructeur des Joueurs
+	* @param nom1
+	* @param nom2
+	*/ 
+	public Jeu( String nom1, String nom2 )	
 	{
 		joueur1= new Joueur(nom1);
 		joueur2= new Joueur(nom2);
@@ -1010,6 +1016,8 @@ public class JeuManuelle
 		int choixTuile = 0;
 		int choixBallon = 0;
 		int dernierJoueur = 0;
+		int ancienChoixTuile = 0;
+		Ballon ballonPose = null;
 		char choixCote = ' ';
 		char choixCouleur = ' ';
 		boolean fini = false;
@@ -1024,7 +1032,9 @@ public class JeuManuelle
 				{
 					System.out.println("\n" + JeuManuelle.getPlateau().toString() + "\n");
 					System.out.println("Joueur : " + tabJoueur[j].getNomJoueur() + "\n");
-					System.out.println(tabJoueur[j] + "\n");
+					System.out.println(tabJoueur[j]);
+					if (ballonPose != null)
+						System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a joueur la carte " + ballonPose  + " sur la tuile " +  jeu.getPlateau().getTuile(ancienChoixTuile).getNom() + "\n");
 					
 					boolean pass = true;
 					boolean impossibleDeJouer = false;
@@ -1063,8 +1073,12 @@ public class JeuManuelle
 					}
 					
 					if (impossibleDeJouer)
+					{
+						dernierJoueur = j;
 						continue;
+					}
 						
+					ballonPose = tabJoueur[j].getBallon(choixBallon);
 					// permet de ne plus "utilise" le cube de la couleur de la carte
 					JeuManuelle.ajouterCubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur());
 					// on place la carte choisi sur le JeuManuelle
@@ -1115,6 +1129,8 @@ public class JeuManuelle
 						}
 					}
 					dernierJoueur = j;
+					
+					ancienChoixTuile = choixTuile;
 					if (tabJoueur[dernierJoueur].getTrophee() == 3)
 					{
 						fini = true;
