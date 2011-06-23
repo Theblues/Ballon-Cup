@@ -65,15 +65,15 @@ public abstract class Carte
 	*/
     public String toString()
     {
-		if(couleur == "Rouge")
+		if(couleur.equals("Rouge"))
 			return "\u001b[31m[" + numero + "]\u001b[0m";
-		else if (couleur == "Jaune")
+		else if (couleur.equals("Jaune"))
 			return "\u001b[33m[" + numero +  "]\u001b[0m";
-		else if (couleur == "Vert")
+		else if (couleur.equals("Vert"))
 			return "\u001b[32m[" + numero +  "]\u001b[0m";
-		else if (couleur == "Bleu")
+		else if (couleur.equals("Bleu"))
 			return "\u001b[36m[" + numero +  "]\u001b[0m";
-		else if (couleur == "Gris")
+		else if (couleur.equals("Gris"))
 			return "\u001b[37m[" + numero +  "]\u001b[0m";
 			
         return "";

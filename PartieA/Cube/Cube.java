@@ -43,15 +43,15 @@ public class Cube
     public String toString()
     {
         String s="";
-		if(couleur == "Rouge")
+		if(couleur.equals("Rouge"))
 			return "\u001b[41m " + "\u001b[0m";
-		else if (couleur == "Jaune")
+		else if (couleur.equals("Jaune"))
 			return "\u001b[43m " + "\u001b[0m";
-		else if (couleur == "Vert")
+		else if (couleur.equals("Vert"))
 			return "\u001b[42m " + "\u001b[0m";
-		else if (couleur == "Bleu")
+		else if (couleur.equals("Bleu"))
 			return "\u001b[46m " + "\u001b[0m";
-		else if (couleur == "Gris")
+		else if (couleur.equals("Gris"))
 			return "\u001b[47m " + "\u001b[0m";
 
 		return "";

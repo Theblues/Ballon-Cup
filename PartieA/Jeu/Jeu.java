@@ -614,6 +614,7 @@ public class Jeu
 		int dernierJoueur = 0;
 		char choixCote = ' ';
 		char choixCouleur = ' ';
+		boolean fini = false;
 		
 		//Boucle de Jeu
 		while (jeu.getJoueur1().getTrophee() != 3 || jeu.getJoueur2().getTrophee() != 3)
@@ -703,8 +704,17 @@ public class Jeu
 						}
 					}
 					dernierJoueur = j;
+					if (tabJoueur[dernierJoueur].getTrophee() == 3)
+					{
+						fini = true;
+						break;
+					}
 				}
+				if (fini)
+					break;
 			}
+			if (fini)
+				break;
 			int tuilePleine = jeu.quelTuilePleine();
 			// on regarde quel joueur a gagne
 			Joueur joueur = jeu.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, tuilePleine);
@@ -718,5 +728,6 @@ public class Jeu
 			jeu.inverserLaTuile(tuilePleine);
 			jeu.ajouterCube(tuilePleine);
 		}
+		System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a gagné");
 	}
 }       
