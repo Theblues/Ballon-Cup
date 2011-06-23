@@ -1,8 +1,9 @@
 package Projet.Joueur;
+import java.io.*;
 
 import java.util.*;
 import java.util.Collections;
-import java.io.*;
+
 import Projet.Carte.*;
 import Projet.Cube.*;
 import Projet.Couleur.*;
@@ -14,8 +15,8 @@ public class Joueur implements Serializable
     /*********************/
 	
 	private ArrayList<Trophee> listeTrophee 	= new ArrayList<Trophee> ();
-	private ArrayList<Ballon> main 				= new ArrayList<Ballon>();
-	private ArrayList<Cube> listeCube 			= new ArrayList<Cube>();
+	private ArrayList<Ballon> main 		= new ArrayList<Ballon>();
+	private ArrayList<Cube> listeCube 		= new ArrayList<Cube>();
 	
 	private int numJoueur;
 	private static int nbJoueur = 0;
@@ -60,16 +61,22 @@ public class Joueur implements Serializable
 	return s;
 	}
 	
-	public void ajouterCube(Cube cube)          {   listeCube.add (cube);   }
+	public void ajouterCube(Cube cube)          
+	{   
+		listeCube.add (cube);   
+	}
+	
 	public void ajouterTrophee(Trophee trophee) {   listeTrophee.add (trophee);  }
 	public String getNomJoueur()			{   return nomJoueur ;  }
-	public void	  setNomJoueur(String s)	{	this.nomJoueur = s; }
+	public void	  setNomJoueur(String s)	{ this.nomJoueur = s; }
+	public int getNumJoueur() { return numJoueur; }
+	
 	public String afficherCube()			
 	{
 		String s ="";
 		
 		for (Cube c: listeCube)	
-			s += c + " | ";	
+			s += c.toString() + " | ";	
 			
 	return s;
 	}
@@ -126,6 +133,7 @@ public class Joueur implements Serializable
 		s += afficherMain();
 		
 		s += "\n\nVos Cubes : ";
+		
 		if ( listeCube.isEmpty() )
 			s += "0";
 		else

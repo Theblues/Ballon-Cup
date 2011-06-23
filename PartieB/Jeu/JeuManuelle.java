@@ -1,8 +1,9 @@
-package Projet.Jeu;
+package Projet.JeuManuelle;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import org.fusesource.jansi.*;
 
 import Projet.Liste.*;
@@ -13,9 +14,8 @@ import Projet.Plateau.*;
 import Projet.Cube.*;
 
 import java.io.*;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class Jeu implements Serializable
+public class JeuManuelle
 {
     /*********************/
     /***** ATTRIBUTS *****/
@@ -45,19 +45,16 @@ public class Jeu implements Serializable
 	/*** CONSTRUCTEUR ***/
 	/********************/
 	
-	public Jeu()	
+	public JeuManuelle( String nom1, String nom2 )	
 	{
-		joueur1= new Joueur("");
-		joueur2= new Joueur("");
+		joueur1= new Joueur(nom1);
+		joueur2= new Joueur(nom2);
 	}
 	
 	/*****************/
 	/*** ACCESSEUR ***/
 	/*****************/
 	
-	
-	public void setJoueur1(String s)	{	joueur1.setNomJoueur(s) ; }
-	public void setJoueur2(String s)	{	joueur2.setNomJoueur(s) ; }
 	public Joueur getJoueur1() 		{	return joueur1; 	}
 	public Joueur getJoueur2() 		{	return joueur2; 	}
 	public Plateau getPlateau()		{	return plateau;		}
@@ -80,13 +77,140 @@ public class Jeu implements Serializable
         initialiserListeTrophee();
         
         // donne des cartes au joueurs
-        donnerCarteAuxJoueurs();	  
-	       
+		String ligne1 = "";
+		String ligne2 = "";
+		String ligne3 = "";
+		String ligne4 = "";
+		String ligne5 = "";
+		
+		char supprimerPioche, supprimerSac;
+		String str;
+		Scanner entree;
+		
+		do
+		{	
+			entree = new Scanner(System.in);
+			System.out.println("Voulez-vous supprimer les cartes de la pioche ? (O/N) ");
+			str = entree.nextLine();
+			supprimerPioche = str.charAt(0);
+		} while (supprimerPioche != 'O' && supprimerPioche != 'N');
+		
+		do
+		{	
+			entree = new Scanner(System.in);
+			System.out.println("Voulez-vous supprimer les cubes du sac ? (O/N) ");
+			str = entree.nextLine();
+			supprimerSac = str.charAt(0);
+		} while (supprimerSac != 'O' && supprimerSac != 'N');
+		
+        try
+		{
+			BufferedReader br = new BufferedReader(new FileReader("carte.txt"));
+			if(br.ready())
+				ligne1 = br.readLine();
+			if(br.ready())
+				ligne2 = br.readLine();
+			if(br.ready())
+				ligne3 = br.readLine();
+			if(br.ready())
+				ligne4 = br.readLine();
+			if(br.ready())
+				ligne5 = br.readLine();
+				
+			br.close();
+
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		StringTokenizer st1 = new StringTokenizer(ligne1, "-");
+		StringTokenizer st2 = new StringTokenizer(ligne2, "-");
+		StringTokenizer st3 = new StringTokenizer(ligne3, "-");
+		StringTokenizer st4 = new StringTokenizer(ligne4, "-");
+		StringTokenizer st5 = new StringTokenizer(ligne5, "-");
+
+		String carte;
+		Scanner numsc;
+		int num;
+		String couleur;
+		// on ajoute les cartes Ballon au joueur1 : ligne1 de carte.txt
+		while(st1.hasMoreTokens())
+		{
+			carte = st1.nextToken();
+			numsc = new Scanner(carte.substring(1));
+			num = numsc.nextInt();
+			couleur = retournerCouleur(carte.charAt(0));
+			
+			joueur1.distribuerCarte(new Ballon(num, couleur));
+			if (supprimerPioche == 'O')
+				pioche.supprimerCarte(num, couleur);
+		}
+		// on ajoute les cartes Ballon au joueur2 : ligne2 de carte.txt
+		while(st2.hasMoreTokens())
+		{
+			carte = st2.nextToken();
+			numsc = new Scanner(carte.substring(1));
+			num = numsc.nextInt();
+			couleur = retournerCouleur(carte.charAt(0));
+			joueur2.distribuerCarte(new Ballon(num ,couleur));
+			if (supprimerPioche == 'O')
+				pioche.supprimerCarte(num, couleur);
+		}
+		// on ajoute les cubes au joueur1 : ligne3 de carte.txt
+		String cube;
+		while (st3.hasMoreTokens())
+		{
+			cube = st3.nextToken();
+			couleur = retournerCouleur(cube.charAt(0));
+			joueur1.ajouterCube(new Cube(couleur));
+			if (supprimerSac == 'O')
+				sac.supprimerCube(couleur);
+		}
+		// on ajoute les cubes au joueur2 : ligne4 de carte.txt
+		while (st4.hasMoreTokens())
+		{
+			cube = st4.nextToken();
+			couleur = retournerCouleur(cube.charAt(0));
+			joueur2.ajouterCube(new Cube(couleur));
+			if (supprimerSac == 'O')
+				sac.supprimerCube(couleur);
+		}
+		
         // on initialise le plateau
         initialiserPlateau();
-        initialiserCubeSurTuile();
+		// initialiserCubeSurTuile();
+		int i = 0;
+		while (st5.hasMoreTokens())
+		{
+			cube = st5.nextToken();
+			for (int j = 0; j < cube.length(); j++)
+			{
+				couleur = retournerCouleur(cube.charAt(j));
+				plateau.getTuile(i).ajouterCubeSurPaysage(new Cube(couleur));
+				if (supprimerSac == 'O')
+					sac.supprimerCube(couleur);
+			}
+			i++;
+		}		
     }
+	
+	public String retournerCouleur(char couleur)
+	{
+		if (couleur == 'R')
+			return "Rouge";
+		else if (couleur == 'J')
+			return "Jaune";
+		else if (couleur == 'V')
+			return "Vert";
+		else if (couleur == 'B')
+			return "Bleu";
+		else if (couleur == 'G')
+			return "Gris";
     
+		return "Mauvaise couleur";
+	}
     /*********************************/
     /*** METHODES POUR INITIALISER ***/
     /*********************************/
@@ -350,14 +474,14 @@ public class Jeu implements Serializable
 		// On regarde quel cote a gagne
 		if (compteDroit > compteGauche)
 		{	
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'G';
 			else
 				cote = 'D';
 		}
 		else if (compteDroit < compteGauche)
 		{
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'D';
 			else
 				cote = 'G';
@@ -534,7 +658,7 @@ public class Jeu implements Serializable
 	{
 		int cpt = 0;
 		for (Cube b : joueur.getListeCube())
-			if ( b.getCouleur().equals(choixCouleur))
+			if (choixCouleur ==  b.getCouleur().charAt(0))
 				cpt++;
 	
 		int attribut = 0;
@@ -573,66 +697,41 @@ public class Jeu implements Serializable
     
 	public static void main (String[] args)
 	{
+		//Initialisation des Joueurs
+		Scanner entree;
+		String nom1, nom2;
+		do
+		{
+			entree = new Scanner(System.in);
+			System.out.print("Veuillez entrer le nom du joueur 1 : ");
+			nom1 = entree.nextLine();
+		} while (nom1.charAt(0) == ' ');
 		
-
+		do
+		{	
+			entree = new Scanner(System.in);
+			System.out.print("Veuillez entrer le nom du joueur 2 : ");
+			nom2 = entree.nextLine();
+		} while (nom2.charAt(0) == ' ');
+		
+		System.out.println();
 		// initialisation des couleurs
 		AnsiConsole.systemInstall();
 	  
-		//Nouveau Jeu
-		Jeu jeu = new Jeu();
-		jeu.initialiserJeu();
-
-		ObjectInputStream in;
-		ObjectOutputStream out;
+		//Nouveau JeuManuelle
+		JeuManuelle JeuManuelle = new JeuManuelle(nom1 , nom2);
+		JeuManuelle.initialiserJeu();
 		
-		File fichier  = new File ( "jeu.dat" );
+		//affichage du JeuManuelle ( plateau )
+		System.out.println(JeuManuelle);
+		String str = "";
 		
-		if ( !fichier.exists() )
-		{	
-		
-			//Initialisation des Joueurs
-			Scanner entree = new Scanner(System.in);
-			System.out.println("Veuillez entrer le nom du joueur 1 : ");
-			String nom1 = entree.nextLine();
-			
-			jeu.setJoueur1(nom1);
-		
-			try {	
-					out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fichier)));
-					
-					out.writeObject(jeu);
-					out.close();
-					
-			} catch (Exception e) {
-				e.printStackTrace();}
-		}
-		else
-		{
-			//Initialisation des Joueurs
-			Scanner entree = new Scanner(System.in);
-			System.out.println("Veuillez entrer le nom du joueur 2 : ");
-			String nom2 = entree.nextLine();
-			
-			jeu.setJoueur2(nom2);
-		
-			try {	
-					out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fichier)));
-					
-					out.writeObject(jeu);
-					out.close();
-					
-			} catch (Exception e) {
-				e.printStackTrace();}
-		
-		}
-		
-		/*
 		char choixCoteJ1, choixCoteJ2;
 		do
 		{
 			System.out.println("Choisissez votre cote (G/D): ");
 			entree = new Scanner(System.in);
-			String str = entree.nextLine();
+			str = entree.nextLine();
 			choixCoteJ1 = str.charAt(0);
 			
 		} while (choixCoteJ1 != 'G' && choixCoteJ1 != 'D');
@@ -645,22 +744,23 @@ public class Jeu implements Serializable
 		                        { choixCoteJ1, choixCoteJ2 },
 							  };
 			
-		Joueur[] tabJoueur = { jeu.getJoueur1(), jeu.getJoueur2() };
+		Joueur[] tabJoueur = { JeuManuelle.getJoueur1(), JeuManuelle.getJoueur2() };
 			
 		int choixTuile = 0;
 		int choixBallon = 0;
 		int dernierJoueur = 0;
 		char choixCote = ' ';
 		char choixCouleur = ' ';
+		boolean fini = false;
 		
-		//Boucle de Jeu
-		while (jeu.getJoueur1().getTrophee() != 3 || jeu.getJoueur2().getTrophee() != 3)
+		//Boucle de JeuManuelle
+		while (JeuManuelle.getJoueur1().getTrophee() != 3 || JeuManuelle.getJoueur2().getTrophee() != 3)
 		{
-			while (!jeu.AUneTuilePleine())
+			while (!JeuManuelle.AUneTuilePleine())
 			{
 				for (int j = 0; j < tabJoueur.length; j++)
 				{
-					System.out.println("\n" + jeu.getPlateau().toString() + "\n");
+					System.out.println("\n" + JeuManuelle.getPlateau().toString() + "\n");
 					System.out.println("Joueur : " + tabJoueur[j].getNomJoueur() + "\n");
 					System.out.println(tabJoueur[j] + "\n");
 					
@@ -670,21 +770,21 @@ public class Jeu implements Serializable
 					{
 						pass = true;
 						// si le joueur ne peut poser aucune carte alors il passe
-						if (jeu.impossibleDeJoueur(tabJoueur[j]))
+						if (JeuManuelle.impossibleDeJoueur(tabJoueur[j]))
 						{
 							System.out.println("Vous ne pouvez pas jouer :( ");
 							impossibleDeJouer = true;
 							break;
 						}
-						choixBallon = jeu.choisirBallon();
-						choixTuile = jeu.choisirTuile();
-						choixCote = jeu.choisirCote();
+						choixBallon = JeuManuelle.choisirBallon();
+						choixTuile = JeuManuelle.choisirTuile();
+						choixCote = JeuManuelle.choisirCote();
 					
-						if (jeu.cotePlein(choixTuile, choixCote))
+						if (JeuManuelle.cotePlein(choixTuile, choixCote))
 							pass = false;
-						if (jeu.cubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
+						if (JeuManuelle.cubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
 							pass = false;
-						if (!jeu.verifcouleur(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
+						if (!JeuManuelle.verifcouleur(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
 							pass = false;		
 					} while (!pass);
 					
@@ -692,17 +792,16 @@ public class Jeu implements Serializable
 						continue;
 						
 					// permet de ne plus "utilise" le cube de la couleur de la carte
-					jeu.ajouterCubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur());
-					// on place la carte choisi sur le jeu
-					jeu.carteVersTuile(tabJoueur[j], choixBallon, choixCote, choixTuile);
+					JeuManuelle.ajouterCubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur());
+					// on place la carte choisi sur le JeuManuelle
+					JeuManuelle.carteVersTuile(tabJoueur[j], choixBallon, choixCote, choixTuile);
 					// si la pioche est vide alors on remet des cartes
-					if (jeu.getPioche().estVide())
-					jeu.DefausseVersPioche();
+					if (JeuManuelle.getPioche().estVide())
+					JeuManuelle.DefausseVersPioche();
 					// lorsque le joueur joue il pioche une carte
-					jeu.piocher(tabJoueur[j]);
+					JeuManuelle.piocher(tabJoueur[j]);
 					
-					System.out.println(jeu.peutAcheterTrophee(tabJoueur[j]));
-					if (jeu.peutAcheterTrophee(tabJoueur[j]))
+					if (JeuManuelle.peutAcheterTrophee(tabJoueur[j]))
 					{
 						entree = new Scanner(System.in);
 						System.out.println(" Voulez-vous acheter un Trophee ? ");
@@ -713,28 +812,28 @@ public class Jeu implements Serializable
 							do
 							{
 								entree = new Scanner(System.in);
-								System.out.println(jeu.couleurDispo(tabJoueur[j]));
-								String str = entree.nextLine();
+								System.out.println(JeuManuelle.couleurDispo(tabJoueur[j]));
+								str = entree.nextLine();
 								choixCouleur = str.charAt(0);
-							} while (choixCouleur != 'P' || jeu.prendreCubeImpossible(tabJoueur[j], choixCouleur));
+							} while (choixCouleur != 'P' || JeuManuelle.prendreCubeImpossible(tabJoueur[j], choixCouleur));
 							
 							if ( choixCouleur != 'P' )
 							{	
 								Trophee trophee = null;
 								
 								int i = 0;
-								for (Trophee t: jeu.getListeTrophee())
+								for (Trophee t: JeuManuelle.getListeTrophee())
 								{
-									if (choixCouleur == jeu.getListeTrophee().get(i).getCouleur().charAt(0))
-										trophee = jeu.getListeTrophee().get(i);
-										
+									if (choixCouleur == JeuManuelle.getListeTrophee().get(i).getCouleur().charAt(0))
+										trophee = JeuManuelle.getListeTrophee().get(i);
+									
 									i++;
 								}
 									
-								jeu.acheterTrophee( jeu.getJoueur1(), trophee);
+								JeuManuelle.acheterTrophee( tabJoueur[j], trophee);
 
 								System.out.println("Transaction Effectue !");
-								jeu.supprimerTrophee(trophee);
+								JeuManuelle.supprimerTrophee(trophee);
 
 							}
 							else
@@ -742,20 +841,30 @@ public class Jeu implements Serializable
 						}
 					}
 					dernierJoueur = j;
+					if (tabJoueur[dernierJoueur].getTrophee() == 3)
+					{
+						fini = true;
+						break;
+					}
 				}
+				if (fini)
+					break;
 			}
-			int tuilePleine = jeu.quelTuilePleine();
+			if (fini)
+				break;
+			int tuilePleine = JeuManuelle.quelTuilePleine();
 			// on regarde quel joueur a gagne
-			Joueur joueur = jeu.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, tuilePleine);
+			Joueur joueur = JeuManuelle.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, tuilePleine);
 			// on distribue les cubes au gagnant et on supprime les cubes de la tuile
-			jeu.distribuerCube(joueur, tuilePleine);
+			JeuManuelle.distribuerCube(joueur, tuilePleine);
 
 			// on met les cartes de la tuile fini dans la defausse
-			jeu.tuileVersDefausse(tuilePleine);
+			JeuManuelle.tuileVersDefausse(tuilePleine);
 			// on supprime les cube deja utilise
-			jeu.supprimerCubeDejaUtilise(tuilePleine);
-			jeu.inverserLaTuile(tuilePleine);
-			jeu.ajouterCube(tuilePleine);
-		}*/
+			JeuManuelle.supprimerCubeDejaUtilise(tuilePleine);
+			JeuManuelle.inverserLaTuile(tuilePleine);
+			JeuManuelle.ajouterCube(tuilePleine);
+		}
+		System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a gagné");
 	}
 }       

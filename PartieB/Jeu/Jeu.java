@@ -1,4 +1,4 @@
-package Projet.JeuManuelle;
+package Projet.Jeu;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,26 +14,29 @@ import Projet.Cube.*;
 
 import java.io.*;
 
-public class JeuManuelle
+public class Jeu implements Serializable
 {
     /*********************/
     /***** ATTRIBUTS *****/
     /*********************/
     
     // Les cartes Trophées
-    private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee>();
+	private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee>();
 
-    private Pioche pioche       = new Pioche();
-    private Defausse defausse   = new Defausse();
-    private Sac sac             = new Sac();
-    private Plateau plateau     = new Plateau();
+	private Pioche pioche       = new Pioche();
+	private Defausse defausse   = new Defausse();
+	private Sac sac             = new Sac();
+	private Plateau plateau     = new Plateau();
 	private Joueur joueur1;
-    private Joueur joueur2;
+	private Joueur joueur2;
+	private int numJoueurEnCour=0;
+	
+	char[][] coteJoueur = new char[2][2];
     
-    public final int NB_TUILE = 4;
-    public final int NB_CARTE_PAR_JOUEUR = 8;
+	public final int NB_TUILE = 4;
+	public final int NB_CARTE_PAR_JOUEUR = 8;
     
-    private int[][] tabBallon = {   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },         // rouge
+	private int[][] tabBallon = {   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },         // rouge
                                     { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1 },         // jaune
                                     { 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1 },         // vert
                                     { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },         // bleu
@@ -44,18 +47,25 @@ public class JeuManuelle
 	/*** CONSTRUCTEUR ***/
 	/********************/
 	
-	public JeuManuelle( String nom1, String nom2 )	
+	public Jeu( )	
 	{
-		joueur1= new Joueur(nom1);
-		joueur2= new Joueur(nom2);
+		joueur1= new Joueur("");
+		joueur2= new Joueur("");
 	}
 	
 	/*****************/
 	/*** ACCESSEUR ***/
 	/*****************/
 	
+	
+	public char[][] getCoteJoueur() { return coteJoueur ; }
+	public void setCoteJoueur( char[][] cote ) { this.coteJoueur = cote ; }
+	public void setJoueur1(String s)	{	joueur1.setNomJoueur(s) ; }
+	public void setJoueur2(String s)	{	joueur2.setNomJoueur(s) ; }
 	public Joueur getJoueur1() 		{	return joueur1; 	}
 	public Joueur getJoueur2() 		{	return joueur2; 	}
+	public int	getNumJoueurEnCour() { return numJoueurEnCour; }
+	public void	setNumJoueurEnCour(int i) {  this.numJoueurEnCour=i; }
 	public Plateau getPlateau()		{	return plateau;		}
 	public Pioche getPioche()		{	return pioche;		}
 	public Defausse getDefausse()	{	return defausse;	}
@@ -71,9 +81,6 @@ public class JeuManuelle
         // initialisation du sac
         sac.initialiserSac(tabBallon);
         sac.melangerSac();
-		
-		for ( int i=1; i < 6 ; i++ )
-			joueur1.ajouterCube(new Cube("Gris"));
         
         // initialisation de la liste des trophées
         initialiserListeTrophee();
@@ -278,7 +285,6 @@ public class JeuManuelle
 				// si le cube est "deja" utilise
 				if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
 				{
-					System.out.println(choixCote + "\t test");
 					return true;
 				}
 			}
@@ -345,18 +351,19 @@ public class JeuManuelle
 		int compteDroit = plateau.getTuile(choixTuile).getResultat('D');
 		int compteGauche = plateau.getTuile(choixTuile).getResultat('G');
 		
+		System.out.println(compteDroit + "\t" + compteGauche + "\t" + dernierJoueur.getNomJoueur());
 		char cote;
 		// On regarde quel cote a gagne
 		if (compteDroit > compteGauche)
 		{	
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'G';
 			else
 				cote = 'D';
 		}
 		else if (compteDroit < compteGauche)
 		{
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'D';
 			else
 				cote = 'G';
@@ -364,6 +371,7 @@ public class JeuManuelle
 		else
 			return dernierJoueur;
 		
+		System.out.println(cote+ "\t"  +coteJoueur[1][0]+ "\t"  +coteJoueur[1][1]);
 		for (int i = 0; i < coteJoueur.length; i++)
 		{
 			// on regarde le cote assiocier au joueur
@@ -566,169 +574,14 @@ public class JeuManuelle
 	
 	}
 	
-	/************/
-	/*** MAIN ***/
-	/************/
-    
-	public static void main (String[] args)
+	public int quiAPlusDeTrophee(int dernierJoueur)
 	{
-		//Initialisation des Joueurs
-		Scanner entree = new Scanner(System.in);
-		System.out.print("Veuillez entrer le nom du joueur 1 : ");
-		String nom1 = entree.nextLine();
-		
-		entree = new Scanner(System.in);
-		System.out.print("Veuillez entrer le nom du joueur 2 : ");
-		String nom2 = entree.nextLine();
-		
-		System.out.println();
-		// initialisation des couleurs
-		AnsiConsole.systemInstall();
-	  
-		//Nouveau JeuManuelle
-		JeuManuelle JeuManuelle = new JeuManuelle(nom1 , nom2);
-		JeuManuelle.initialiserJeu();
-		
-		//affichage du JeuManuelle ( plateau )
-		System.out.println(JeuManuelle);
-		String str = "";
-		
-		char choixCoteJ1, choixCoteJ2;
-		do
-		{
-			System.out.println("Choisissez votre cote (G/D): ");
-			entree = new Scanner(System.in);
-			str = entree.nextLine();
-			choixCoteJ1 = str.charAt(0);
-			
-		} while (choixCoteJ1 != 'G' && choixCoteJ1 != 'D');
-		
-		if ( choixCoteJ1 == 'G')		choixCoteJ2 = 'D';
-		else							choixCoteJ2 = 'G';
-		
-		// permet de savoir quel joueur gagne 
-		char[][] coteJoueur = { {     '1'    ,     '2'     },
-		                        { choixCoteJ1, choixCoteJ2 },
-							  };
-			
-		Joueur[] tabJoueur = { JeuManuelle.getJoueur1(), JeuManuelle.getJoueur2() };
-			
-		int choixTuile = 0;
-		int choixBallon = 0;
-		int dernierJoueur = 0;
-		char choixCote = ' ';
-		char choixCouleur = ' ';
-		
-		//Boucle de JeuManuelle
-		while (JeuManuelle.getJoueur1().getTrophee() != 3 || JeuManuelle.getJoueur2().getTrophee() != 3)
-		{
-			while (!JeuManuelle.AUneTuilePleine())
-			{
-				for (int j = 0; j < tabJoueur.length; j++)
-				{
-					System.out.println("\n" + JeuManuelle.getPlateau().toString() + "\n");
-					System.out.println("Joueur : " + tabJoueur[j].getNomJoueur() + "\n");
-					System.out.println(tabJoueur[j] + "\n");
-					
-					boolean pass = true;
-					boolean impossibleDeJouer = false;
-					do
-					{
-						pass = true;
-						// si le joueur ne peut poser aucune carte alors il passe
-						if (JeuManuelle.impossibleDeJoueur(tabJoueur[j]))
-						{
-							System.out.println("Vous ne pouvez pas jouer :( ");
-							impossibleDeJouer = true;
-							break;
-						}
-						choixBallon = JeuManuelle.choisirBallon();
-						choixTuile = JeuManuelle.choisirTuile();
-						choixCote = JeuManuelle.choisirCote();
-					
-						if (JeuManuelle.cotePlein(choixTuile, choixCote))
-							pass = false;
-						if (JeuManuelle.cubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
-							pass = false;
-						if (!JeuManuelle.verifcouleur(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
-							pass = false;		
-					} while (!pass);
-					
-					if (impossibleDeJouer)
-						continue;
-						
-					// permet de ne plus "utilise" le cube de la couleur de la carte
-					JeuManuelle.ajouterCubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur());
-					// on place la carte choisi sur le JeuManuelle
-					JeuManuelle.carteVersTuile(tabJoueur[j], choixBallon, choixCote, choixTuile);
-					// si la pioche est vide alors on remet des cartes
-					if (JeuManuelle.getPioche().estVide())
-					JeuManuelle.DefausseVersPioche();
-					// lorsque le joueur joue il pioche une carte
-					JeuManuelle.piocher(tabJoueur[j]);
-					
-					System.out.println(JeuManuelle.peutAcheterTrophee(tabJoueur[j]));
-					if (JeuManuelle.peutAcheterTrophee(tabJoueur[j]))
-					{
-						char achete = ' ';
-						do
-						{
-							entree = new Scanner(System.in);
-							System.out.println(" Voulez-vous acheter un Trophee ? (O/N) ");
-							str = entree.nextLine();
-							achete = str.charAt(0);
-						} while (achete != 'O' && achete != 'N');
-						
-						if (achete == 'O')
-						{
-							do
-							{
-								entree = new Scanner(System.in);
-								System.out.println(JeuManuelle.couleurDispo(tabJoueur[j]));
-								str = entree.nextLine();
-								choixCouleur = str.charAt(0);
-							} while (choixCouleur != 'P' && JeuManuelle.prendreCubeImpossible(tabJoueur[j], choixCouleur));
-							
-							if ( choixCouleur != 'P' )
-							{	
-								Trophee trophee = null;
-								
-								int i = 0;
-								for (Trophee t: JeuManuelle.getListeTrophee())
-								{
-									
-									if (choixCouleur == JeuManuelle.getListeTrophee().get(i).getCouleur().charAt(0))
-										trophee = JeuManuelle.getListeTrophee().get(i);
-										
-									System.out.println(trophee + "\t" + JeuManuelle.getListeTrophee().get(i).getCouleur().charAt(0) + "\t" + choixCouleur);
-									i++;
-								}
-									
-								JeuManuelle.acheterTrophee( JeuManuelle.getJoueur1(), trophee);
-
-								System.out.println("Transaction Effectue !");
-								JeuManuelle.supprimerTrophee(trophee);
-
-							}
-							else
-								System.out.println("Aucun Achat Effectue !");
-						}
-					}
-					dernierJoueur = j;
-				}
-			}
-			int tuilePleine = JeuManuelle.quelTuilePleine();
-			// on regarde quel joueur a gagne
-			Joueur joueur = JeuManuelle.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, tuilePleine);
-			// on distribue les cubes au gagnant et on supprime les cubes de la tuile
-			JeuManuelle.distribuerCube(joueur, tuilePleine);
-
-			// on met les cartes de la tuile fini dans la defausse
-			JeuManuelle.tuileVersDefausse(tuilePleine);
-			// on supprime les cube deja utilise
-			JeuManuelle.supprimerCubeDejaUtilise(tuilePleine);
-			JeuManuelle.inverserLaTuile(tuilePleine);
-			JeuManuelle.ajouterCube(tuilePleine);
-		}
+		if (joueur1.getTrophee() > joueur2.getTrophee())
+			return 0;
+		else if (joueur1.getTrophee() < joueur2.getTrophee())
+			return 0;
+		else
+			return dernierJoueur;
 	}
+	
 }       
