@@ -887,6 +887,8 @@ public class Jeu
 		int choixTuile = 0;
 		int choixBallon = 0;
 		int dernierJoueur = 0;
+		int ancienChoixTuile = 0;
+		Ballon ballonPose = null;
 		char choixCote = ' ';
 		char choixCouleur = ' ';
 		boolean fini = false;
@@ -901,7 +903,9 @@ public class Jeu
 				{
 					System.out.println("\n" + jeu.getPlateau().toString() + "\n");
 					System.out.println("Joueur : " + tabJoueur[j].getNomJoueur() + "\n");
-					System.out.println(tabJoueur[j] + "\n");
+					System.out.println(tabJoueur[j]);
+					if (ballonPose != null)
+						System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a joueur la carte " + ballonPose  + " sur la tuile " +  jeu.getPlateau().getTuile(ancienChoixTuile).getNom() + "\n");
 					
 					boolean pass = true;
 					boolean impossibleDeJouer = false;
@@ -942,6 +946,7 @@ public class Jeu
 					if (impossibleDeJouer)
 						continue;
 						
+					ballonPose = tabJoueur[j].getBallon(choixBallon);
 					// permet de ne plus "utilise" le cube de la couleur de la carte
 					jeu.ajouterCubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur());
 					// on place la carte choisi sur le jeu
@@ -992,6 +997,8 @@ public class Jeu
 						}
 					}
 					dernierJoueur = j;
+					
+					ancienChoixTuile = choixTuile;
 					if (tabJoueur[dernierJoueur].getTrophee() == 3)
 					{
 						fini = true;

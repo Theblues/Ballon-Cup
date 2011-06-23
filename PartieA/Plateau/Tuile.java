@@ -243,4 +243,9 @@ public class Tuile
 	
 	public ArrayList<Ballon>  getJeuGauche() { return JeuGauche ; }
 	public ArrayList<Ballon>  getJeuDroite() { return JeuDroite ; }
+	
+	public String getNom()
+	{
+		return paysage.getRecto() + " (" + attribut + ")";
+	}
 }
