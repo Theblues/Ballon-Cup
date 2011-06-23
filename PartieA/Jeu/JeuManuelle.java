@@ -846,16 +846,6 @@ public class JeuManuelle
 						fini = true;
 						break;
 					}
-					
-					try
-					{
-						System.out.println("test");
-						Process p=Runtime.getRuntime().exec("cls"); 
-					}
-					catch(Exception e) { e.printStackTrace(); } 
-
-}
-catch(Exception e) { e.printStackTrace(); } 
 				}
 				if (fini)
 					break;

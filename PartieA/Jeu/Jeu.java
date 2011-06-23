@@ -563,6 +563,16 @@ public class Jeu
 	
 	}
 	
+	public int quiAPlusDeTrophee(int dernierJoueur)
+	{
+		if (joueur1.getTrophee() > joueur2.getTrophee())
+			return 0;
+		else if (joueur1.getTrophee() < joueur2.getTrophee())
+			return 0;
+		else
+			return dernierJoueur;
+	}
+	
 	/************/
 	/*** MAIN ***/
 	/************/
@@ -623,6 +633,7 @@ public class Jeu
 		char choixCote = ' ';
 		char choixCouleur = ' ';
 		boolean fini = false;
+		boolean joueur1Bloquee = false, joueur2Bloquee = false;
 		
 		//Boucle de Jeu
 		while (jeu.getJoueur1().getTrophee() != 3 || jeu.getJoueur2().getTrophee() != 3)
@@ -645,6 +656,11 @@ public class Jeu
 						{
 							System.out.println("Vous ne pouvez pas jouer :( ");
 							impossibleDeJouer = true;
+							if (tabJoueur[j].equals(jeu.getJoueur1()))
+								joueur1Bloquee = true;
+							else
+								joueur2Bloquee = true;
+								
 							break;
 						}
 						choixBallon = jeu.choisirBallon();
@@ -658,6 +674,13 @@ public class Jeu
 						if (!jeu.verifcouleur(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
 							pass = false;		
 					} while (!pass);
+					
+					if (joueur1Bloquee && joueur2Bloquee)
+					{
+						fini = true;
+						dernierJoueur = jeu.quiAPlusDeTrophee(dernierJoueur);
+						break;
+					}
 					
 					if (impossibleDeJouer)
 						continue;
