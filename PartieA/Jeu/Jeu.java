@@ -168,6 +168,22 @@ public class Jeu
         initialiserPlateau();
         initialiserCubeSurTuile();
     }
+	
+	/*********************************/
+	/*** INITIALISATION DES LISTES ***/
+	/*********************************/
+    
+	/**
+	* Initialise la liste des trophées
+	*/
+	public void initialiserListeTrophee()
+	{
+		listeTrophee.add( new Trophee(3, Couleur.GRIS.getLibelle()));
+		listeTrophee.add( new Trophee(4, Couleur.BLEU.getLibelle()));
+		listeTrophee.add( new Trophee(5, Couleur.VERT.getLibelle()));
+		listeTrophee.add( new Trophee(6, Couleur.JAUNE.getLibelle()));
+		listeTrophee.add( new Trophee(7, Couleur.ROUGE.getLibelle()));
+	}
     
     /*********************************/
     /*** METHODES POUR INITIALISER ***/
@@ -214,13 +230,29 @@ public class Jeu
         }
     }
     
+	/************************/
+	/** METHODE AUXILIAIRE **/
+	/************************/
+	
 	/**
-	* Affiche les cartes du joueur
-	* @param joueur
+	* Retourne la couleur que l'on souhaite
+	* @param couleur
+	* @return la couleur que l'on souhaite
 	*/
-    public void afficherVosCartes(Joueur joueur)
+	public String retournerCouleur(char couleur)
     {
-        joueur.afficherMain();
+		if (couleur == 'R')
+			return "Rouge";
+		else if (couleur == 'J')
+			return "Jaune";
+		else if (couleur == 'V')
+			return "Vert";
+		else if (couleur == 'B')
+			return "Bleu";
+		else if (couleur == 'G')
+			return "Gris";
+    
+		return "Mauvaise couleur";
     }
     
 	/**
@@ -293,57 +325,6 @@ public class Jeu
 
 		return null;
 	}
-    
-    
-	/*********************************/
-	/*** INITIALISATION DES LISTES ***/
-	/*********************************/
-    
-	/**
-	* Initialise la liste des trophées
-	*/
-	public void initialiserListeTrophee()
-	{
-		listeTrophee.add( new Trophee(3, Couleur.GRIS.getLibelle()));
-		listeTrophee.add( new Trophee(4, Couleur.BLEU.getLibelle()));
-		listeTrophee.add( new Trophee(5, Couleur.VERT.getLibelle()));
-		listeTrophee.add( new Trophee(6, Couleur.JAUNE.getLibelle()));
-		listeTrophee.add( new Trophee(7, Couleur.ROUGE.getLibelle()));
-	}
-    
-	/***********/
-	/** AUTRE **/
-	/***********/
-    
-	/**
-	* Donne un Cube au joueur
-	* @param joueur
-	* @param choixTuile
-	*/
-	public void donnerCubeAuJoueur(Joueur joueur, int choixTuile)
-	{
-		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
-		{
-			joueur.ajouterCube(plateau.getTuile(choixTuile).getPaysage().getDernierElement());
-			plateau.getTuile(choixTuile).getPaysage().supprimerDernierElement();
-		}
-	}
-    
-	/**
-	* Retourne vrai si un joueur a assez de Cube pour Avoir un trophée
-	* @param couleur
-	* @param joueur
-	* @return true si un joueur a assez de Cube pour Avoir un trophée
-	*/
-	public boolean PeutAvoirUnTrophee(Joueur joueur,Couleur couleur)
-	{
-		for (Trophee t: listeTrophee)
-			if (t.getCouleur().equals(couleur.getLibelle()))
-				if (t.getNumero() == joueur.getNbCube(couleur))
-					return true;
-
-		return false;
-	}       
     
 	/**
 	* Donne un trophée au joueur, supprime les cubes qui ont servi a obtenir le trophée et les met dans le sac de cube
@@ -441,14 +422,10 @@ public class Jeu
 			cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
 			// si la couleur est egale a la couleur du cube
 			if (couleur.equals(cube.getCouleur()))
-			{
 				// si le cube est "deja" utilise
 				if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
 					return true;
-
-			}
 		}
-		
 		return false;
 	}
 	
@@ -471,7 +448,6 @@ public class Jeu
 		}
 		return false;
 	}
-	
 	
 	/**
 	* Verifie s'il est possible de de jouer sur un Tuile
@@ -499,7 +475,6 @@ public class Jeu
 	}
 	
 	/** 
-	*
 	* @param choixTuile
 	* @param choixCote
 	* @param couleur 
@@ -608,15 +583,6 @@ public class Jeu
 	}
 	
 	/**
-	* Change le paysage de la Tuile
-	*/
-	public void inverserTuile()
-	{
-		for (int i = 0; i < plateau.getTaille(); i++)
-			plateau.getTuile(i).getPaysage().inverserPaysage();
-	}
-	
-	/**
 	* Supprime un Cube déja utilisé
 	* @param choixTuile
 	*/
@@ -624,21 +590,6 @@ public class Jeu
 	{
 		plateau.getTuile(choixTuile).getPaysage().supprimerCubeDejaUtilise();
 	}
-	
-	/**
-	* Affiche les noms des joueurs et le plateau
-	*/
-    public String toString()
-    {
-		String s;
-	
-		//affichage plateau entier
-		s = "Joueur 1 : " + joueur1.getNomJoueur() +"\t" + "Joueur 2 : " + joueur2.getNomJoueur() +"\n\n";   
-		s += plateau.toString();
-		s += "\n";
-	
-		return s;
-    }
 	
 	/**
 	* Retourne vrai si une tuile du plateau est pleine
@@ -712,16 +663,13 @@ public class Jeu
 				cptB++;
 			if ( c.getCouleur().equals("Rouge") )
 				cptR++;
-
 		}
 		
 		if ( cptG >= 3 || cptB >= 4 || cptV >= 5 || cptJ >= 6 || cptR >= 7)
 			return true;
 			
-			
 		return false;
 	}
-	
 	
 	/**
 	* Determine la couleur du trophée que l'on peu prendre
@@ -749,7 +697,6 @@ public class Jeu
 				cptB++;
 			if ( b.getCouleur().equals("Rouge") )
 				cptR++;
-
 		}
 		
 		if ( cptG >= 3 )
@@ -804,11 +751,14 @@ public class Jeu
 			if ( t2.getCouleur().equals(t.getCouleur()) )
 				cpt=listeTrophee.indexOf(t2);
 			
-			
 		listeTrophee.remove(cpt);
-	
 	}
 	
+	/**
+	* Permet de savoir quel joueur a le plus de trophee
+	* @param dernierJoueur
+	* @return le numero du dernier joueur
+	*/
 	public int quiAPlusDeTrophee(int dernierJoueur)
 	{
 		if (joueur1.getTrophee() > joueur2.getTrophee())
@@ -818,6 +768,21 @@ public class Jeu
 		else
 			return dernierJoueur;
 	}
+	
+	/**
+	* Affiche les noms des joueurs et le plateau
+	*/
+    public String toString()
+    {
+		String s;
+	
+		//affichage plateau entier
+		s = "Joueur 1 : " + joueur1.getNomJoueur() +"\t" + "Joueur 2 : " + joueur2.getNomJoueur() +"\n\n";   
+		s += plateau.toString();
+		s += "\n";
+	
+		return s;
+    }
 	
 	/************/
 	/*** MAIN ***/
@@ -913,14 +878,18 @@ public class Jeu
 								
 							break;
 						}
+						// on choisit le ballon, la tuile et le cote
 						choixBallon = jeu.choisirBallon();
 						choixTuile = jeu.choisirTuile();
 						choixCote = jeu.choisirCote();
 						
+						// on verifie le cote n'est pas plein
 						if (jeu.cotePlein(choixTuile, choixCote))
 							pass = false;
+						// on verifie que la carte qu'on met du cote sur la tuile est pas deja sur la tuile
 						if (jeu.cubeUtilise(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
 							pass = false;
+						// on verifie que la carte que l'on veut mettre est de la bonne couleur
 						if (!jeu.verifcouleur(choixTuile, choixCote, tabJoueur[j].getBallon(choixBallon).getCouleur()))
 							pass = false;		
 					} while (!pass);
@@ -1014,6 +983,7 @@ public class Jeu
 					dernierJoueur = j;
 					
 					ancienChoixTuile = choixTuile;
+					// on arrete si le joueur a 3 trophee
 					if (tabJoueur[dernierJoueur].getTrophee() == 3)
 					{
 						fini = true;
@@ -1025,6 +995,7 @@ public class Jeu
 			}
 			if (fini)
 				break;
+                        // on regarde quel tuile est pleine
 			int tuilePleine = jeu.quelTuilePleine();
 			// on regarde quel joueur a gagne
 			Joueur joueur = jeu.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, tuilePleine);
@@ -1035,6 +1006,7 @@ public class Jeu
 			jeu.tuileVersDefausse(tuilePleine);
 			// on supprime les cube deja utilise
 			jeu.supprimerCubeDejaUtilise(tuilePleine);
+            // on inverse la tuile
 			jeu.inverserLaTuile(tuilePleine);
 			// on regarde si le sac contient assez de cube pour en remettre sur la tuile sinon on la supprime
 			if (jeu.getSac().getNbCube() >= jeu.getPlateau().getTuile(tuilePleine).getAttribut())
