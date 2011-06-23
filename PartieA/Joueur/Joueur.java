@@ -196,9 +196,7 @@ public class Joueur
 				ok++;
 				i--;
 			}
-			System.out.println(i + "\t" + cpt);
-
-		i++;
+			i++;
 		}
 	}
 	

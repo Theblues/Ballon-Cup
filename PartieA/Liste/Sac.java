@@ -58,21 +58,30 @@ public class Sac
 	*/
 	public void supprimerDernierElement()   {   sac.remove(sac.size()-1);   		}
 	
+	/**
+	* Retourne la taille du sac
+	* @return la taille du sac
+	*/
 	public int getNbCube()
 	{
 		return sac.size();
 	}
+	
 	/**
 	* Ajoute un Cube a la Liste Sac
 	* @param nbCube
 	* @param couleur
 	*/
-	public void ajouterElement(int nbCube, Couleur couleur)
+	public void ajouterElement(int nbCube, String couleur)
 	{
 		for ( int i = 0; i < nbCube; i++)
-			sac.add (new Cube(couleur.getLibelle()));
+			sac.add (new Cube(couleur));
 	}
 	
+	/**
+	* Supprime un cube de couleur specifique du sac
+	* @param couleur
+	*/
 	public void supprimerCube(String couleur)
 	{
 		for (int i = 0; i < sac.size(); i++)

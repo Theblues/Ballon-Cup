@@ -146,7 +146,7 @@ public class JeuManuelle
 	public ArrayList<Trophee> getListeTrophee()    {    return listeTrophee;    }
 			  
 	/**
-	* Initialise le Jeu : Initialise la pioche et la mélange, Mélange les cubes du Sac, Initialise la liste des Trophée,
+	* Initialise le JeuManuelle : Initialise la pioche et la mélange, Mélange les cubes du Sac, Initialise la liste des Trophée,
 	* Distribue les carte aux Joueur, initialise le Plateau et les Cube
 	*/
     public void initialiserJeu()
@@ -399,24 +399,24 @@ public class JeuManuelle
 	* @param couleur
 	* @return le numero du trophee en fonction de sa couleur
 	*/
-	public int getAttribut(Couleur couleur)
+	public int getAttribut(String couleur)
 	{
 		for (Trophee t: listeTrophee)
-			if (t.getCouleur().equals(couleur.getLibelle()))
+			if (t.getCouleur().equals(couleur))
 				return t.getNumero();
 
 		return 0;
 	} 
 
 	/**
-	* Retourne le Trophée choi en Fonction de sa couleur
+	* Retourne le Trophée choisi en Fonction de sa couleur
 	* @param couleur
-	* @return le Trophée choi en Fonction de sa couleur
+	* @return le Trophée choisi en Fonction de sa couleur
 	*/
-	public Trophee getTrophee(Couleur couleur)
+	public Trophee getTrophee(String couleur)
 	{
 		for (Trophee t: listeTrophee)
-			if (t.getCouleur().equals(couleur.getLibelle()))
+			if (t.getCouleur().equals(couleur))
 				return t;
 
 		return null;
@@ -478,10 +478,10 @@ public class JeuManuelle
 	* @param joueur
 	* @param couleur
 	*/
-	public void CubeEnTrophee(Joueur joueur, Couleur couleur)
+	public void CubeEnTrophee(Joueur joueur, String couleur)
 	{
 		joueur.ajouterTrophee(getTrophee(couleur));
-		joueur.supprimerCube(couleur.getLibelle());
+		joueur.supprimerCube(couleur);
 		sac.ajouterElement(getAttribut(couleur), couleur);
 	}
 	
@@ -534,7 +534,7 @@ public class JeuManuelle
 			Scanner sc = new Scanner(System.in);
 			choixTuile = sc.nextInt();
 			choixTuile--;
-		} while ( choixTuile > 4 || choixTuile < 0);
+		} while ( choixTuile > plateau.getTaille() || choixTuile < 0);
 		
 		return choixTuile;
 	}
@@ -843,7 +843,7 @@ public class JeuManuelle
 
 		}
 		
-		if ( cptG >= 3 || cptB >= 4 || cptB >= 4 || cptB >= 4 || cptB >= 4)
+		if ( cptG >= 3 || cptB >= 4 || cptV >= 5 || cptJ >= 6 || cptR >= 7)
 			return true;
 			
 			
@@ -918,17 +918,6 @@ public class JeuManuelle
 			return false;
 			
 		return true;
-	}
-	
-	/**
-	* Permet d'ajouter un trophee au joueur
-	* @param t
-	* @param j
-	*/
-	public void acheterTrophee( Joueur j, Trophee t  )
-	{
-		j.supprimerCube(t.getCouleur());
-		j.ajouterTrophee(t);
 	}
 	
 	/**
@@ -1033,7 +1022,7 @@ public class JeuManuelle
 					System.out.println("\n" + JeuManuelle.getPlateau().toString() + "\n");
 					System.out.println("Joueur : " + tabJoueur[j].getNomJoueur() + "\n");
 					System.out.println(tabJoueur[j]);
-					if (ballonPose != null)
+					if (ballonPose != null && ancienChoixTuile < JeuManuelle.getPlateau().getTaille())
 						System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a joueur la carte " + ballonPose  + " sur la tuile " +  JeuManuelle.getPlateau().getTuile(ancienChoixTuile).getNom() + "\n");
 					
 					boolean pass = true;
@@ -1092,10 +1081,11 @@ public class JeuManuelle
 					if (JeuManuelle.peutAcheterTrophee(tabJoueur[j]))
 					{
 						entree = new Scanner(System.in);
-						System.out.println(" Voulez-vous acheter un Trophee ? ");
-						boolean achete = entree.hasNextBoolean();
-						
-						if (achete)
+						System.out.println(" Voulez-vous acheter un Trophee ? (O/N) ");
+						str = entree.nextLine();
+						char achete = str.charAt(0);
+					
+						if (achete == 'O')
 						{
 							do
 							{
@@ -1103,7 +1093,7 @@ public class JeuManuelle
 								System.out.println(JeuManuelle.couleurDispo(tabJoueur[j]));
 								str = entree.nextLine();
 								choixCouleur = str.charAt(0);
-							} while (choixCouleur != 'P' || JeuManuelle.prendreCubeImpossible(tabJoueur[j], choixCouleur));
+							} while (choixCouleur != 'P' && JeuManuelle.prendreCubeImpossible(tabJoueur[j], choixCouleur));
 							
 							if ( choixCouleur != 'P' )
 							{	
@@ -1118,10 +1108,30 @@ public class JeuManuelle
 									i++;
 								}
 									
-								JeuManuelle.acheterTrophee( tabJoueur[j], trophee);
+								JeuManuelle.CubeEnTrophee( tabJoueur[j], trophee.getCouleur());
 
 								System.out.println("Transaction Effectue !");
 								JeuManuelle.supprimerTrophee(trophee);
+								
+								// on regarde si le plateau a toutes ces tuiles
+								if (JeuManuelle.getPlateau().getTaille() < 4)
+								{
+									int nbTuileEncoreLa = 4 - JeuManuelle.getPlateau().getTaille();
+									for (int l = 0; l < nbTuileEncoreLa; l++)
+									{
+										if (JeuManuelle.getSac().getNbCube() >= JeuManuelle.getPlateau().getPremiereTuileManquante().getAttribut())
+										{
+											// on recupere la tuile manquante
+											Tuile tuile = JeuManuelle.getPlateau().getPremiereTuileManquante();
+											// on l'ajoute a la bonne place du plateau
+											JeuManuelle.getPlateau().ajouterTuileManquanteSurPlateau(tuile, tuile.getAttribut());
+											// on la supprime de la liste des tuiles manquante
+											JeuManuelle.getPlateau().supprimerPremiereTuileManquante();
+											JeuManuelle.ajouterCube(tuile.getAttribut());
+											
+										}
+									}
+								}
 
 							}
 							else
@@ -1152,11 +1162,10 @@ public class JeuManuelle
 			JeuManuelle.tuileVersDefausse(tuilePleine);
 			// on supprime les cube deja utilise
 			JeuManuelle.supprimerCubeDejaUtilise(tuilePleine);
+			JeuManuelle.inverserLaTuile(tuilePleine);
+			// on regarde si le sac contient assez de cube pour en remettre sur la tuile sinon on la supprime
 			if (JeuManuelle.getSac().getNbCube() >= JeuManuelle.getPlateau().getTuile(tuilePleine).getAttribut())
-			{
-				JeuManuelle.inverserLaTuile(tuilePleine);
 				JeuManuelle.ajouterCube(tuilePleine);
-			}
 			else
 				JeuManuelle.getPlateau().supprimerTuile(tuilePleine);
 		}
