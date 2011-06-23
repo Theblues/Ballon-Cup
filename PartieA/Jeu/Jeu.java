@@ -693,7 +693,7 @@ public class Jeu
 									i++;
 								}
 									
-								jeu.acheterTrophee( jeu.getJoueur1(), trophee);
+								jeu.acheterTrophee( tabJoueur[j], trophee);
 
 								System.out.println("Transaction Effectue !");
 								jeu.supprimerTrophee(trophee);
