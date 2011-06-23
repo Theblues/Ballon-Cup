@@ -530,7 +530,7 @@ public class Jeu
 	{
 		int cpt = 0;
 		for (Cube b : joueur.getListeCube())
-			if ( b.getCouleur().equals(choixCouleur))
+			if (choixCouleur ==  b.getCouleur().charAt(0))
 				cpt++;
 	
 		int attribut = 0;
@@ -569,20 +569,22 @@ public class Jeu
     
 	public static void main (String[] args)
 	{
+		String nom1, nom2;
+		Scanner entree;
 		//Initialisation des Joueurs
 		do
 		{
-			Scanner entree = new Scanner(System.in);
+			entree = new Scanner(System.in);
 			System.out.print("Veuillez entrer le nom du joueur 1 : ");
-			String nom1 = entree.nextLine();
-		} while (nom1.charAt(0) == ' ' || nom1 = null);
+			nom1 = entree.nextLine();
+		} while (nom1.charAt(0) == ' ');
 		
 		do
 		{	
 			entree = new Scanner(System.in);
 			System.out.print("Veuillez entrer le nom du joueur 2 : ");
-			String nom2 = entree.nextLine();
-		} while (nom2.charAt(0) == ' ' || nom2 = null);
+			nom2 = entree.nextLine();
+		} while (nom2.charAt(0) == ' ');
 		
 		System.out.println();
 		// initialisation des couleurs
@@ -716,6 +718,7 @@ public class Jeu
 						break;
 					}
 				}
+				
 				if (fini)
 					break;
 			}

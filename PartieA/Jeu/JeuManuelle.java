@@ -83,9 +83,9 @@ public class JeuManuelle
 		String ligne4 = "";
 		String ligne5 = "";
 		
-		Scanner entree;
 		char supprimerPioche, supprimerSac;
 		String str;
+		Scanner entree;
 		
 		do
 		{	
@@ -474,14 +474,14 @@ public class JeuManuelle
 		// On regarde quel cote a gagne
 		if (compteDroit > compteGauche)
 		{	
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'G';
 			else
 				cote = 'D';
 		}
 		else if (compteDroit < compteGauche)
 		{
-			if (plateau.getTuile(choixTuile).getPaysage().getVerso() == "plaine")
+			if (plateau.getTuile(choixTuile).getPaysage().getRecto().equals("Plaine"))
 				cote = 'D';
 			else
 				cote = 'G';
@@ -698,13 +698,21 @@ public class JeuManuelle
 	public static void main (String[] args)
 	{
 		//Initialisation des Joueurs
-		Scanner entree = new Scanner(System.in);
-		System.out.print("Veuillez entrer le nom du joueur 1 : ");
-		String nom1 = entree.nextLine();
+		Scanner entree;
+		String nom1, nom2;
+		do
+		{
+			entree = new Scanner(System.in);
+			System.out.print("Veuillez entrer le nom du joueur 1 : ");
+			nom1 = entree.nextLine();
+		} while (nom1.charAt(0) == ' ');
 		
-		entree = new Scanner(System.in);
-		System.out.print("Veuillez entrer le nom du joueur 2 : ");
-		String nom2 = entree.nextLine();
+		do
+		{	
+			entree = new Scanner(System.in);
+			System.out.print("Veuillez entrer le nom du joueur 2 : ");
+			nom2 = entree.nextLine();
+		} while (nom2.charAt(0) == ' ');
 		
 		System.out.println();
 		// initialisation des couleurs
@@ -743,6 +751,7 @@ public class JeuManuelle
 		int dernierJoueur = 0;
 		char choixCote = ' ';
 		char choixCouleur = ' ';
+		boolean fini = false;
 		
 		//Boucle de JeuManuelle
 		while (JeuManuelle.getJoueur1().getTrophee() != 3 || JeuManuelle.getJoueur2().getTrophee() != 3)
@@ -792,19 +801,13 @@ public class JeuManuelle
 					// lorsque le joueur joue il pioche une carte
 					JeuManuelle.piocher(tabJoueur[j]);
 					
-					System.out.println(JeuManuelle.peutAcheterTrophee(tabJoueur[j]));
 					if (JeuManuelle.peutAcheterTrophee(tabJoueur[j]))
 					{
-						char achete = ' ';
-						do
-						{
-							entree = new Scanner(System.in);
-							System.out.println(" Voulez-vous acheter un Trophee ? (O/N) ");
-							str = entree.nextLine();
-							achete = str.charAt(0);
-						} while (achete != 'O' && achete != 'N');
+						entree = new Scanner(System.in);
+						System.out.println(" Voulez-vous acheter un Trophee ? ");
+						boolean achete = entree.hasNextBoolean();
 						
-						if (achete == 'O')
+						if (achete)
 						{
 							do
 							{
@@ -812,7 +815,7 @@ public class JeuManuelle
 								System.out.println(JeuManuelle.couleurDispo(tabJoueur[j]));
 								str = entree.nextLine();
 								choixCouleur = str.charAt(0);
-							} while (choixCouleur != 'P' && JeuManuelle.prendreCubeImpossible(tabJoueur[j], choixCouleur));
+							} while (choixCouleur != 'P' || JeuManuelle.prendreCubeImpossible(tabJoueur[j], choixCouleur));
 							
 							if ( choixCouleur != 'P' )
 							{	
@@ -821,15 +824,13 @@ public class JeuManuelle
 								int i = 0;
 								for (Trophee t: JeuManuelle.getListeTrophee())
 								{
-									
 									if (choixCouleur == JeuManuelle.getListeTrophee().get(i).getCouleur().charAt(0))
 										trophee = JeuManuelle.getListeTrophee().get(i);
-										
-									System.out.println(trophee + "\t" + JeuManuelle.getListeTrophee().get(i).getCouleur().charAt(0) + "\t" + choixCouleur);
+									
 									i++;
 								}
 									
-								JeuManuelle.acheterTrophee( JeuManuelle.getJoueur1(), trophee);
+								JeuManuelle.acheterTrophee( tabJoueur[j], trophee);
 
 								System.out.println("Transaction Effectue !");
 								JeuManuelle.supprimerTrophee(trophee);
@@ -840,8 +841,27 @@ public class JeuManuelle
 						}
 					}
 					dernierJoueur = j;
+					if (tabJoueur[dernierJoueur].getTrophee() == 3)
+					{
+						fini = true;
+						break;
+					}
+					
+					try
+					{
+						System.out.println("test");
+						Process p=Runtime.getRuntime().exec("cls"); 
+					}
+					catch(Exception e) { e.printStackTrace(); } 
+
+}
+catch(Exception e) { e.printStackTrace(); } 
 				}
+				if (fini)
+					break;
 			}
+			if (fini)
+				break;
 			int tuilePleine = JeuManuelle.quelTuilePleine();
 			// on regarde quel joueur a gagne
 			Joueur joueur = JeuManuelle.quiAGagne(tabJoueur[dernierJoueur], coteJoueur, tuilePleine);
@@ -855,5 +875,6 @@ public class JeuManuelle
 			JeuManuelle.inverserLaTuile(tuilePleine);
 			JeuManuelle.ajouterCube(tuilePleine);
 		}
+		System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a gagné");
 	}
 }       
