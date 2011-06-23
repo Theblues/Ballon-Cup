@@ -3,6 +3,7 @@ package Projet.JeuManuelle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import org.fusesource.jansi.*;
 
 import Projet.Liste.*;
@@ -71,21 +72,145 @@ public class JeuManuelle
         // initialisation du sac
         sac.initialiserSac(tabBallon);
         sac.melangerSac();
-		
-		for ( int i=1; i < 6 ; i++ )
-			joueur1.ajouterCube(new Cube("Gris"));
         
         // initialisation de la liste des trophées
         initialiserListeTrophee();
         
         // donne des cartes au joueurs
-        donnerCarteAuxJoueurs();	  
-	       
+		String ligne1 = "";
+		String ligne2 = "";
+		String ligne3 = "";
+		String ligne4 = "";
+		String ligne5 = "";
+		
+		Scanner entree;
+		char supprimerPioche, supprimerSac;
+		String str;
+		
+		do
+		{	
+			entree = new Scanner(System.in);
+			System.out.println("Voulez-vous supprimer les cartes de la pioche ? (O/N) ");
+			str = entree.nextLine();
+			supprimerPioche = str.charAt(0);
+		} while (supprimerPioche != 'O' && supprimerPioche != 'N');
+		
+		do
+		{	
+			entree = new Scanner(System.in);
+			System.out.println("Voulez-vous supprimer les cubes du sac ? (O/N) ");
+			str = entree.nextLine();
+			supprimerSac = str.charAt(0);
+		} while (supprimerSac != 'O' && supprimerSac != 'N');
+		
+        try
+		{
+			BufferedReader br = new BufferedReader(new FileReader("carte.txt"));
+			if(br.ready())
+				ligne1 = br.readLine();
+			if(br.ready())
+				ligne2 = br.readLine();
+			if(br.ready())
+				ligne3 = br.readLine();
+			if(br.ready())
+				ligne4 = br.readLine();
+			if(br.ready())
+				ligne5 = br.readLine();
+				
+			br.close();
+
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		StringTokenizer st1 = new StringTokenizer(ligne1, "-");
+		StringTokenizer st2 = new StringTokenizer(ligne2, "-");
+		StringTokenizer st3 = new StringTokenizer(ligne3, "-");
+		StringTokenizer st4 = new StringTokenizer(ligne4, "-");
+		StringTokenizer st5 = new StringTokenizer(ligne5, "-");
+
+		String carte;
+		Scanner numsc;
+		int num;
+		String couleur;
+		// on ajoute les cartes Ballon au joueur1 : ligne1 de carte.txt
+		while(st1.hasMoreTokens())
+		{
+			carte = st1.nextToken();
+			numsc = new Scanner(carte.substring(1));
+			num = numsc.nextInt();
+			couleur = retournerCouleur(carte.charAt(0));
+			
+			joueur1.distribuerCarte(new Ballon(num, couleur));
+			if (supprimerPioche == 'O')
+				pioche.supprimerCarte(num, couleur);
+		}
+		// on ajoute les cartes Ballon au joueur2 : ligne2 de carte.txt
+		while(st2.hasMoreTokens())
+		{
+			carte = st2.nextToken();
+			numsc = new Scanner(carte.substring(1));
+			num = numsc.nextInt();
+			couleur = retournerCouleur(carte.charAt(0));
+			joueur2.distribuerCarte(new Ballon(num ,couleur));
+			if (supprimerPioche == 'O')
+				pioche.supprimerCarte(num, couleur);
+		}
+		// on ajoute les cubes au joueur1 : ligne3 de carte.txt
+		String cube;
+		while (st3.hasMoreTokens())
+		{
+			cube = st3.nextToken();
+			couleur = retournerCouleur(cube.charAt(0));
+			joueur1.ajouterCube(new Cube(couleur));
+			if (supprimerSac == 'O')
+				sac.supprimerCube(couleur);
+		}
+		// on ajoute les cubes au joueur2 : ligne4 de carte.txt
+		while (st4.hasMoreTokens())
+		{
+			cube = st4.nextToken();
+			couleur = retournerCouleur(cube.charAt(0));
+			joueur2.ajouterCube(new Cube(couleur));
+			if (supprimerSac == 'O')
+				sac.supprimerCube(couleur);
+		}
+		
         // on initialise le plateau
         initialiserPlateau();
-        initialiserCubeSurTuile();
+		// initialiserCubeSurTuile();
+		int i = 0;
+		while (st5.hasMoreTokens())
+		{
+			cube = st5.nextToken();
+			for (int j = 0; j < cube.length(); j++)
+			{
+				couleur = retournerCouleur(cube.charAt(j));
+				plateau.getTuile(i).ajouterCubeSurPaysage(new Cube(couleur));
+				if (supprimerSac == 'O')
+					sac.supprimerCube(couleur);
+			}
+			i++;
+		}		
     }
+	
+	public String retournerCouleur(char couleur)
+	{
+		if (couleur == 'R')
+			return "Rouge";
+		else if (couleur == 'J')
+			return "Jaune";
+		else if (couleur == 'V')
+			return "Vert";
+		else if (couleur == 'B')
+			return "Bleu";
+		else if (couleur == 'G')
+			return "Gris";
     
+		return "Mauvaise couleur";
+	}
     /*********************************/
     /*** METHODES POUR INITIALISER ***/
     /*********************************/

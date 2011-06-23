@@ -73,4 +73,17 @@ public class Pioche
 	* @param ballon
 	*/
     public void ajouterElement(Ballon ballon)   {   pioche.add(ballon);    }
+	
+	public void supprimerCarte(int numero, String couleur)
+	{
+		for (int i = 0; i < pioche.size(); i++)
+		{
+			if (pioche.get(i).getCouleur().equals(couleur) && pioche.get(i).getNumero() == numero)
+			{
+				pioche.remove(i);
+				break;
+			}
+		}
+	}
+			
 }

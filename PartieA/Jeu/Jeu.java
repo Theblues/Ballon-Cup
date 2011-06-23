@@ -570,13 +570,19 @@ public class Jeu
 	public static void main (String[] args)
 	{
 		//Initialisation des Joueurs
-		Scanner entree = new Scanner(System.in);
-		System.out.print("Veuillez entrer le nom du joueur 1 : ");
-		String nom1 = entree.nextLine();
+		do
+		{
+			Scanner entree = new Scanner(System.in);
+			System.out.print("Veuillez entrer le nom du joueur 1 : ");
+			String nom1 = entree.nextLine();
+		} while (nom1.charAt(0) == ' ' || nom1 = null);
 		
-		entree = new Scanner(System.in);
-		System.out.print("Veuillez entrer le nom du joueur 2 : ");
-		String nom2 = entree.nextLine();
+		do
+		{	
+			entree = new Scanner(System.in);
+			System.out.print("Veuillez entrer le nom du joueur 2 : ");
+			String nom2 = entree.nextLine();
+		} while (nom2.charAt(0) == ' ' || nom2 = null);
 		
 		System.out.println();
 		// initialisation des couleurs

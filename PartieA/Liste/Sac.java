@@ -69,4 +69,16 @@ public class Sac
 		for ( int i = 0; i < nbCube; i++)
 			sac.add (new Cube(couleur.getLibelle()));
 	}
+	
+	public void supprimerCube(String couleur)
+	{
+		for (int i = 0; i < sac.size(); i++)
+		{
+			if (sac.get(i).getCouleur().equals(couleur))
+			{
+				sac.remove(i);
+				break;
+			}
+		}
+	}
 }
