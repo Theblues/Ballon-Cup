@@ -20,19 +20,61 @@ public class Jeu
     /***** ATTRIBUTS *****/
     /*********************/
     
-    // Les cartes Trophées
+	/**
+	* Liste d Trophée 
+	* @see Trophee
+	*/
     private ArrayList<Trophee> listeTrophee = new ArrayList<Trophee>();
 
+	/**
+	* Initialisation de Pioche
+	* @see Pioche
+	*/
     private Pioche pioche       = new Pioche();
+	
+	/**
+	* Initialisation de Defausse
+	* @see defause
+	*/
     private Defausse defausse   = new Defausse();
+	
+	/**
+	* Initialisation de Sac
+	* @see Defausse
+	*/
     private Sac sac             = new Sac();
+	
+	/**
+	* Initialisation de Plateau
+	* @see Plateau
+	*/
     private Plateau plateau     = new Plateau();
+	
+	/**
+	* Initialisation d'un Joueur
+	* @see Joueur
+	*/
 	private Joueur joueur1;
+	
+	/**
+	* Initialisation d'un Joueur
+	* @see Joueur
+	*/
     private Joueur joueur2;
     
+	/**
+	* Nombre Total de Tuile
+	*/
     public final int NB_TUILE = 4;
+	
+	/**
+	* Nombre total de Carte par Joueur
+	*/
     public final int NB_CARTE_PAR_JOUEUR = 8;
     
+	/**
+	* Tableau des valeaurs des cartes en fonctionde leur couleur
+	*/
     private int[][] tabBallon = {   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },         // rouge
                                     { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1 },         // jaune
                                     { 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1 },         // vert
@@ -44,6 +86,12 @@ public class Jeu
 	/*** CONSTRUCTEUR ***/
 	/********************/
 	
+	
+	/**
+	* Constructeur des Joueurs
+	* @param nom1
+	* @param nom2
+	*/ 
 	public Jeu( String nom1, String nom2 )	
 	{
 		joueur1= new Joueur(nom1);
@@ -54,14 +102,52 @@ public class Jeu
 	/*** ACCESSEUR ***/
 	/*****************/
 	
+	/**
+	* Retourne les attributs du joueur
+	* @return le joueur
+	*/
 	public Joueur getJoueur1() 		{	return joueur1; 	}
+	
+	/**
+	* Retourne les attributs du joueur
+	* @return le joueur
+	*/
 	public Joueur getJoueur2() 		{	return joueur2; 	}
+	
+	/**
+	* Retourne le contenu du plateau
+	* @return le contenu du plateau
+	*/
 	public Plateau getPlateau()		{	return plateau;		}
+	
+	/**
+	* Retourne le contenu de la Pioche 
+	* @return le contenu de la Pioche
+	*/
 	public Pioche getPioche()		{	return pioche;		}
+	
+	/**
+	* Retourne le contenu de la Defausse
+	* @return le contenu de la defausse
+	*/
 	public Defausse getDefausse()	{	return defausse;	}
+	
+	/**
+	* Retourne le contenu du Sac
+	* @return le contenu du Sac
+	*/
 	public Sac getSac()				{	return sac;			}
+	
+	/**
+	* retourn la liste de trophée
+	* @return la liste de trophée
+	*/
 	public ArrayList<Trophee> getListeTrophee()    {    return listeTrophee;    }
 			  
+	/**
+	* Initialise le Jeu : Initialise la pioche et la mélange, Mélange les cubes du Sac, Initialise la liste des Trophée,
+	* Distribue les carte aux Joueur, initialise le Plateau et les Cube
+	*/
     public void initialiserJeu()
     {
         // initialisation de la pioche
@@ -87,6 +173,9 @@ public class Jeu
     /*** METHODES POUR INITIALISER ***/
     /*********************************/
     
+	/** 
+	* Distribue aux Joueurs le nombre de carte par joueur déterminé
+	*/
     public void donnerCarteAuxJoueurs()
     {
         for (int i = 0; i < NB_CARTE_PAR_JOUEUR; i++)
@@ -96,6 +185,9 @@ public class Jeu
         }
     }
     
+	/**
+	* initialise le Plateau en fonction du nombre de Tuile determiné et ajoute un paysage a la Tuile 
+	*/
     public void initialiserPlateau()
     {
         for (int i = 0; i < NB_TUILE; i++)
@@ -107,6 +199,9 @@ public class Jeu
         }
     }
     
+	/**
+	* Initialise le nombre de Cube sur une Tuile fonction de sa	position sur le plateau
+	*/
     public void initialiserCubeSurTuile()
     {
         for (int i = 0; i < NB_TUILE; i++)
@@ -119,11 +214,18 @@ public class Jeu
         }
     }
     
+	/**
+	* Affiche les cartes du joueur
+	* @param joueur
+	*/
     public void afficherVosCartes(Joueur joueur)
     {
         joueur.afficherMain();
     }
     
+	/**
+	* Met les cartes utilisées dans la pioche puis la mélmange
+	*/
     public void DefausseVersPioche()
     {       
         ArrayList<Ballon> inter = new ArrayList<Ballon> (defausse.getDefausse());
@@ -133,6 +235,12 @@ public class Jeu
 		pioche.melangerPioche();    
     }
     
+	/**
+	* Retourne vrai si on peut déposé une carte a coté de la Tuile
+	* @param choixTuile
+	* @param cote
+	* @return true si on peut déposé une carte a coté de la Tuile
+	*/
 	public boolean PeutMettreUneCarte(char cote, int choixTuile)
 	{
 		if (plateau.getTuile(choixTuile).getElementJeu(cote) == plateau.getTuile(choixTuile).getAttribut())
@@ -141,6 +249,13 @@ public class Jeu
 		return true;
 	}
     
+	/**
+	* Si on peut mettre une carte sur une Tuile alors on la met a l'endroit choisi
+	* @param choixTuile
+	* @param cote
+	* @param choixBallon
+	* @param joueur
+	*/
 	public void carteVersTuile(Joueur joueur, int choixBallon, char cote, int choixTuile)
 	{
 		if (PeutMettreUneCarte(cote, choixTuile))
@@ -150,6 +265,12 @@ public class Jeu
 		}
 	}
 	
+	
+	/**
+	* Retourne le numero du trophee en fonction de sa couleur
+	* @param couleur
+	* @return le numero du trophee en fonction de sa couleur
+	*/
 	public int getAttribut(Couleur couleur)
 	{
 		for (Trophee t: listeTrophee)
@@ -159,6 +280,11 @@ public class Jeu
 		return 0;
 	} 
 
+	/**
+	* Retourne le Trophée choi en Fonction de sa couleur
+	* @param couleur
+	* @return le Trophée choi en Fonction de sa couleur
+	*/
 	public Trophee getTrophee(Couleur couleur)
 	{
 		for (Trophee t: listeTrophee)
@@ -173,6 +299,9 @@ public class Jeu
 	/*** INITIALISATION DES LISTES ***/
 	/*********************************/
     
+	/**
+	* Initialise la liste des trophées
+	*/
 	public void initialiserListeTrophee()
 	{
 		listeTrophee.add( new Trophee(3, Couleur.GRIS.getLibelle()));
@@ -186,6 +315,11 @@ public class Jeu
 	/** AUTRE **/
 	/***********/
     
+	/**
+	* Donne un Cube au joueur
+	* @param joueur
+	* @param choixTuile
+	*/
 	public void donnerCubeAuJoueur(Joueur joueur, int choixTuile)
 	{
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
@@ -195,6 +329,12 @@ public class Jeu
 		}
 	}
     
+	/**
+	* Retourne vrai si un joueur a assez de Cube pour Avoir un trophée
+	* @param couleur
+	* @param joueur
+	* @return true si un joueur a assez de Cube pour Avoir un trophée
+	*/
 	public boolean PeutAvoirUnTrophee(Joueur joueur,Couleur couleur)
 	{
 		for (Trophee t: listeTrophee)
@@ -205,6 +345,11 @@ public class Jeu
 		return false;
 	}       
     
+	/**
+	* Donne un trophée au joueur, supprime les cubes qui ont servi a obtenir le trophée et les met dans le sac de cube
+	* @param joueur
+	* @param couleur
+	*/
 	public void CubeEnTrophee(Joueur joueur, Couleur couleur)
 	{
 		joueur.ajouterTrophee(getTrophee(couleur));
@@ -212,6 +357,10 @@ public class Jeu
 		sac.ajouterElement(getAttribut(couleur), couleur);
 	}
 	
+	/**
+	* Permet de choisir le Ballon que l'on veut poser sur la Tuile
+	* @return la valeur du Ballon 
+	*/
 	public int choisirBallon()
 	{
 		int choixBallon = 0;
@@ -226,6 +375,10 @@ public class Jeu
 		return choixBallon;
 	}
 	
+	/** 
+	* Permet au joueur de choisir de quel cote il veut poser se carte
+	* @return le caractère qui correspond au coté choisi
+	*/
 	public char choisirCote()
 	{
 		char choixCote = ' ';
@@ -240,6 +393,10 @@ public class Jeu
 		return choixCote;
 	}
 	
+	/**
+	* Permet au joueur de choisir sur quelle Tuile il veut joueur
+	* @return l'indice de la Tuile choisie
+	*/
 	public int choisirTuile()
 	{
 		int choixTuile = 0;
@@ -254,6 +411,12 @@ public class Jeu
 		return choixTuile;
 	}
 	
+	/**
+	* Permet de déterminer si un si le cote choisi sur la Tuile choisi est plein
+	* @param choixCote
+	* @param choixTuile
+	* @return true si je coté est plein
+	*/
 	public boolean cotePlein(int choixTuile, char choixCote)
 	{
 		if (plateau.getTuile(choixTuile).estPleine(choixCote))
@@ -262,6 +425,13 @@ public class Jeu
 		return false;
 	}
 	
+	/**
+	* Retourne vrai si le cube est déja utilisé
+	* @param couleur
+	* @param choixCote
+	* @param choixTuile
+	* @return returne true si le cube est déja utilisé
+	*/
 	public boolean cubeUtilise(int choixTuile, char choixCote, String couleur)
 	{
 		Cube cube = null;
@@ -274,16 +444,21 @@ public class Jeu
 			{
 				// si le cube est "deja" utilise
 				if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
-				{
-					System.out.println(choixCote + "\t test");
 					return true;
-				}
+
 			}
 		}
 		
 		return false;
 	}
 	
+	/**
+	* Verifie si la carte que l'on veut posée corespond a la couleur d'un cube sur une Tuile
+	* @param choixTuile
+	* @param choixCote
+	* @param couleur 
+	* @return true si la carte que l'on veut posée corespond a la couleur d'un cube sur une Tuile
+	*/
 	public boolean verifcouleur(int choixTuile, char choixCote, String couleur)
 	{
 		Cube cube = null;
@@ -297,6 +472,12 @@ public class Jeu
 		return false;
 	}
 	
+	
+	/**
+	* Verifie s'il est possible de de jouer sur un Tuile
+	* @param joueur
+	* @return true s'il est impossible de jouer
+	*/
 	public boolean impossibleDeJoueur(Joueur joueur)
 	{
 		Cube cube = null;
@@ -317,6 +498,12 @@ public class Jeu
 		return true;
 	}
 	
+	/** 
+	*
+	* @param choixTuile
+	* @param choixCote
+	* @param couleur 
+	*/
 	public void ajouterCubeUtilise(int choixTuile, char choixCote, String couleur)
 	{
 		Cube cube = null;
@@ -331,11 +518,22 @@ public class Jeu
 		}
 	}
 	
+	/**
+	* Permet d'ajouter une Carte dans la main d'un joueur
+	* @param joueur
+	*/
 	public void piocher(Joueur joueur)
 	{
 		pioche.distribuerCarte(joueur);
 	}
 	
+	/**
+	* Retourne le joueur qui a gagné 
+	* @param choixTuile
+	* @param coteJoueur
+	* @param dernierJoueur
+	* @return le joueur qui a gagné
+	*/
 	public Joueur quiAGagne(Joueur dernierJoueur, char[][] coteJoueur, int choixTuile)
 	{
 		// on compte les points des points
@@ -377,6 +575,11 @@ public class Jeu
 		return null;
 	}
 	
+	/**
+	* Distribue les cubes au joueur par rapport a la Tuile
+	* @param choixTuile
+	* @param joueur
+	*/
 	public void distribuerCube(Joueur joueur, int choixTuile)
 	{
 		for(int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
@@ -388,6 +591,10 @@ public class Jeu
 		plateau.getTuile(choixTuile).getPaysage().supprimerTousLesElements();
     }
 	
+	/**
+	*
+	* @param choixTuile
+	*/
 	public void tuileVersDefausse(int choixTuile)
 	{
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
@@ -400,18 +607,27 @@ public class Jeu
 		plateau.getTuile(choixTuile).supprimerToutesLesCartes();
 	}
 	
+	/**
+	* Change le paysage de la Tuile
+	*/
 	public void inverserTuile()
 	{
 		for (int i = 0; i < NB_TUILE; i++)
 			plateau.getTuile(i).getPaysage().inverserPaysage();
 	}
 	
+	/**
+	* Supprime un Cube déja utilisé
+	* @param choixTuile
+	*/
 	public void supprimerCubeDejaUtilise(int choixTuile)
 	{
 		plateau.getTuile(choixTuile).getPaysage().supprimerCubeDejaUtilise();
 	}
 	
-	
+	/**
+	* Affiche les noms des joueurs et le plateau
+	*/
     public String toString()
     {
 		String s;
@@ -424,6 +640,10 @@ public class Jeu
 		return s;
     }
 	
+	/**
+	* Retourne vrai si une tuile du plateau est pleine
+	* @return true  si une tuile du plateau est pleine
+	*/
 	public boolean AUneTuilePleine()
 	{
 		for (int i = 0; i < NB_TUILE; i++)
@@ -432,6 +652,11 @@ public class Jeu
 				
 		return false;
 	}
+	
+	/**
+	* Retourne le numéro de la Tuile pleine
+	* @return le numéro de la Tuile pleine
+	*/
 	public int quelTuilePleine()
 	{
 		for (int i = 0; i < NB_TUILE; i++)
@@ -441,11 +666,19 @@ public class Jeu
 		return -1;
 	}
 	
+	/**
+	* Change le paysage d ela Tuile
+	* @param choixTuile
+	*/
 	public void inverserLaTuile(int choixTuile)
 	{
 		plateau.getTuile(choixTuile).getPaysage().inverserPaysage();
 	}
 	
+	/**
+	* Ajoute un Cube sur une Tuile 
+	* @param choixTuile
+	*/
 	public void ajouterCube(int choixTuile)
 	{
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
@@ -455,6 +688,10 @@ public class Jeu
 		}
 	}
 	
+	/**
+	* Dertemine si un joeur peut acheter un trophée
+	* @param joueur
+	*/
 	public boolean peutAcheterTrophee(Joueur joueur)
 	{
 		int cptG=0;
@@ -485,6 +722,11 @@ public class Jeu
 		return false;
 	}
 	
+	
+	/**
+	* Determine la couleur du trophée que l'on peu prendre
+	* @param j
+	*/
 	public String couleurDispo( Joueur j )
 	{
 		String s ="Achat de Trophees.\nAchat Possibles :  ";
@@ -526,6 +768,12 @@ public class Jeu
 		return s;
 	}
 	
+	/**
+	* Determine si on peut prendre un Trophee
+	* @param choixCouleur
+	* @param joueur
+	* @return true si on ne peut pas prendre une trophée
+	*/
 	public boolean prendreCubeImpossible(Joueur joueur, char choixCouleur)
 	{
 		int cpt = 0;
@@ -544,12 +792,21 @@ public class Jeu
 		return true;
 	}
 	
+	/**
+	* Permet d'ajouter un trophee au joueur
+	* @param t
+	* @param j
+	*/
 	public void acheterTrophee( Joueur j, Trophee t  )
 	{
 		j.supprimerCube(t.getCouleur());
 		j.ajouterTrophee(t);
 	}
 	
+	/**
+	* Supprime un Trophee de la liste des trophées
+	* @param t
+	*/
 	public void supprimerTrophee( Trophee t )
 	{
 		int cpt =0;
@@ -741,7 +998,6 @@ public class Jeu
 						break;
 					}
 				}
-				
 				if (fini)
 					break;
 			}
@@ -757,8 +1013,13 @@ public class Jeu
 			jeu.tuileVersDefausse(tuilePleine);
 			// on supprime les cube deja utilise
 			jeu.supprimerCubeDejaUtilise(tuilePleine);
-			jeu.inverserLaTuile(tuilePleine);
-			jeu.ajouterCube(tuilePleine);
+			if (jeu.getSac().getNbCube() >= jeu.getPlateau().getTuile(tuilePleine).getAttribut())
+			{
+				jeu.inverserLaTuile(tuilePleine);
+				jeu.ajouterCube(tuilePleine);
+			}
+			else
+				jeu.getPlateau().supprimerTuile(tuilePleine);
 		}
 		System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a gagné");
 	}

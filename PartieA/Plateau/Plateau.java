@@ -8,15 +8,37 @@ public class Plateau
     /***** ATTRIBUTS *****/
     /*********************/
 	
+	/**
+	* Liste de Tuile 
+	*/
     private ArrayList<Tuile> plateau 		= new ArrayList<Tuile>();
+	
+	/**
+	* Position de la Tuile
+	*/
     private int choix;
     
     /****************/
 	/** ACCESSEURS **/
 	/****************/
     
+	/**
+	* Permet de choisir une Tuile
+	* @param choix
+	*/
 	public void choixTuile(int choix)   	{	this.choix = choix;         }
+	
+	/**
+	* Retourne une Tuile a l'indice choisi
+	* @param choix
+	* @return une Tuile a l'indice choisi
+	*/
 	public Tuile getTuile(int choix)     	{   return plateau.get(choix);  }
+	
+	/**
+	* Retourne la liste de Tuile sur le Plateau
+	* @return la liste de Tuile sur le Plateau
+	*/
 	public ArrayList<Tuile> getPlateau()	{	return plateau; 			}
 	
 	/********************/
@@ -25,8 +47,15 @@ public class Plateau
 	
 	/**
 	* Ajoute une Tuile au Plateau
+	* @param tuile
 	*/ 
     public void ajouterTuile(Tuile tuile)	{	plateau.add (tuile);	}
+	
+	public void supprimerTuile(int numTuile)
+	{
+		plateau.remove(numTuile);
+	}
+				
 
 	/**
 	* Affiche le Plateau et les Cube sur le plateau 

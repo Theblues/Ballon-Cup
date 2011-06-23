@@ -58,7 +58,10 @@ public class Sac
 	*/
 	public void supprimerDernierElement()   {   sac.remove(sac.size()-1);   		}
 	
-	
+	public int getNbCube()
+	{
+		return sac.size();
+	}
 	/**
 	* Ajoute un Cube a la Liste Sac
 	* @param nbCube
