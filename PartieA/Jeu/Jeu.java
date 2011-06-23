@@ -482,7 +482,7 @@ public class Jeu
 	{
 		Cube cube = null;
 		String couleur = "";
-		for (int i = 0; i < NB_TUILE; i++)
+		for (int i = 0; i < plateau.getTaille(); i++)
 		{
 			for (int j = 0; j < plateau.getTuile(i).getAttribut(); j++)
 			{
@@ -612,7 +612,7 @@ public class Jeu
 	*/
 	public void inverserTuile()
 	{
-		for (int i = 0; i < NB_TUILE; i++)
+		for (int i = 0; i < plateau.getTaille(); i++)
 			plateau.getTuile(i).getPaysage().inverserPaysage();
 	}
 	
@@ -646,7 +646,7 @@ public class Jeu
 	*/
 	public boolean AUneTuilePleine()
 	{
-		for (int i = 0; i < NB_TUILE; i++)
+		for (int i = 0; i < plateau.getTaille(); i++)
 			if (plateau.getTuile(i).estEntierementPleine())
 				return true;
 				
@@ -659,7 +659,7 @@ public class Jeu
 	*/
 	public int quelTuilePleine()
 	{
-		for (int i = 0; i < NB_TUILE; i++)
+		for (int i = 0; i < plateau.getTaille(); i++)
 			if (plateau.getTuile(i).estEntierementPleine())
 				return i;
 		

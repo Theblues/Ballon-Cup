@@ -55,7 +55,11 @@ public class Plateau
 	{
 		plateau.remove(numTuile);
 	}
-				
+	
+	public int getTaille()
+	{
+		return plateau.size();
+	}
 
 	/**
 	* Affiche le Plateau et les Cube sur le plateau 
