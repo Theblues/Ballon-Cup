@@ -93,7 +93,7 @@ public class JeuManuelle
 	* @param nom1
 	* @param nom2
 	*/ 
-	public Jeu( String nom1, String nom2 )	
+	public JeuManuelle( String nom1, String nom2 )	
 	{
 		joueur1= new Joueur(nom1);
 		joueur2= new Joueur(nom2);
@@ -1034,7 +1034,7 @@ public class JeuManuelle
 					System.out.println("Joueur : " + tabJoueur[j].getNomJoueur() + "\n");
 					System.out.println(tabJoueur[j]);
 					if (ballonPose != null)
-						System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a joueur la carte " + ballonPose  + " sur la tuile " +  jeu.getPlateau().getTuile(ancienChoixTuile).getNom() + "\n");
+						System.out.println(tabJoueur[dernierJoueur].getNomJoueur() + " a joueur la carte " + ballonPose  + " sur la tuile " +  JeuManuelle.getPlateau().getTuile(ancienChoixTuile).getNom() + "\n");
 					
 					boolean pass = true;
 					boolean impossibleDeJouer = false;
