@@ -18,12 +18,6 @@ import iut.algo.Console;
 import java.io.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-/**
-* @author Erwan Lebrun
-* @author Jeremy Lebair
-* @author Sarah Vernichon
-* @version 1.0
-*/
 public class JeuTest
 {
     
@@ -256,7 +250,7 @@ public class JeuTest
 						
 					} catch (Exception e) {e.printStackTrace();}	
 					
-					if (jeu.peutAcheterTrophee(tabJoueur[jeu.getNumJoueurEnCour()-1]))
+					while (jeu.peutAcheterTrophee(tabJoueur[jeu.getNumJoueurEnCour()-1]))
 					{
 						Scanner entree = new Scanner(System.in);
 						System.out.println(" Voulez-vous acheter un Trophee ? ");

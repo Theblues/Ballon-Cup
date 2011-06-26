@@ -15,12 +15,6 @@ import Projet.Cube.*;
 
 import java.io.*;
 
-/**
-* @author Erwan Lebrun
-* @author Jeremy Lebair
-* @author Sarah Vernichon
-* @version 1.0
-*/
 public class JeuManuelle
 {
     /*********************/
@@ -488,7 +482,7 @@ public class JeuManuelle
 			Scanner sc = new Scanner(System.in);
 			String str = sc.nextLine();
 			choixCote = str.charAt(0);
-		} while (choixCote != 'g' && choixCote != 'd' &&choixCote != 'D' && choixCote != 'G');
+		} while (choixCote != 'D' && choixCote != 'G');
 		
 		return choixCote;
 	}
@@ -1046,7 +1040,7 @@ public class JeuManuelle
 					JeuManuelle.piocher(tabJoueur[j]);
 					
                                         // on regarde si on peut acheter un trophee
-					if (JeuManuelle.peutAcheterTrophee(tabJoueur[j]))
+					while (JeuManuelle.peutAcheterTrophee(tabJoueur[j]))
 					{
 						entree = new Scanner(System.in);
 						System.out.println(" Voulez-vous acheter un Trophee ? (O/N) ");

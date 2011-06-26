@@ -15,12 +15,6 @@ import Projet.Cube.*;
 
 import java.io.*;
 
-/**
-* @author Erwan Lebrun
-* @author Jeremy Lebair
-* @author Sarah Vernichon
-* @version 1.0
-*/
 public class JeuManuelle
 {
     /*********************/

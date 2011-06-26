@@ -14,12 +14,6 @@ import Projet.Cube.*;
 
 import java.io.*;
 
-/**
-* @author Erwan Lebrun
-* @author Jeremy Lebair
-* @author Sarah Vernichon
-* @version 1.0
-*/
 public class Jeu
 {
     /*********************/
@@ -375,7 +369,7 @@ public class Jeu
 			Scanner sc = new Scanner(System.in);
 			String str = sc.nextLine();
 			choixCote = str.charAt(0);
-		} while (choixCote != 'g' && choixCote != 'd' &&choixCote != 'D' && choixCote != 'G');
+		} while (choixCote != 'D' && choixCote != 'G');
 		
 		return choixCote;
 	}
@@ -927,7 +921,7 @@ public class Jeu
 					jeu.piocher(tabJoueur[j]);
 					
 					// on regarde si on peut acheter un trophee
-					if (jeu.peutAcheterTrophee(tabJoueur[j]))
+					while (jeu.peutAcheterTrophee(tabJoueur[j]))
 					{
 						entree = new Scanner(System.in);
 						System.out.println(" Voulez-vous acheter un Trophee ? ");

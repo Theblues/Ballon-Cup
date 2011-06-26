@@ -8,12 +8,6 @@ import Projet.Carte.*;
 import Projet.Cube.*;
 import Projet.Couleur.*;
 
-/**
-* @author Erwan Lebrun
-* @author Jeremy Lebair
-* @author Sarah Vernichon
-* @version 1.0
-*/
 public class Joueur implements Serializable
 {
 	/*********************/

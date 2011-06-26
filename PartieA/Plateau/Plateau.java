@@ -2,12 +2,6 @@ package Projet.Plateau;
 
 import java.util.ArrayList;
 
-/**
-* @author Erwan Lebrun
-* @author Jeremy Lebair
-* @author Sarah Vernichon
-* @version 1.0
-*/
 public class Plateau
 {
 	/*********************/
