@@ -172,7 +172,7 @@ public class Joueur
 	* Supprime les Cube utilisés pour acheté un trophée
 	* @param Couleur
 	*/
-	public void supprimerCube(String couleur)
+	public void supprimerCube(Couleur couleur)
 	{
 		int cpt = 0;
 

@@ -35,7 +35,7 @@ public class Pioche
             for(Couleur coul : Couleur.values())
             {
                 if(tabBallon[j][i-1] == 1)
-                   pioche.add (new Ballon (i, coul.getLibelle()));
+                   pioche.add (new Ballon (i, coul));
                 j++;
             }
             j = 0;
@@ -56,17 +56,6 @@ public class Pioche
 	* Melange les cartes contenue dans la pioche 
 	*/
 	public void melangerPioche()    {   Collections.shuffle(pioche);    }
-	
-	
-	/**
-	* Determine si la Pioche est vide 
-	* @return true si la Pioche est vide 
-	*/
-    public boolean estVide()        
-	{
-		if(pioche.isEmpty())  	return true;     
-		else     				return false; 
-	}
 	
 	/**
 	* Ajoute un Ballon a la Pioche

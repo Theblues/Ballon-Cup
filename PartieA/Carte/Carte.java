@@ -16,7 +16,7 @@ public abstract class Carte
 	* La couleur de la carte 
 	* @see Carte#Carte ( int, String)
 	*/
-    private String couleur;
+    private Couleur couleur;
     
 	/********************/
 	/*** CONSTRUCTEUR ***/
@@ -29,7 +29,7 @@ public abstract class Carte
 	* @param couleur
 	*			couleur de la carte
 	*/
-    protected Carte(int numero, String couleur)
+    protected Carte(int numero, Couleur couleur)
     {
         this.numero = numero;
         this.couleur = couleur;
@@ -45,7 +45,7 @@ public abstract class Carte
 	* Donne la couleur du ballon 
 	* @return la couleur de la carte, sous forme de chaine caracteres
 	*/
-    public String getCouleur()              {   return couleur; }
+    public Couleur getCouleur()              {   return couleur; }
 	
 	/**
 	* Permet de changer le numero de la carte

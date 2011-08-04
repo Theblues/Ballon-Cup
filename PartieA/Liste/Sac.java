@@ -35,7 +35,7 @@ public class Sac
             for(Couleur coul : Couleur.values())
             {
                 if(tabBallon[j][i-1] == 1)
-                   sac.add (new Cube (coul.getLibelle()));
+                   sac.add (new Cube (coul));
                 j++;
             }
             j = 0;
@@ -72,7 +72,7 @@ public class Sac
 	* @param nbCube
 	* @param couleur
 	*/
-	public void ajouterElement(int nbCube, String couleur)
+	public void ajouterElement(int nbCube, Couleur couleur)
 	{
 		for ( int i = 0; i < nbCube; i++)
 			sac.add (new Cube(couleur));

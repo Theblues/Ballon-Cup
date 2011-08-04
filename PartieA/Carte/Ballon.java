@@ -12,7 +12,7 @@ public class Ballon extends Carte
 	* @param couleur
 	* @see Carte
 	*/
-    public Ballon (int num, String couleur)
+    public Ballon (int num, Couleur couleur)
     {
         super(num, couleur);
     }

@@ -9,7 +9,7 @@ public class Cube
 	/**
 	* Couleur du cube
 	*/
-    private String couleur;
+    private Couleur couleur;
     
 	/********************/
 	/*** CONSTRUCTEUR ***/
@@ -19,7 +19,7 @@ public class Cube
 	* Constructeur Cube
 	* @param couleur
 	*/
-    public Cube(String couleur)
+    public Cube(Couleur couleur)
     {
         this.couleur = couleur;
     }
@@ -28,13 +28,13 @@ public class Cube
 	* retourne la couleur du Cube
 	* @return la couleur du Cube, sous forme de chaine de caractères
 	*/
-    public String getCouleur()  { return couleur;   }
+    public Couleur getCouleur()  { return couleur;   }
 	
 	/**
 	* Permet de modifier la couleur d'un Cube
 	* @param couleur
 	*/
-    public void setCouleur(String couleur)  {   this.couleur = couleur; }
+    public void setCouleur(Couleur couleur)  {   this.couleur = couleur; }
     
     /**
 	* Retourne un cube coloré, en fonction de l'attribut couleur

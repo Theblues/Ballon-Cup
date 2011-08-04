@@ -12,7 +12,7 @@ public class Trophee extends Carte
 	* @param couleur
 	* @see Carte
 	*/
-    public Trophee (int num, String couleur)
+    public Trophee (int num, Couleur couleur)
     {
         super(num, couleur);
     }
@@ -21,7 +21,7 @@ public class Trophee extends Carte
 	* Donne la couleur du trophee
 	* @return la couleur du trophee, sous forme de chaine de caracteres
 	*/
-	public String getCouleur()	{	return super.getCouleur();	}
+	public Couleur getCouleur()	{	return super.getCouleur();	}
 	
 	/**
 	* Donne la valeur du Trophee

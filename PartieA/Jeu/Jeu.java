@@ -120,6 +120,10 @@ public class Jeu
 	*/
 	public Plateau getPlateau()		{	return plateau;		}
 	
+	public Tuile getTuile(int choix)	{	return plateau.getTuile(choix);	}
+	
+	public Paysage getPaysage(int choix)	{	return plateau.getTuile(choix).getPaysage();	}
+	
 	/**
 	* Retourne le contenu de la Pioche 
 	* @return le contenu de la Pioche
@@ -178,11 +182,11 @@ public class Jeu
 	*/
 	public void initialiserListeTrophee()
 	{
-		listeTrophee.add( new Trophee(3, Couleur.GRIS.getLibelle()));
-		listeTrophee.add( new Trophee(4, Couleur.BLEU.getLibelle()));
-		listeTrophee.add( new Trophee(5, Couleur.VERT.getLibelle()));
-		listeTrophee.add( new Trophee(6, Couleur.JAUNE.getLibelle()));
-		listeTrophee.add( new Trophee(7, Couleur.ROUGE.getLibelle()));
+		listeTrophee.add( new Trophee(3, Couleur.GRIS));
+		listeTrophee.add( new Trophee(4, Couleur.BLEU));
+		listeTrophee.add( new Trophee(5, Couleur.VERT));
+		listeTrophee.add( new Trophee(6, Couleur.JAUNE));
+		listeTrophee.add( new Trophee(7, Couleur.ROUGE));
 	}
     
     /*********************************/
@@ -268,20 +272,6 @@ public class Jeu
     }
     
 	/**
-	* Retourne vrai si on peut déposé une carte a coté de la Tuile
-	* @param choixTuile
-	* @param cote
-	* @return true si on peut déposé une carte a coté de la Tuile
-	*/
-	public boolean PeutMettreUneCarte(char cote, int choixTuile)
-	{
-		if (plateau.getTuile(choixTuile).getElementJeu(cote) == plateau.getTuile(choixTuile).getAttribut())
-			return false;
-		
-		return true;
-	}
-    
-	/**
 	* Si on peut mettre une carte sur une Tuile alors on la met a l'endroit choisi
 	* @param choixTuile
 	* @param cote
@@ -290,11 +280,8 @@ public class Jeu
 	*/
 	public void carteVersTuile(Joueur joueur, int choixBallon, char cote, int choixTuile)
 	{
-		if (PeutMettreUneCarte(cote, choixTuile))
-		{
-			plateau.getTuile(choixTuile).ajouterBallon(joueur.getBallon(choixBallon), cote);
+			getTuile(choixTuile).ajouterBallon(joueur.getBallon(choixBallon), cote);
 			joueur.supprimerBallon(choixBallon);
-		}
 	}
 	
 	
@@ -317,7 +304,7 @@ public class Jeu
 	* @param couleur
 	* @return le Trophée choisi en Fonction de sa couleur
 	*/
-	public Trophee getTrophee(String couleur)
+	public Trophee getTrophee(Couleur couleur)
 	{
 		for (Trophee t: listeTrophee)
 			if (t.getCouleur().equals(couleur))
@@ -331,13 +318,48 @@ public class Jeu
 	* @param joueur
 	* @param couleur
 	*/
-	public void CubeEnTrophee(Joueur joueur, String couleur)
+	public void CubeEnTrophee(Joueur joueur, Couleur couleur)
 	{
 		joueur.ajouterTrophee(getTrophee(couleur));
 		joueur.supprimerCube(couleur);
 		sac.ajouterElement(getAttribut(couleur), couleur);
 	}
 	
+	/*********************************/
+	/******* CHOIX DES JOUEURS *******/
+	/*********************************/
+	
+	// pour les choix
+	Scanner entree;
+	
+	public String choisirNom()
+	{
+		String nom;
+		do
+		{
+			entree = new Scanner(System.in);
+			System.out.print("Veuillez entrer le nom du joueur 1 : ");
+			if (nom != null) nom = entree.nextLine();
+		} while (nom.charAt(0) == ' ' || nom == null);
+		
+		return nom;
+	}
+	
+	public char choisirCoteJeu()
+	{
+		String choixCote;
+		do
+		{
+			System.out.println("Choisissez votre cote (G/D): ");
+			entree = new Scanner(System.in);
+			String str = entree.nextLine();
+			choixCote = str.charAt(0);
+			
+		} while (choixCote != 'G' && choixCote != 'D');
+		
+		return choixCote;
+	}
+		
 	/**
 	* Permet de choisir le Ballon que l'on veut poser sur la Tuile
 	* @return la valeur du Ballon 
@@ -366,8 +388,8 @@ public class Jeu
 		do
 		{
 			System.out.println("Choissisez un cote pour mettre votre carte : ");
-			Scanner sc = new Scanner(System.in);
-			String str = sc.nextLine();
+			entree = new Scanner(System.in);
+			String str = entree.nextLine();
 			choixCote = str.charAt(0);
 		} while (choixCote != 'D' && choixCote != 'G');
 		
@@ -384,8 +406,8 @@ public class Jeu
 		do
 		{
 			System.out.println("Choissisez une tuile : ");
-			Scanner sc = new Scanner(System.in);
-			choixTuile = sc.nextInt();
+			entree = new Scanner(System.in);
+			choixTuile = entree.nextInt();
 			choixTuile--;
 		} while ( choixTuile > plateau.getTaille() || choixTuile < 0);
 		
@@ -400,7 +422,7 @@ public class Jeu
 	*/
 	public boolean cotePlein(int choixTuile, char choixCote)
 	{
-		if (plateau.getTuile(choixTuile).estPleine(choixCote))
+		if (getTuile(choixTuile).estPleine(choixCote))
 			return true;
 		
 		return false;
@@ -416,14 +438,14 @@ public class Jeu
 	public boolean cubeUtilise(int choixTuile, char choixCote, String couleur)
 	{
 		Cube cube = null;
-		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
+		for (int i = 0; i < getTuile(choixTuile).getAttribut(); i++)
 		{
 			// on recupere le cube
-			cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+			cube = pgetPaysage(choixTuile).getElement(i);
 			// si la couleur est egale a la couleur du cube
 			if (couleur.equals(cube.getCouleur()))
 				// si le cube est "deja" utilise
-				if (plateau.getTuile(choixTuile).getPaysage().estUtilise(cube, choixCote))
+				if (getPaysage(choixTuile).estUtilise(cube, choixCote))
 					return true;
 		}
 		return false;
@@ -460,9 +482,9 @@ public class Jeu
 		String couleur = "";
 		for (int i = 0; i < plateau.getTaille(); i++)
 		{
-			for (int j = 0; j < plateau.getTuile(i).getAttribut(); j++)
+			for (int j = 0; j < getTuile(i).getAttribut(); j++)
 			{
-				cube = plateau.getTuile(i).getPaysage().getElement(j);
+				cube = getPaysage(i).getElement(j);
 				for(int k = 0; k < NB_CARTE_PAR_JOUEUR; k++)
 				{
 					couleur = joueur.getBallon(k).getCouleur();
@@ -482,24 +504,15 @@ public class Jeu
 	public void ajouterCubeUtilise(int choixTuile, char choixCote, String couleur)
 	{
 		Cube cube = null;
-		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
+		for (int i = 0; i < getTuile(choixTuile).getAttribut(); i++)
 		{
-			cube = plateau.getTuile(choixTuile).getPaysage().getElement(i);
+			cube = getPaysage(choixTuile).getElement(i);
 			if (couleur.equals(cube.getCouleur()))
 			{
-				plateau.getTuile(choixTuile).getPaysage().ajouterCubeUtilise(cube, choixCote);
+				getPaysage(choixTuile).ajouterCubeUtilise(cube, choixCote);
 				break;
 			}
 		}
-	}
-	
-	/**
-	* Permet d'ajouter une Carte dans la main d'un joueur
-	* @param joueur
-	*/
-	public void piocher(Joueur joueur)
-	{
-		pioche.distribuerCarte(joueur);
 	}
 	
 	/**
@@ -583,15 +596,6 @@ public class Jeu
 	}
 	
 	/**
-	* Supprime un Cube déja utilisé
-	* @param choixTuile
-	*/
-	public void supprimerCubeDejaUtilise(int choixTuile)
-	{
-		plateau.getTuile(choixTuile).getPaysage().supprimerCubeDejaUtilise();
-	}
-	
-	/**
 	* Retourne vrai si une tuile du plateau est pleine
 	* @return true  si une tuile du plateau est pleine
 	*/
@@ -618,15 +622,6 @@ public class Jeu
 	}
 	
 	/**
-	* Change le paysage d ela Tuile
-	* @param choixTuile
-	*/
-	public void inverserLaTuile(int choixTuile)
-	{
-		plateau.getTuile(choixTuile).getPaysage().inverserPaysage();
-	}
-	
-	/**
 	* Ajoute un Cube sur une Tuile 
 	* @param choixTuile
 	*/
@@ -640,7 +635,7 @@ public class Jeu
 	}
 	
 	/**
-	* Dertemine si un joeur peut acheter un trophée
+	* Dertemine si un joueur peut acheter un trophée
 	* @param joueur
 	*/
 	public boolean peutAcheterTrophee(Joueur joueur)
@@ -749,7 +744,7 @@ public class Jeu
 		
 		for ( Trophee t2 : getListeTrophee() )
 			if ( t2.getCouleur().equals(t.getCouleur()) )
-				cpt=listeTrophee.indexOf(t2);
+				cpt = listeTrophee.indexOf(t2);
 			
 		listeTrophee.remove(cpt);
 	}
@@ -764,7 +759,7 @@ public class Jeu
 		if (joueur1.getTrophee() > joueur2.getTrophee())
 			return 0;
 		else if (joueur1.getTrophee() < joueur2.getTrophee())
-			return 0;
+			return 1;
 		else
 			return dernierJoueur;
 	}
@@ -790,22 +785,10 @@ public class Jeu
     
 	public static void main (String[] args)
 	{
-		String nom1, nom2;
 		Scanner entree;
 		//Initialisation des Joueurs
-		do
-		{
-			entree = new Scanner(System.in);
-			System.out.print("Veuillez entrer le nom du joueur 1 : ");
-			nom1 = entree.nextLine();
-		} while (nom1.charAt(0) == ' ');
-		
-		do
-		{	
-			entree = new Scanner(System.in);
-			System.out.print("Veuillez entrer le nom du joueur 2 : ");
-			nom2 = entree.nextLine();
-		} while (nom2.charAt(0) == ' ');
+		String nom1 = jeu.choisirNom();
+		String nom2 = jeu.choisirNom();
 		
 		System.out.println();
 		// initialisation des couleurs
@@ -819,14 +802,8 @@ public class Jeu
 		System.out.println(jeu);
 		
 		char choixCoteJ1, choixCoteJ2;
-		do
-		{
-			System.out.println("Choisissez votre cote (G/D): ");
-			entree = new Scanner(System.in);
-			String str = entree.nextLine();
-			choixCoteJ1 = str.charAt(0);
-			
-		} while (choixCoteJ1 != 'G' && choixCoteJ1 != 'D');
+
+		choixCoteJ1 = jeu.choisirCoteJeu();
 		
 		if ( choixCoteJ1 == 'G')		choixCoteJ2 = 'D';
 		else							choixCoteJ2 = 'G';
@@ -915,10 +892,10 @@ public class Jeu
 					// on place la carte choisi sur le jeu
 					jeu.carteVersTuile(tabJoueur[j], choixBallon, choixCote, choixTuile);
 					// si la pioche est vide alors on remet des cartes
-					if (jeu.getPioche().estVide())
-					jeu.DefausseVersPioche();
+					if (jeu.getPioche().isEmpty())
+						jeu.DefausseVersPioche();
 					// lorsque le joueur joue il pioche une carte
-					jeu.piocher(tabJoueur[j]);
+					jeu.getPioche().distribuerCarte(tabJoueur[j]);
 					
 					// on regarde si on peut acheter un trophee
 					while (jeu.peutAcheterTrophee(tabJoueur[j]))
@@ -1004,9 +981,9 @@ public class Jeu
 			// on met les cartes de la tuile fini dans la defausse
 			jeu.tuileVersDefausse(tuilePleine);
 			// on supprime les cube deja utilise
-			jeu.supprimerCubeDejaUtilise(tuilePleine);
+			jeu.getPaysage(tuilePleine).supprimerCubeDejaUtilise();
             // on inverse la tuile
-			jeu.inverserLaTuile(tuilePleine);
+			jeu.getPaysage(tuilePleine).inverserPaysage();
 			// on regarde si le sac contient assez de cube pour en remettre sur la tuile sinon on la supprime
 			if (jeu.getSac().getNbCube() >= jeu.getPlateau().getTuile(tuilePleine).getAttribut())
 				jeu.ajouterCube(tuilePleine);
