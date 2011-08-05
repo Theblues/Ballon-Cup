@@ -1,5 +1,7 @@
 package Projet.Cube;
 
+import Projet.Couleur.*;
+
 public class Cube
 {
 	/*********************/
@@ -43,15 +45,15 @@ public class Cube
     public String toString()
     {
         String s="";
-		if(couleur.equals("Rouge"))
+		if(couleur.getLibelle().equals("Rouge"))
 			return "\u001b[41m " + "\u001b[0m";
-		else if (couleur.equals("Jaune"))
+		else if (couleur.getLibelle().equals("Jaune"))
 			return "\u001b[43m " + "\u001b[0m";
-		else if (couleur.equals("Vert"))
+		else if (couleur.getLibelle().equals("Vert"))
 			return "\u001b[42m " + "\u001b[0m";
-		else if (couleur.equals("Bleu"))
+		else if (couleur.getLibelle().equals("Bleu"))
 			return "\u001b[46m " + "\u001b[0m";
-		else if (couleur.equals("Gris"))
+		else if (couleur.getLibelle().equals("Gris"))
 			return "\u001b[47m " + "\u001b[0m";
 
 		return "";

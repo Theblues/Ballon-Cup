@@ -1,5 +1,7 @@
 package Projet.Carte;
 
+import Projet.Couleur.*;
+
 public class Ballon extends Carte
 {
 	/********************/
@@ -32,7 +34,7 @@ public class Ballon extends Carte
 	* @return la couleur du ballon, sous forme de chaine de caractere
 	* @see Carte
 	*/
-	public String getCouleur()  {  return super.getCouleur();  }
+	public Couleur getCouleur()  {  return super.getCouleur();  }
 
 	/**
 	* Donne la valeur du ballon 

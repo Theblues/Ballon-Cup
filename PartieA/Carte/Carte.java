@@ -1,5 +1,7 @@
 package Projet.Carte;
 
+import Projet.Couleur.*;
+
 public abstract class Carte
 {
 	/*********************/
@@ -57,7 +59,7 @@ public abstract class Carte
 	* Permet de changer la couleur de la carte
 	* @param couleur
 	*/
-    public void setCouleur(String couleur)  {   this.couleur = couleur; }
+    public void setCouleur(Couleur couleur)  {   this.couleur = couleur; }
     
     /**
 	* Affiche la carte avec sa couleur et sa valeur
@@ -65,15 +67,15 @@ public abstract class Carte
 	*/
     public String toString()
     {
-		if(couleur.equals("Rouge"))
+		if(couleur.getLibelle().equals("Rouge"))
 			return "\u001b[31m[" + numero + "]\u001b[0m";
-		else if (couleur.equals("Jaune"))
+		else if (couleur.getLibelle().equals("Jaune"))
 			return "\u001b[33m[" + numero +  "]\u001b[0m";
-		else if (couleur.equals("Vert"))
+		else if (couleur.getLibelle().equals("Vert"))
 			return "\u001b[32m[" + numero +  "]\u001b[0m";
-		else if (couleur.equals("Bleu"))
+		else if (couleur.getLibelle().equals("Bleu"))
 			return "\u001b[36m[" + numero +  "]\u001b[0m";
-		else if (couleur.equals("Gris"))
+		else if (couleur.getLibelle().equals("Gris"))
 			return "\u001b[37m[" + numero +  "]\u001b[0m";
 			
         return "";

@@ -1,5 +1,7 @@
 package Projet.Carte;
 
+import Projet.Couleur.*;
+
 public class Trophee extends Carte
 {
 	/********************/

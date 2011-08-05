@@ -1,6 +1,7 @@
 package Projet.Plateau;
 
 import Projet.Cube.*;
+import Projet.Couleur.*;
 import java.util.ArrayList;
 
 public class Paysage
@@ -123,7 +124,7 @@ public class Paysage
 	* @param couleur
 	* @return le nombre d'éléments qu'il y a dans la liste
 	*/
-	public int nbCubeDansListeCube(String couleur)
+	public int nbCubeDansListeCube(Couleur couleur)
 	{
 		int cpt = 0;
 		for (int i = 0; i < listeCube.size(); i++)
@@ -139,7 +140,7 @@ public class Paysage
 	* @param couleur 
 	* @return Le nombre d'éléments contenus dans la liste de Cube utilisé
 	*/
-	public int nbCubeDansListeCubeUtilise(String couleur, char cote)
+	public int nbCubeDansListeCubeUtilise(Couleur couleur, char cote)
 	{
 		int cpt = 0;
 		if (cote == 'G')

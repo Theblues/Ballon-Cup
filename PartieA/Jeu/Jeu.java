@@ -81,22 +81,16 @@ public class Jeu
                                     { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },         // bleu
                                     { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 },         // gris
                                 };
-
-	/********************/
-	/*** CONSTRUCTEUR ***/
-	/********************/
-	
-	
-	/**
-	* Constructeur des Joueurs
-	* @param nom1
-	* @param nom2
-	*/ 
-	public Jeu( String nom1, String nom2 )	
-	{
-		joueur1= new Joueur(nom1);
-		joueur2= new Joueur(nom2);
-	}
+    
+    /********************/
+    /*** MODIFICATEUR ***/
+    /********************/
+    
+    public void configJoueurs(String nomJ1, String nomJ2)
+    {
+    	joueur1= new Joueur(nomJ1);
+		joueur2= new Joueur(nomJ2);
+    }
 	
 	/*****************/
 	/*** ACCESSEUR ***/
@@ -290,7 +284,7 @@ public class Jeu
 	* @param couleur
 	* @return le numero du trophee en fonction de sa couleur
 	*/
-	public int getAttribut(String couleur)
+	public int getAttribut(Couleur couleur)
 	{
 		for (Trophee t: listeTrophee)
 			if (t.getCouleur().equals(couleur))
@@ -332,22 +326,23 @@ public class Jeu
 	// pour les choix
 	Scanner entree;
 	
-	public String choisirNom()
+	public String choisirNom(int numJoueur)
 	{
-		String nom;
+		String nom = "";
 		do
 		{
 			entree = new Scanner(System.in);
-			System.out.print("Veuillez entrer le nom du joueur 1 : ");
-			if (nom != null) nom = entree.nextLine();
-		} while (nom.charAt(0) == ' ' || nom == null);
+			if (numJoueur == 1)	System.out.print("Veuillez entrer le nom du joueur 1 : ");
+			else				System.out.print("Veuillez entrer le nom du joueur 2 : ");
+			nom = entree.nextLine();
+		} while (nom == "\n");
 		
 		return nom;
 	}
 	
 	public char choisirCoteJeu()
 	{
-		String choixCote;
+		char choixCote;
 		do
 		{
 			System.out.println("Choisissez votre cote (G/D): ");
@@ -435,13 +430,13 @@ public class Jeu
 	* @param choixTuile
 	* @return returne true si le cube est déja utilisé
 	*/
-	public boolean cubeUtilise(int choixTuile, char choixCote, String couleur)
+	public boolean cubeUtilise(int choixTuile, char choixCote, Couleur couleur)
 	{
 		Cube cube = null;
 		for (int i = 0; i < getTuile(choixTuile).getAttribut(); i++)
 		{
 			// on recupere le cube
-			cube = pgetPaysage(choixTuile).getElement(i);
+			cube = getPaysage(choixTuile).getElement(i);
 			// si la couleur est egale a la couleur du cube
 			if (couleur.equals(cube.getCouleur()))
 				// si le cube est "deja" utilise
@@ -458,7 +453,7 @@ public class Jeu
 	* @param couleur 
 	* @return true si la carte que l'on veut posée corespond a la couleur d'un cube sur une Tuile
 	*/
-	public boolean verifcouleur(int choixTuile, char choixCote, String couleur)
+	public boolean verifcouleur(int choixTuile, char choixCote, Couleur couleur)
 	{
 		Cube cube = null;
 		for (int i = 0; i < plateau.getTuile(choixTuile).getAttribut(); i++)
@@ -479,7 +474,7 @@ public class Jeu
 	public boolean impossibleDeJoueur(Joueur joueur)
 	{
 		Cube cube = null;
-		String couleur = "";
+		Couleur couleur = null;
 		for (int i = 0; i < plateau.getTaille(); i++)
 		{
 			for (int j = 0; j < getTuile(i).getAttribut(); j++)
@@ -501,7 +496,7 @@ public class Jeu
 	* @param choixCote
 	* @param couleur 
 	*/
-	public void ajouterCubeUtilise(int choixTuile, char choixCote, String couleur)
+	public void ajouterCubeUtilise(int choixTuile, char choixCote, Couleur couleur)
 	{
 		Cube cube = null;
 		for (int i = 0; i < getTuile(choixTuile).getAttribut(); i++)
@@ -720,12 +715,12 @@ public class Jeu
 	{
 		int cpt = 0;
 		for (Cube b : joueur.getListeCube())
-			if (choixCouleur ==  b.getCouleur().charAt(0))
+			if (choixCouleur ==  b.getCouleur().getLibelle().charAt(0))
 				cpt++;
 	
 		int attribut = 0;
 		for (Trophee t: listeTrophee)
-			if (choixCouleur == t.getCouleur().charAt(0))
+			if (choixCouleur == t.getCouleur().getLibelle().charAt(0))
 				attribut = t.getNumero();
 				
 		if (cpt >= attribut && attribut > 0)
@@ -786,16 +781,17 @@ public class Jeu
 	public static void main (String[] args)
 	{
 		Scanner entree;
+		Jeu jeu = new Jeu();
 		//Initialisation des Joueurs
-		String nom1 = jeu.choisirNom();
-		String nom2 = jeu.choisirNom();
+		String nom1 = jeu.choisirNom(1);
+		String nom2 = jeu.choisirNom(2);
 		
 		System.out.println();
 		// initialisation des couleurs
 		AnsiConsole.systemInstall();
 	  
 		//Nouveau Jeu
-		Jeu jeu = new Jeu(nom1 , nom2);
+		jeu.configJoueurs(nom1, nom2);
 		jeu.initialiserJeu();
 		
 		//affichage du Jeu ( plateau )
@@ -892,7 +888,7 @@ public class Jeu
 					// on place la carte choisi sur le jeu
 					jeu.carteVersTuile(tabJoueur[j], choixBallon, choixCote, choixTuile);
 					// si la pioche est vide alors on remet des cartes
-					if (jeu.getPioche().isEmpty())
+					if (jeu.getPioche().estVide())
 						jeu.DefausseVersPioche();
 					// lorsque le joueur joue il pioche une carte
 					jeu.getPioche().distribuerCarte(tabJoueur[j]);
@@ -921,7 +917,7 @@ public class Jeu
 								int i = 0;
 								for (Trophee t: jeu.getListeTrophee())
 								{
-									if (choixCouleur == jeu.getListeTrophee().get(i).getCouleur().charAt(0))
+									if (choixCouleur == jeu.getListeTrophee().get(i).getCouleur().getLibelle().charAt(0))
 										trophee = jeu.getListeTrophee().get(i);
 										
 									i++;

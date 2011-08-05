@@ -58,6 +58,16 @@ public class Pioche
 	public void melangerPioche()    {   Collections.shuffle(pioche);    }
 	
 	/**
+	* Determine si la Pioche est vide 
+    * @return true si la Pioche est vide 
+	*/
+	public boolean estVide()        
+	{
+		if(pioche.isEmpty())    return true;     
+	    else             		return false; 
+	}
+	
+	/**
 	* Ajoute un Ballon a la Pioche
 	* @param ballon
 	*/
